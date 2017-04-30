@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MDBox</string>
+    <string name="progress_dialog_loading">Loading…</string>
+    <string name="alert_no_internet_connection">No internet connection.</string>
+    <string name="alert_application_error">System Error.</string>
+    <string name="error_title">Error</string>
+</resources>
