@@ -1,6 +1,5 @@
 package com.witts.mdbox.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,6 +9,7 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -25,7 +25,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by winhlaingtun on 8/22/15.
  */
-public class BasedActivity extends Activity {
+public class BasedActivity extends AppCompatActivity {
     protected ProgressDialog progressDialog;
     protected boolean isShowingMessage;
     protected boolean hasMotion;
