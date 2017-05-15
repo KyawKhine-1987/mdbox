@@ -24,13 +24,19 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     private final String TAG = this.getClass().getSimpleName();
     private Context mContext;
-    private MainActivityAdapterOnClickHandler mClickHandler;
+    public static MainActivityAdapterOnClickHandler mClickHandler;
     private MainActivityAdapterViewHolder mViewHolder;
     private Animation animScale;
+    private String[] mWelcomeArr;
+    private String[] mLanguageArr;
+    private int[] mImgArr;
     public MainActivityAdapter() {}
-    public MainActivityAdapter(Context context, MainActivityAdapterOnClickHandler dh) {
+    public MainActivityAdapter(Context context,String[] welcomeArr,String[] languageArr,int[] imgArr,MainActivityAdapterOnClickHandler dh) {
         mContext = context;
         mClickHandler = dh;
+        mWelcomeArr = welcomeArr;
+        mLanguageArr = languageArr;
+        mImgArr = imgArr;
     }
 
     @Override
@@ -40,73 +46,65 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     private void loadLanguageMenu(final MainActivityAdapterViewHolder holder, int position) {
         if (position == 0){
-            holder.txtWelcome.setText("Welcome To Sakura");
-            holder.txtLanguage.setText("English");
-            holder.imgFlag.setImageDrawable(mContext.getResources().getDrawable(R.drawable.flag_of_united_states));
-            holder.mainActivityListener=new MainActivityAdapterViewHolder.ViewHolderClickListener() {
-                @Override
-                public void onClick(View v) {
-                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
-                    holder.llcontainer.startAnimation(animScale);
-                    holder.llcontainer.bringToFront();
-                    goToMenuActivity();
-                }
-            };
+            holder.txtWelcome.setText(mWelcomeArr[position]);
+            holder.txtLanguage.setText(mLanguageArr[position]);
+            holder.imgFlag.setImageDrawable(mContext.getResources().getDrawable(mImgArr[position]));
+//            holder.mainActivityListener=new MainActivityAdapterViewHolder.ViewHolderClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
+//                    holder.llcontainer.startAnimation(animScale);
+//                    holder.llcontainer.bringToFront();
+//                    goToMenuActivity();
+//                }
+//            };
 
         }
         else if (position == 1){
-            holder.txtWelcome.setText("Welcome To Sakura");
-            holder.txtLanguage.setText("English");
-            holder.imgFlag.setImageDrawable(mContext.getResources().getDrawable(R.drawable.flag_of_united_states));
-            holder.mainActivityListener=new MainActivityAdapterViewHolder.ViewHolderClickListener() {
-                @Override
-                public void onClick(View v) {
-                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
-                    holder.llcontainer.startAnimation(animScale);
-                    holder.llcontainer.bringToFront();
-                    goToMenuActivity();
-                }
-            };
+            holder.txtWelcome.setText(mWelcomeArr[position]);
+            holder.txtLanguage.setText(mLanguageArr[position]);
+            holder.imgFlag.setImageDrawable(mContext.getResources().getDrawable(mImgArr[position]));
+//            holder.mainActivityListener=new MainActivityAdapterViewHolder.ViewHolderClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
+//                    holder.llcontainer.startAnimation(animScale);
+//                    holder.llcontainer.bringToFront();
+//                    goToMenuActivity();
+//                }
+//            };
 
         }
         else if (position == 2){
-            holder.txtWelcome.setText("Welcome To Sakura");
-            holder.txtLanguage.setText("English");
-            holder.imgFlag.setImageDrawable(mContext.getResources().getDrawable(R.drawable.flag_of_united_states));
-            holder.mainActivityListener=new MainActivityAdapterViewHolder.ViewHolderClickListener() {
-                @Override
-                public void onClick(View v) {
-                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
-                    holder.llcontainer.startAnimation(animScale);
-                    holder.llcontainer.bringToFront();
-                    goToMenuActivity();
-                }
-            };
+            holder.txtWelcome.setText(mWelcomeArr[position]);
+            holder.txtLanguage.setText(mLanguageArr[position]);
+            holder.imgFlag.setImageDrawable(mContext.getResources().getDrawable(mImgArr[position]));
+//            holder.mainActivityListener=new MainActivityAdapterViewHolder.ViewHolderClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
+//                    holder.llcontainer.startAnimation(animScale);
+//                    holder.llcontainer.bringToFront();
+//                    goToMenuActivity();
+//                }
+//            };
 
         }
         else if (position == 3){
-            holder.txtWelcome.setText("Welcome To Sakura");
-            holder.txtLanguage.setText("English");
-            holder.imgFlag.setImageDrawable(mContext.getResources().getDrawable(R.drawable.flag_of_united_states));
-            holder.mainActivityListener=new MainActivityAdapterViewHolder.ViewHolderClickListener() {
-                @Override
-                public void onClick(View v) {
-                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
-                    holder.llcontainer.startAnimation(animScale);
-                    holder.llcontainer.bringToFront();
-                    goToMenuActivity();
-                }
-            };
+            holder.txtWelcome.setText(mWelcomeArr[position]);
+            holder.txtLanguage.setText(mLanguageArr[position]);
+            holder.imgFlag.setImageDrawable(mContext.getResources().getDrawable(mImgArr[position]));
+//            holder.mainActivityListener=new MainActivityAdapterViewHolder.ViewHolderClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
+//                    holder.llcontainer.startAnimation(animScale);
+//                    holder.llcontainer.bringToFront();
+//                    goToMenuActivity();
+//                }
+//            };
 
         }
-    }
-
-    private void goToMenuActivity() {
-        Activity activity = (Activity) mContext;
-        Intent intent = new Intent(mContext, MenuActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.getApplicationContext().startActivity(intent);
-        activity.finish();
     }
 
     @Override
@@ -142,7 +140,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
         @Override
         public void onClick(View v) {
-            mainActivityListener.onClick(v);
+            mClickHandler.onClick(getItemViewType(),new MainActivityAdapterViewHolder(v));
         }
 
         public static interface ViewHolderClickListener {
@@ -151,7 +149,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
     }
 
     public static interface MainActivityAdapterOnClickHandler {
-        void onClick(String bookingId, MainActivityAdapterViewHolder vh);
+        void onClick(int position, MainActivityAdapterViewHolder vh);
     }
 
 }

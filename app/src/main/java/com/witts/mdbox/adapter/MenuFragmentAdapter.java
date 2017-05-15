@@ -27,14 +27,14 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
 
     private final String TAG = this.getClass().getSimpleName();
     public static Context mContext;
-    private NoMenuFragmentAdapterOnClickHandler mClickHandler;
+    public static onMenuFragmentAdapterOnClickHandler mClickHandler;
     private MenuFragmentAdapterViewHolder mViewHolder;
     private Animation animScale;
 
     public MenuFragmentAdapter() {
     }
 
-    public MenuFragmentAdapter(Context context, NoMenuFragmentAdapterOnClickHandler dh) {
+    public MenuFragmentAdapter(Context context, onMenuFragmentAdapterOnClickHandler dh) {
         mContext = context;
         mClickHandler = dh;
     }
@@ -56,16 +56,16 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
             holder.lnrbackground.setBackgroundResource(R.drawable.bgone);
             holder.imgmenu.setImageDrawable(mContext.getResources().getDrawable(R.drawable.hotelbedroom));
             holder.txtlabel.setText("Hotel Bedroom");
-            holder.onMenuFragmentListener = new MenuFragmentAdapterViewHolder.ViewHolderClickListener() {
-                @Override
-                public void onClick(View v) {
-                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
-                    holder.llcontainer.startAnimation(animScale);
-                    holder.llcontainer.bringToFront();
-                    holder.lnrbackground.setBackgroundResource(R.drawable.menu_background_one);
-                    goToBedroomDetail();
-                }
-            };
+//            holder.onMenuFragmentListener = new MenuFragmentAdapterViewHolder.ViewHolderClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
+//                    holder.llcontainer.startAnimation(animScale);
+//                    holder.llcontainer.bringToFront();
+//                    holder.lnrbackground.setBackgroundResource(R.drawable.menu_background_one);
+//                    goToBedroomDetail();
+//                }
+//            };
         } else if (position == 1) {
             holder.lnrbackground.setBackgroundResource(R.drawable.bgtwo);
             holder.imgmenu.setImageDrawable(mContext.getResources().getDrawable(R.drawable.playground));
@@ -163,7 +163,7 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
         Intent intent = new Intent(mContext, HotelRoomDetailActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.getApplicationContext().startActivity(intent);
-        activity.finish();
+        //activity.finish();
     }
 
     @Override
@@ -178,12 +178,11 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
 
 
     public static class MenuFragmentAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        LinearLayout lnrbackground;
-        LinearLayout llcontainer;
-        ImageView imgmenu;
-        TextView txtlabel;
+        public LinearLayout lnrbackground;
+        public LinearLayout llcontainer;
+        public ImageView imgmenu;
+        public TextView txtlabel;
         public ViewHolderClickListener onMenuFragmentListener;
-        public ViewHolderHoverListener onMenuFragmentHoverListener;
 
         public MenuFragmentAdapterViewHolder(View itemView) {
             super(itemView);
@@ -198,12 +197,11 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
             imgmenu = (ImageView) itemView.findViewById(R.id.imgmenu);
             txtlabel = (TextView) itemView.findViewById(R.id.txtlabel);
             itemView.setOnClickListener(this);
-            //itemView.setOnHoverListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            onMenuFragmentListener.onClick(v);
+            mClickHandler.onClick(getItemViewType(),new MenuFragmentAdapterViewHolder(v));
         }
 
         /*@Override
@@ -221,8 +219,8 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
         }
     }
 
-        public static interface NoMenuFragmentAdapterOnClickHandler {
-            void onClick(String bookingId, MenuFragmentAdapterViewHolder vh);
+        public static interface onMenuFragmentAdapterOnClickHandler {
+            void onClick(int position,MenuFragmentAdapterViewHolder vh);
         }
 
     }
