@@ -8,76 +8,52 @@ import com.witts.mdbox.model.enums.MDBCode;
  */
 public class WebServiceResult<T>{
 
-    private T data;
+    private Meta meta;
 
-    public T getData() {
-        return data;
+    public Meta getMeta() {
+        return meta;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setMeta(Meta meta) {
+        this.meta = meta;
     }
 
-    @SerializedName("access_token")
-    private String accessToken;
+    private T response;
 
-    @SerializedName("refresh_token")
-    private String refreshToken;
-
-    @SerializedName("returnCode")
-    private String code;
-
-    @SerializedName("message")
-    private String message;
-
-    @SerializedName("error_description")
-    private String errorDescription;
-
-    public String getAccessToken(){
-        return accessToken;
+    public T getResponse() {
+        return response;
     }
 
-    public void setAccessToken(String accessToken){
-        this.accessToken = accessToken;
+    public void setResponse(T response) {
+        this.response = response;
     }
 
-    public String getRefreshToken(){
-        return refreshToken;
-    }
+    public static class Meta{
+        @SerializedName("responseCode")
+        private String code;
 
-    public void setRefreshToken(String refreshToken){
-        this.refreshToken = refreshToken;
-    }
+        @SerializedName("responseMsg")
+        private String message;
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+        public String getCode() {
+            return code;
         }
 
-    public String getErrorDescription(){
-        return errorDescription;
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 
-    public void setErrorDescription(String errorDescription){
-        this.errorDescription = errorDescription;
-    }
 
     public boolean hasError(){
-        return getMDBCode() != MDBCode.REQUEST_SUCCESS;
-    }
-
-    public MDBCode getMDBCode(){
-        return MDBCode.fromCode(getCode());
+        return !meta.getCode().equals("000");
     }
 }

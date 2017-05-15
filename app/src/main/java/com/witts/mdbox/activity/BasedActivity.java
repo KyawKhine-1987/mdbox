@@ -60,7 +60,7 @@ public class BasedActivity extends AppCompatActivity {
         String message = null;
         if(result.hasError()){
             if (result.getMDBCode() == MDBCode.INVALID_ACCESS_TOKEN) {
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, LanguageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
                 startActivity(intent);
