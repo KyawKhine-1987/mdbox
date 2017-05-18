@@ -37,22 +37,6 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
     ScrollView svinfocontainer;
     private Handler mHandler = new Handler();
     RoomTypeChoiceAdapter roomChoiceAdapter;
-//    private View mCurBtn;
-//    private long mStartTime = 0;
-//    private float mSpeed = 0.5f;
-//    private Runnable mScrollRunnable = new Runnable() {
-//
-//        @Override
-//        public void run() {
-//            int dy = (int) ((SystemClock.uptimeMillis() - mStartTime) * mSpeed);
-//            mStartTime = SystemClock.uptimeMillis();
-//            int direction = getCurrentBtnDirection();
-//            if (direction == View.FOCUS_UP)
-//                dy *= -1;
-//            svinfo.scrollBy(0, dy);
-//            mHandler.post(this);
-//        }
-//    };
     public HotelRoomTypeFragment() {
         // Required empty public constructor
     }

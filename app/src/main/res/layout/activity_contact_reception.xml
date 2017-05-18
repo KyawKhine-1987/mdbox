@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/roomdetailbackground">
+    android:background="@drawable/receptionbackground"
+    android:padding="10dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -17,18 +18,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:layout_marginRight="30dp">
-            <!--<android.support.v7.widget.RecyclerView
-                android:id="@+id/rvchooseroom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>-->
             <android.support.design.widget.TabLayout
-                android:id="@+id/tlhotelDetail"
+                android:id="@+id/tlreceptioncontacttype"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="fill"
                 app:tabMaxWidth="0dp"
                 app:tabMode="scrollable"
-                app:tabBackground="@drawable/tab_color_selector"
+                app:tabBackground="@drawable/tab_contact_type"
                 app:tabTextColor="@color/secondary_text_default_material_dark"
                 app:tabSelectedTextColor="@android:color/white"
                 app:tabIndicatorColor="#c6e063"
@@ -39,23 +36,24 @@
                 app:tabPaddingEnd="15dp"/>
         </FrameLayout>
         <RelativeLayout
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:id="@+id/ivback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/backarrow"
-                android:layout_marginLeft="240dp"/>
+                android:layout_marginLeft="140dp"/>
 
         </RelativeLayout>
     </LinearLayout>
     <android.support.v4.view.ViewPager
-        android:id="@+id/vphotelDetail"
+        android:id="@+id/vprecptioncontacttype"
         android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"/>
 
 </FrameLayout>
 

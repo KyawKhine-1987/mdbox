@@ -37,37 +37,37 @@ public class BaseFragment extends Fragment {
         progressDialog.setCancelable(false);
     }
 
-    /**
-     * method is used for checking valid email id format.
-     *
-     * @param result
-     * @return boolean true for valid false for invalid
-     */
+//    /**
+//     * method is used for checking valid email id format.
+//     *
+//     * @param result
+//     * @return boolean true for valid false for invalid
+//     */
 
-    public boolean handleError(WebServiceResult<?> result){
-        String message = null;
-        if(result.hasError()){
-            message = getMessage(result);
-            this.showAlert(message);
-            return false;
+//    public boolean handleError(WebServiceResult<?> result){
+//        String message = null;
+//        if(result.hasError()){
+//            message = getMessage(result);
+//            this.showAlert(message);
+//            return false;
+//
+//        }
+//        return true;
+//    }
 
-        }
-        return true;
-    }
-
-    public String getMessage(WebServiceResult<?> result){
-
-        String message = "";
-
-        if(result.getMDBCode() == MDBCode.NO_INTERNET_CONNECTION_AVAILABLE){
-            message = getString(R.string.alert_no_internet_connection);
-        }
-        else{
-            message = StringUtil.isEmpty(result.getMessage())?
-                    getString(R.string.alert_application_error):result.getMessage();
-        }
-        return message;
-    }
+//    public String getMessage(WebServiceResult<?> result){
+//
+//        String message = "";
+//
+//        if(result.getMDBCode() == MDBCode.NO_INTERNET_CONNECTION_AVAILABLE){
+//            message = getString(R.string.alert_no_internet_connection);
+//        }
+//        else{
+//            message = StringUtil.isEmpty(result.getMessage())?
+//                    getString(R.string.alert_application_error):result.getMessage();
+//        }
+//        return message;
+//    }
 
 
     public synchronized void showAlert(String msg){

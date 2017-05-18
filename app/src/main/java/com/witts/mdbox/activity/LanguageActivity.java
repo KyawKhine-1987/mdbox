@@ -2,6 +2,7 @@ package com.witts.mdbox.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.witts.mdbox.R;
@@ -28,6 +29,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
 
     LanguageAdapter languageAdapter;
     List<WelcomeMessage> welcomeMessageList = new ArrayList<>();
+    WelcomeMessage welcomeMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,43 +37,58 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
 
         setContentView(R.layout.activity_language);
         ButterKnife.bind(this);
+        welcomeMessage = new WelcomeMessage();
+        welcomeMessage.setDisplayLanguageName("English");
+        welcomeMessage.setWelcomeMessage("Welcome To Hotel Sakura");
+        welcomeMessageList.add(welcomeMessage);
+        welcomeMessageList.add(welcomeMessage);
+        welcomeMessageList.add(welcomeMessage);
+        welcomeMessageList.add(welcomeMessage);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        languageAdapter = new LanguageAdapter(getApplicationContext(), welcomeMessageList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rvChooseLanguage.setLayoutManager(layoutManager);
+        rvChooseLanguage.setHasFixedSize(true);
+        rvChooseLanguage.setAdapter(languageAdapter);
+        languageAdapter.setItemClickListener(LanguageActivity.this);
 
-        final WelcomeService welcomeService = ServiceFactory.getService(WelcomeService.class);
-        welcomeService.hotelLanguageSettingList().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<WebServiceResult<WelcomeMessageWrapper>>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissProgressDialog();
-
-                        showAlert(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(final WebServiceResult<WelcomeMessageWrapper> welcomeMessageWrapperWebServiceResult) {
-                        if (welcomeMessageWrapperWebServiceResult != null) {
-                            welcomeMessageList = welcomeMessageWrapperWebServiceResult.getResponse().getWelcomeMessageList();
-
-                            languageAdapter = new LanguageAdapter(getApplicationContext(), welcomeMessageList);
-
-                            rvChooseLanguage.setHasFixedSize(true);
-                            rvChooseLanguage.setAdapter(languageAdapter);
-                            languageAdapter.setItemClickListener(LanguageActivity.this);
-                        }
-
-                        dismissProgressDialog();
-                    }
-                });
+//        final WelcomeService welcomeService = ServiceFactory.getService(WelcomeService.class);
+//        welcomeService.hotelLanguageSettingList().observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Observer<WebServiceResult<WelcomeMessageWrapper>>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        dismissProgressDialog();
+//
+//                        showAlert(e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onNext(final WebServiceResult<WelcomeMessageWrapper> welcomeMessageWrapperWebServiceResult) {
+//                        welcomeMessageList.add(welcomeMessage);
+//                        if (welcomeMessageWrapperWebServiceResult != null) {
+//                            welcomeMessageList = welcomeMessageWrapperWebServiceResult.getResponse().getWelcomeMessageList();
+//
+//                            languageAdapter = new LanguageAdapter(getApplicationContext(), welcomeMessageList);
+//
+//                            rvChooseLanguage.setHasFixedSize(true);
+//                            rvChooseLanguage.setAdapter(languageAdapter);
+//                            languageAdapter.setItemClickListener(LanguageActivity.this);
+//                        }
+//
+//                        dismissProgressDialog();
+//                    }
+//                });
     }
 
     @Override

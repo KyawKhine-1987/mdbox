@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.witts.mdbox"
-        minSdkVersion  17  //change here 'L'
+        minSdkVersion 17  //change here 'L'
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -21,6 +21,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v13:25.3.1'
     compile 'com.android.support:design:25.3.1'
@@ -33,7 +34,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
     compile 'com.squareup.okhttp3:okhttp:3.0.1'
     compile 'com.squareup.picasso:picasso:2.3.2'
-    //compile 'com.jakewharton:butterknife:8.4.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'

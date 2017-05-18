@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import java.util.List;
 public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHolder>{
     private Context context;
     private List<WelcomeMessage> welcomeMessageList;
+    private Animation animScale;
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
@@ -54,7 +57,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final WelcomeMessage welcomeMessage = welcomeMessageList.get(position);
 
         holder.tvWelcome.setText(welcomeMessage.getWelcomeMessage());
@@ -67,6 +70,9 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, welcomeMessage);
+//                animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
+//                holder.llcontainer.startAnimation(animScale);
+//                holder.llcontainer.bringToFront();
             }
         });
     }

@@ -56,38 +56,38 @@ public class BasedActivity extends AppCompatActivity {
      * @return boolean true for valid false for invalid
      */
 
-    public boolean handleError(WebServiceResult<?> result){
-        String message = null;
-        if(result.hasError()){
-            if (result.getMDBCode() == MDBCode.INVALID_ACCESS_TOKEN) {
-                Intent intent = new Intent(this, LanguageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                finish();
-                startActivity(intent);
-            }
-            else{
-                message = getMessage(result);
-                this.showAlert(message);
-            }
-            return false;
+//    public boolean handleError(WebServiceResult<?> result){
+//        String message = null;
+//        if(result.hasError()){
+//            if (result.getMDBCode() == MDBCode.INVALID_ACCESS_TOKEN) {
+//                Intent intent = new Intent(this, LanguageActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                finish();
+//                startActivity(intent);
+//            }
+//            else{
+//                message = getMessage(result);
+//                this.showAlert(message);
+//            }
+//            return false;
+//
+//        }
+//        return true;
+//    }
 
-        }
-        return true;
-    }
-
-    public String getMessage(WebServiceResult<?> result){
-
-        String message = "";
-
-        if(result.getMDBCode() == MDBCode.NO_INTERNET_CONNECTION_AVAILABLE){
-            message = getString(R.string.alert_no_internet_connection);
-        }
-        else{
-            message = StringUtil.isEmpty(result.getMessage())?
-                    getString(R.string.alert_application_error):result.getMessage();
-        }
-        return message;
-    }
+//    public String getMessage(WebServiceResult<?> result){
+//
+//        String message = "";
+//
+//        if(result.getMDBCode() == MDBCode.NO_INTERNET_CONNECTION_AVAILABLE){
+//            message = getString(R.string.alert_no_internet_connection);
+//        }
+//        else{
+//            message = StringUtil.isEmpty(result.getMessage())?
+//                    getString(R.string.alert_application_error):result.getMessage();
+//        }
+//        return message;
+//    }
 
 
     public synchronized void showAlert(String msg){

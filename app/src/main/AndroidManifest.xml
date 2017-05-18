@@ -1,19 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.witts.mdbox">
+
     <uses-feature
         android:name="android.software.leanback"
         android:required="true" />
-    <uses-feature android:name="android.hardware.touchscreen"
+    <uses-feature
+        android:name="android.hardware.touchscreen"
         android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".MDBApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".MDBApplication"
-        android:supportsRtl="true"
         android:largeHeap="true"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--android:launchMode="singleTask"-->
+
+        <!-- android:launchMode="singleTask" -->
         <activity
             android:name=".activity.LanguageActivity"
             android:label="@string/app_name"
@@ -28,9 +35,13 @@
             android:name=".activity.MenuActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.HotelRoomDetailActivity"
+        <activity
+            android:name=".activity.HotelRoomDetailActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ContactReceptionActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
