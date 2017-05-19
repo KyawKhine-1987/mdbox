@@ -1,6 +1,5 @@
 package com.witts.mdbox.activity;
 
-import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,8 +12,6 @@ import android.widget.ImageView;
 
 import com.witts.mdbox.R;
 import com.witts.mdbox.fragments.ContactReceptionFragment;
-import com.witts.mdbox.fragments.HotelRoomDetailFragment;
-import com.witts.mdbox.fragments.HotelRoomTypeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +34,7 @@ public class ContactReceptionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         vprecptioncontacttype.setAdapter(pagerAdapter);
         vprecptioncontacttype.clearOnPageChangeListeners();
@@ -48,6 +46,7 @@ public class ContactReceptionActivity extends AppCompatActivity {
                 tlreceptioncontacttype.setupWithViewPager(vprecptioncontacttype);
             }
         });
+
         ivback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

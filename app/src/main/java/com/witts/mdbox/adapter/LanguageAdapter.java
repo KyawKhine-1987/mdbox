@@ -24,7 +24,6 @@ import java.util.List;
 public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHolder>{
     private Context context;
     private List<WelcomeMessage> welcomeMessageList;
-    private Animation animScale;
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;

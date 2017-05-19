@@ -37,6 +37,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
 
         setContentView(R.layout.activity_language);
         ButterKnife.bind(this);
+
         welcomeMessage = new WelcomeMessage();
         welcomeMessage.setDisplayLanguageName("English");
         welcomeMessage.setWelcomeMessage("Welcome To Hotel Sakura");

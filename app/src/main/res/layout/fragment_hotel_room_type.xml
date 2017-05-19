@@ -12,51 +12,62 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="10">
-        <LinearLayout
-            android:id="@+id/llDetailImageContainer"
+        <ImageView
+            android:id="@+id/ivDetailImageContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="6"
+            android:layout_weight="7"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/bedroom"
-            android:orientation="horizontal">
-        </LinearLayout>
+            android:background="@drawable/bedroom">
+        </ImageView>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/infobackground"
+            android:background="@drawable/roomdetailbackgroundnew"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="15dp">
+                android:layout_weight="1.5"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
                 <TextView
                     android:id="@+id/txtlabel"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="Information"
                     android:gravity="center"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#fff"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/infohighlight"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"/>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5.5"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="#802b515c"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp">
                 <ImageView
                     android:id="@+id/imguparrow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
                     android:layout_weight="0.1"
-                    android:src="@drawable/uparrow"/>
+                    android:src="@drawable/uparrow"
+                    android:background="#80000000"/>
                 <LinearLayout
                     android:id="@+id/llinfocontainer"
                     android:layout_width="match_parent"
@@ -85,6 +96,7 @@
                                 android:textColor="#fff"
                                 android:textSize="12sp"/>
                             <TextView
+                                android:id="@+id/tvRoom_Type"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Double Room"
@@ -103,6 +115,7 @@
                                 android:textColor="#fff"
                                 android:textSize="12sp"/>
                             <TextView
+                                android:id="@+id/tvBed_Fee"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Double 30,000 yen"
@@ -117,10 +130,11 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Bed Width :"
+                                android:text="Room Size :"
                                 android:textColor="#fff"
                                 android:textSize="12sp"/>
                             <TextView
+                                android:id="@+id/tvRoom_Size"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="140cm"
@@ -139,6 +153,7 @@
                                 android:textColor="#fff"
                                 android:textSize="12sp"/>
                             <TextView
+                                android:id="@+id/tvBed_Width"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="140cm"
@@ -150,47 +165,48 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp">
                             <TextView
+                                android:id="@+id/tvOther_info"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="* Prices vary due to season, events etc. "
                                 android:textColor="#fff"
                                 android:textSize="12sp"/>
                         </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="* The above rates include service charge and consumption tax. "
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="※ Non smoking floor is also available "
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="10dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="※ If the accommodation fee is more than 10000 yen (tax not included),
-                                guests will be charged separately according to the E regulation"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="5dp">-->
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="* The above rates include service charge and consumption tax. "-->
+                                <!--android:textColor="#fff"-->
+                                <!--android:textSize="12sp"/>-->
+                        <!--</LinearLayout>-->
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="5dp">-->
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="※ Non smoking floor is also available "-->
+                                <!--android:textColor="#fff"-->
+                                <!--android:textSize="12sp"/>-->
+                        <!--</LinearLayout>-->
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--android:layout_marginBottom="10dp">-->
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="※ If the accommodation fee is more than 10000 yen (tax not included),-->
+                                <!--guests will be charged separately according to the E regulation"-->
+                                <!--android:textColor="#fff"-->
+                                <!--android:textSize="12sp"/>-->
+                        <!--</LinearLayout>-->
                     </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
@@ -199,29 +215,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
-                    android:paddingBottom="20dp"
-                    android:src="@drawable/downarrow"/>
+                    android:src="@drawable/downarrow"
+                    android:background="#80000000"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
-        android:layout_weight="3.5"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/roomtypebackground">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="3.5"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/roomtypebackground">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvchooseroomtype"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="center"/>
         </FrameLayout>
-    </LinearLayout>
     </LinearLayout>
 </FrameLayout>

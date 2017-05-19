@@ -25,8 +25,10 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
 
     @BindView(R.id.rvchoosemenu)
     RecyclerView rvChooseMenu;
+
     @BindView(R.id.tvreceptionnews)
     TextView tvreception;
+
     MenuAdapter menuAdapter;
     private Animation animScale;
     public static final String TAG = "MenuActivity";
@@ -39,21 +41,27 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
         menuContent = new MenuContent();
         menuContent.setMenuTitle("Hotel Bedroom");
         menuContentList.add(menuContent);
+
         menuContent = new MenuContent();
         menuContent.setMenuTitle("Swimming Pool");
         menuContentList.add(menuContent);
+
         menuContent = new MenuContent();
         menuContent.setMenuTitle("Food and Drink");
         menuContentList.add(menuContent);
+
         menuContent = new MenuContent();
         menuContent.setMenuTitle("Hotel Service");
         menuContentList.add(menuContent);
+
         menuContent = new MenuContent();
         menuContent.setMenuTitle("Noodle");
         menuContentList.add(menuContent);
+
         menuContent = new MenuContent();
         menuContent.setMenuTitle("Room Service");
         menuContentList.add(menuContent);
+
         menuContent = new MenuContent();
         menuContent.setMenuTitle("Map");
         menuContentList.add(menuContent);
@@ -64,8 +72,10 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
         super.onResume();
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
+
         tvreception.setSelected(true);
         tvreception.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textmove));
+
         menuAdapter = new MenuAdapter(getApplicationContext(), menuContentList);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
         rvChooseMenu.setLayoutManager(gridLayoutManager);

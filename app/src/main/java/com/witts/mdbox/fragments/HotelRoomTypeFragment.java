@@ -15,9 +15,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
 import com.witts.mdbox.adapter.RoomTypeChoiceAdapter;
+import com.witts.mdbox.interfaces.ItemClickListener;
+import com.witts.mdbox.model.RoomDetail;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,18 +32,43 @@ import butterknife.ButterKnife;
 public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickListener{
     private static final String ARG_ROOMTYPE = "param1";
     private String mRoonType;
+
     @BindView(R.id.rvchooseroomtype)
     RecyclerView rvchooseroomtype;
+
     @BindView(R.id.imguparrow)
     ImageView imguparrow;
+
     @BindView(R.id.imgdownarrow)
     ImageView imgdownarrow;
+
     @BindView(R.id.llinfocontainer)
     LinearLayout llinfocontainer;
+
     @BindView(R.id.svinfocontainer)
     ScrollView svinfocontainer;
-    private Handler mHandler = new Handler();
-    RoomTypeChoiceAdapter roomChoiceAdapter;
+
+    @BindView(R.id.tvBed_Fee)
+    TextView tvBedFee;
+
+    @BindView(R.id.tvBed_Width)
+    TextView tvBedWidth;
+
+    @BindView(R.id.tvOther_info)
+    TextView tvOtherInfo;
+
+    @BindView(R.id.tvRoom_Size)
+    TextView tvRoomSize;
+
+    @BindView(R.id.tvRoom_Type)
+    TextView tvRoomType;
+
+    @BindView(R.id.ivDetailImageContainer)
+    ImageView ivDetailImageContainer;
+    RoomDetail roomDetail;
+    String info;
+    List<String> infoList = new ArrayList<>();
+    RoomTypeChoiceAdapter roomTypeChoiceAdapter;
     public HotelRoomTypeFragment() {
         // Required empty public constructor
     }
@@ -56,6 +88,26 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
         if (getArguments() != null) {
             mRoonType = getArguments().getString(ARG_ROOMTYPE);
         }
+
+        roomDetail = new RoomDetail();
+        roomDetail.setRoomType("Double Room");
+        roomDetail.setBedFee("30,000 yan");
+        roomDetail.setRoomSize("11m²");
+        roomDetail.setBedWidth("140 cm");
+
+        String string = "\n* Prices vary due to season, events etc.\n\n" +
+                "* The above rates include service charge and consumption tax.\n\n" +
+                "※ Non smoking floor is also available.\n\n" +
+                "※ If the accommodation fee is more than 10000 yen (tax not included)," +
+                "guests will be charged separately according to the E regulation.\n";
+
+        roomDetail.setOtherInfo(string);
+
+        String imageString = "www.image.com";
+        List<String> stringList = new ArrayList<>();
+        stringList.add(imageString);
+        roomDetail.setRoomImageLarge(stringList);
+        roomDetail.setRoomImageSmall(stringList);
     }
 
     @Override
@@ -70,19 +122,33 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        tvBedFee.setText(roomDetail.getBedFee());
+        tvBedWidth.setText(roomDetail.getBedWidth());
+        tvOtherInfo.setText(roomDetail.getOtherInfo());
+        tvRoomSize.setText(roomDetail.getRoomSize());
+        tvRoomType.setText(roomDetail.getRoomType());
+
+        roomTypeChoiceAdapter = new RoomTypeChoiceAdapter(getContext(), roomDetail.getRoomImageSmall());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         rvchooseroomtype.setLayoutManager(layoutManager);
         rvchooseroomtype.setHasFixedSize(true);
-        roomChoiceAdapter = new RoomTypeChoiceAdapter(getContext(),new RoomTypeChoiceAdapter.roomTypeChoiceAdapterOnClickHandler(){
+        rvchooseroomtype.setAdapter(roomTypeChoiceAdapter);
+        roomTypeChoiceAdapter.setItemClickListener(new ItemClickListener() {
             @Override
-            public void onClick(String bookingId, RoomTypeChoiceAdapter.roomTypeChoiceAdapterViewHolder vh) {
-
+            public void onItemClick(int position, Object data) {
+                if(roomDetail.getRoomImageLarge().get(position) != null && !roomDetail.getRoomImageLarge().get(position).equals("")) {
+                    Picasso.with(getContext())
+                            .load(roomDetail.getRoomImageLarge().get(position))
+                            .error(R.drawable.bedroom)
+                            .into(ivDetailImageContainer);
+                }
             }
         });
-        rvchooseroomtype.setAdapter(roomChoiceAdapter);
+
         imguparrow.setOnClickListener(this);
         imgdownarrow.setOnClickListener(this);
-        //mDetecor = new GestureDetector(getActivity(), (GestureDetector.OnGestureListener) getActivity());
+
     }
 
     @Override
@@ -102,36 +168,8 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
                     public void run() {
                         svinfocontainer.fullScroll(View.FOCUS_DOWN);
                     }
-                });
+             });
                 break;
         }
     }
-
-//    private void perfromPageScroll() {
-//        int direction = getCurrentBtnDirection();
-//        svinfo.pageScroll(direction);
-//    }
-//
-//    private void stopContinuousScroll() {
-//        mStartTime = 0;
-//        mHandler.removeCallbacks(mScrollRunnable);
-//    }
-//
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        mCurBtn = v;
-//        if (event.getAction() == MotionEvent.ACTION_UP) {
-//            stopContinuousScroll();
-//        }
-//        return true;
-//    }
-//
-//    private int getCurrentBtnDirection() {
-//        if (mCurBtn == imguparrow) {
-//            return View.FOCUS_UP;
-//        } else if (mCurBtn == imgdownarrow) {
-//            return View.FOCUS_DOWN;
-//        } else
-//            return 0;
-//    }
 }

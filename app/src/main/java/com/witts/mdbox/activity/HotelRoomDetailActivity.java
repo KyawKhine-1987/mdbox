@@ -1,18 +1,19 @@
 package com.witts.mdbox.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-
+import android.view.View;
+import android.widget.ImageView;
 import com.witts.mdbox.R;
-import com.witts.mdbox.adapter.HotelDetailButtonAdapter;
-import com.witts.mdbox.fragments.HotelRoomDetailFragment;
 import com.witts.mdbox.fragments.HotelRoomTypeFragment;
+import com.witts.mdbox.model.RoomType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,18 +21,43 @@ import butterknife.ButterKnife;
 public class HotelRoomDetailActivity extends BasedActivity {
     @BindView(R.id.tlhotelDetail)
     TabLayout tlhotelDetail;
+
     @BindView(R.id.vphotelDetail)
     ViewPager vphotelDetail;
+
+    @BindView(R.id.ivback)
+    ImageView ivback;
+
+    RoomType roomType;
+    List<RoomType> roomTypeList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        roomType = new RoomType();
+        roomType.setRoomType("BedRoom");
+        roomTypeList.add(roomType);
+
+        roomType = new RoomType();
+        roomType.setRoomType("Living Room");
+        roomTypeList.add(roomType);
+
+        roomType = new RoomType();
+        roomType.setRoomType("Bathroom");
+        roomTypeList.add(roomType);
+
+        roomType = new RoomType();
+        roomType.setRoomType("Balcony");
+        roomTypeList.add(roomType);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         setContentView(R.layout.activity_hotel_room_detail);
         ButterKnife.bind(this);
+
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         vphotelDetail.setAdapter(pagerAdapter);
         vphotelDetail.clearOnPageChangeListeners();
@@ -43,11 +69,16 @@ public class HotelRoomDetailActivity extends BasedActivity {
                 tlhotelDetail.setupWithViewPager(vphotelDetail);
             }
         });
+
+        ivback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public class PagerAdapter extends FragmentPagerAdapter {
-        final int PAGE_COUNT = 4;
-        private String tabTitles[] = new String[] { "BedRoom", "Living Room", "Bathroom" ,"Balcony"};
         public PagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
@@ -55,31 +86,25 @@ public class HotelRoomDetailActivity extends BasedActivity {
         @Override
         public Fragment getItem(int position) {
             HotelRoomTypeFragment fragment;
-            switch (position) {
-                case 0:
-                    fragment = HotelRoomTypeFragment.newInstance("BedRoom");
+
+            for(int i=0;i<roomTypeList.size();i++) {
+                if (position == i)
+                {
+                    fragment = HotelRoomTypeFragment.newInstance(roomTypeList.get(i).getRoomType());
                     return fragment;
-                case 1:
-                    fragment = HotelRoomTypeFragment.newInstance("Living Room");
-                    return fragment;
-                case 2:
-                    fragment = HotelRoomTypeFragment.newInstance("Bathroom");
-                    return fragment;
-                case 3:
-                    fragment = HotelRoomTypeFragment.newInstance("Balcony");
-                    return fragment;
+                }
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return PAGE_COUNT;
+            return roomTypeList.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
+            return roomTypeList.get(position).getRoomType();
         }
     }
 }
