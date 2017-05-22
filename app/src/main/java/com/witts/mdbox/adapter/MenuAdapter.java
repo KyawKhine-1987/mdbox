@@ -5,6 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public static Context context;
     private List<MenuContent> menuContentList;
     private ItemClickListener<MenuContent> itemClickListener;
+    private Animation animScale;
 
     public MenuAdapter(Context context,List<MenuContent> menuContentList) {
         this.context = context;
@@ -51,10 +55,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, menuContent);
-//                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-//                holder.llcontainer.startAnimation(animScale);
-                //holder.llcontainer.bringToFront();
-                //holder.llbackground.setBackgroundResource(R.drawable.menu_background_one);
+                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+                //holder.flcontainer.startAnimation(animScale);
+                holder.flcontainer.bringToFront();
             }
         });
     }
@@ -74,12 +77,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         public ImageView imgbackground;
         public ImageView ivmenu;
         public TextView tvlabel;
+        public FrameLayout flcontainer;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ivmenu = (ImageView) itemView.findViewById(R.id.ivmenu);
             tvlabel = (TextView) itemView.findViewById(R.id.tvlabel);
             imgbackground = (ImageView) itemView.findViewById(R.id.imgbackground);
+            flcontainer = (FrameLayout) itemView.findViewById(R.id.flcontainer);
         }
     }
     public void setItemClickListener(ItemClickListener itemClickListener) {

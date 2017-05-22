@@ -100,9 +100,29 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
             animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
             goToBedroomDetail();
         }
+        if(position==1) {
+            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+            goToBedroomDetail();
+        }
+        if(position==2) {
+            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+            goToBedroomDetail();
+        }
+        if(position==3) {
+            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+            goToBedroomDetail();
+        }
+        if(position==4) {
+            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+            goToBedroomDetail();
+        }
         if(position==5) {
             animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
             goToContactReception();
+        }
+        if(position==6) {
+            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+            goToBedroomDetail();
         }
     }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHolder>{
     private Context context;
+    private Animation animScale;
     private List<WelcomeMessage> welcomeMessageList;
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -40,12 +42,14 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         public TextView tvWelcome;
         public ImageView ivFlag;
         public TextView tvLanguage;
+        public LinearLayout llcontainer;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvWelcome = (TextView) itemView.findViewById(R.id.tvWelcome);
             ivFlag = (ImageView) itemView.findViewById(R.id.ivFlag);
             tvLanguage = (TextView) itemView.findViewById(R.id.tvLanguage);
+            llcontainer = (LinearLayout) itemView.findViewById(R.id.llcontainer);
         }
     }
 
@@ -69,9 +73,9 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, welcomeMessage);
-//                animScale = AnimationUtils.loadAnimation(mContext, R.anim.scale_up);
-//                holder.llcontainer.startAnimation(animScale);
-//                holder.llcontainer.bringToFront();
+                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+                holder.llcontainer.startAnimation(animScale);
+                holder.llcontainer.bringToFront();
             }
         });
     }
