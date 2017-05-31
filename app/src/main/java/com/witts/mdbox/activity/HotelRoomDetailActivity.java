@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import com.witts.mdbox.R;
 import com.witts.mdbox.fragments.HotelRoomTypeFragment;
@@ -30,6 +32,7 @@ public class HotelRoomDetailActivity extends BasedActivity {
 
     RoomType roomType;
     List<RoomType> roomTypeList = new ArrayList<>();
+    private Animation animScale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +73,23 @@ public class HotelRoomDetailActivity extends BasedActivity {
             }
         });
 
+
         ivback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        ivback.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    ivback.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.focus_background));
+                } else
+                {
+                    ivback.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.backarrow));
+                }
             }
         });
     }

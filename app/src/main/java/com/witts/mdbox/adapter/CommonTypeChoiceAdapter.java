@@ -2,13 +2,15 @@ package com.witts.mdbox.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
 import com.witts.mdbox.interfaces.ItemClickListener;
@@ -19,13 +21,14 @@ import java.util.List;
  * Created by wm02 on 5/4/2017.
  */
 
-public class RoomTypeChoiceAdapter extends RecyclerView.Adapter<RoomTypeChoiceAdapter.ViewHolder> implements View.OnKeyListener{
+public class CommonTypeChoiceAdapter extends RecyclerView.Adapter<CommonTypeChoiceAdapter.ViewHolder>{
 
     private Context mContext;
     List<String> roomImageList;
+    private Animation animScale;
     private ItemClickListener<String> itemClickListener;
     private int focusedItem = 0;
-    public RoomTypeChoiceAdapter(Context context, List<String> roomImageList) {
+    public CommonTypeChoiceAdapter(Context context, List<String> roomImageList) {
         this.mContext = context;
         this.roomImageList = roomImageList;
         }
@@ -37,7 +40,7 @@ public class RoomTypeChoiceAdapter extends RecyclerView.Adapter<RoomTypeChoiceAd
         }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder,final int position) {
+    public void onBindViewHolder(final ViewHolder holder,final int position) {
 
         holder.itemView.setSelected(focusedItem == position);
         final String imageUrl = roomImageList.get(position);
@@ -52,6 +55,23 @@ public class RoomTypeChoiceAdapter extends RecyclerView.Adapter<RoomTypeChoiceAd
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position,imageUrl);
+                holder.ivroomviewchoice.setBackgroundResource(R.drawable.background);
+                notifyItemChanged(focusedItem);
+                focusedItem = position;
+                notifyItemChanged(focusedItem);
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    holder.ivroomviewchoice.setBackgroundResource(R.drawable.background);
+                }else{
+                    holder.ivroomviewchoice.setBackgroundResource(0);
+                }
             }
         });
     }
@@ -101,30 +121,23 @@ public class RoomTypeChoiceAdapter extends RecyclerView.Adapter<RoomTypeChoiceAd
         this.itemClickListener = itemClickListener;
     }
 
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        return false;
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView ivroomviewchoice;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ivroomviewchoice = (ImageView) itemView.findViewById(R.id.ivroomviewchoice);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    notifyItemChanged(focusedItem);
-                    focusedItem = getLayoutPosition();
-                    ivroomviewchoice.setBackgroundResource(R.drawable.image_choicer_background);
-                    notifyItemChanged(focusedItem);
-                    notifyDataSetChanged();
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    notifyItemChanged(focusedItem);
+//                    focusedItem = getLayoutPosition();
+//                    ivroomviewchoice.setBackgroundResource(R.drawable.image_choicer_background);
+//                    notifyItemChanged(focusedItem);
+//                    notifyDataSetChanged();
+//                }
+//            });
         }
     }
-
-
 }
 

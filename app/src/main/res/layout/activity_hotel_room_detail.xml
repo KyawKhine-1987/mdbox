@@ -17,10 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:layout_marginRight="30dp">
-            <!--<android.support.v7.widget.RecyclerView
-                android:id="@+id/rvchooseroom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>-->
             <android.support.design.widget.TabLayout
                 android:id="@+id/tlhotelDetail"
                 android:layout_width="match_parent"
@@ -28,12 +24,12 @@
                 app:tabGravity="fill"
                 app:tabMaxWidth="0dp"
                 app:tabMode="scrollable"
-                app:tabBackground="@drawable/tab_color_selector"
+                app:tabBackground="@drawable/tab_color_selector_room"
                 app:tabTextColor="@color/secondary_text_default_material_dark"
                 app:tabSelectedTextColor="@android:color/white"
                 app:tabIndicatorColor="#c6e063"
-                android:elevation="20dp"
-                app:tabIndicatorHeight="0dp"/>
+                app:tabIndicatorHeight="0dp"
+                android:focusable="true"/>
         </FrameLayout>
         <RelativeLayout
             android:layout_width="300dp"
@@ -43,17 +39,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/backarrow"
-                android:layout_marginLeft="240dp"/>
+                android:layout_marginLeft="240dp"
+                android:focusable="true"
+                android:descendantFocusability="blocksDescendants"/>
 
         </RelativeLayout>
     </LinearLayout>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vphotelDetail"
-        android:layout_marginTop="40dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vphotelDetail"
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"/>
 
 </FrameLayout>
 

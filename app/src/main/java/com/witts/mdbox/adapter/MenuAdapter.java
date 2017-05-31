@@ -27,6 +27,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private List<MenuContent> menuContentList;
     private ItemClickListener<MenuContent> itemClickListener;
     private Animation animScale;
+    private int pos = 0;
 
     public MenuAdapter(Context context,List<MenuContent> menuContentList) {
         this.context = context;
@@ -45,19 +46,32 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
         holder.tvlabel.setText(menuContent.getMenuTitle());
         if(menuContent.getMenuImgUrl() != null && !menuContent.getMenuImgUrl().equals("")) {
-            Picasso.with(context).load(menuContent.getMenuImgUrl()).into(holder.ivmenu);
+            Picasso.with(context).load(menuContent.getMenuImgUrl()).error(R.drawable.foodanddrink).into(holder.ivmenu);
         }
-        if(menuContent.getMenuBackgroundUrl() != null && !menuContent.getMenuBackgroundUrl().equals("")) {
-            Picasso.with(context).load(menuContent.getMenuBackgroundUrl()).into(holder.imgbackground);
-        }
+        normalBackground(position,holder.imgbackground);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, menuContent);
                 animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-                //holder.flcontainer.startAnimation(animScale);
-                holder.flcontainer.bringToFront();
+                animatedBackground(position,holder.imgbackground);
+                holder.flcontainer.startAnimation(animScale);
+
+            }
+        });
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+                    animatedBackground(position,holder.imgbackground);
+                    holder.flcontainer.startAnimation(animScale);
+                } else
+                {
+                    holder.flcontainer.clearAnimation();
+                    normalBackground(position,holder.imgbackground);
+                }
             }
         });
     }
@@ -90,4 +104,54 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public void setItemClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
+
+    public void normalBackground(int position,View v){
+        ImageView imgView = (ImageView)v;
+        pos = position%6;
+        switch (pos){
+            case 0:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgone));
+                break;
+            case 1:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgtwo));
+                break;
+            case 2:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgthree));
+                break;
+            case 3:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgfour));
+                break;
+            case 4:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgfive));
+                break;
+            case 5:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgsix));
+                break;
+            default:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgone));
+                break;
+
+        }
+    }
+
+    public void animatedBackground(int position,View v){
+        ImageView imgView = (ImageView)v;
+        pos = position%6;
+        switch (pos) {
+            case 0:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_one));
+                break;
+            case 1:
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_two));
+                break;
+            case 2:
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_three));
+                break;
+            case 3:
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_four));
+                break;
+            case 4:
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_five));
+                break;
+            case 5:
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_six));
+                break;
+            default:
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_one));
+                break;
+        }
+    }
+
     }

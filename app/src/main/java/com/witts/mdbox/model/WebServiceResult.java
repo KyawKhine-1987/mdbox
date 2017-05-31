@@ -1,5 +1,6 @@
 package com.witts.mdbox.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.witts.mdbox.model.enums.MDBCode;
 
@@ -35,6 +36,9 @@ public class WebServiceResult<T>{
         @SerializedName("responseMsg")
         private String message;
 
+        @SerializedName("versionNo")
+        public String versionNo;
+
         public String getCode() {
             return code;
         }
@@ -49,6 +53,14 @@ public class WebServiceResult<T>{
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public String getVersionNo() {
+            return versionNo;
+        }
+
+        public void setVersionNo(String versionNo) {
+            this.versionNo = versionNo;
         }
     }
 

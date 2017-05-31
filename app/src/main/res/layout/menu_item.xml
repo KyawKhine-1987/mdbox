@@ -6,16 +6,16 @@
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="5dp"
     android:clickable="true"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:background="@drawable/menu_background_state">
 
         <ImageView
             android:id="@+id/imgbackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/menu_background_state"/>
+            android:src="@drawable/menu_background_state"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,15 +1,11 @@
 package com.witts.mdbox.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,7 +15,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
-import com.witts.mdbox.adapter.RoomTypeChoiceAdapter;
+import com.witts.mdbox.adapter.CommonTypeChoiceAdapter;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.RoomDetail;
 
@@ -46,7 +42,7 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
     LinearLayout llinfocontainer;
 
     @BindView(R.id.svinfocontainer)
-    ScrollView svinfocontainer;
+    NestedScrollView svinfocontainer;
 
     @BindView(R.id.tvBed_Fee)
     TextView tvBedFee;
@@ -68,7 +64,7 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
     RoomDetail roomDetail;
     String info;
     List<String> infoList = new ArrayList<>();
-    RoomTypeChoiceAdapter roomTypeChoiceAdapter;
+    CommonTypeChoiceAdapter commonTypeChoiceAdapter;
     public HotelRoomTypeFragment() {
         // Required empty public constructor
     }
@@ -103,8 +99,9 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
 
         roomDetail.setOtherInfo(string);
 
-        String imageString = "www.image.com";
+        String imageString = "https://s-media-cache-ak0.pinimg.com/736x/b7/48/98/b74898796fd9073ebd85ca9a6ce9d8b7.jpg";
         List<String> stringList = new ArrayList<>();
+        stringList.add(imageString);
         stringList.add(imageString);
         roomDetail.setRoomImageLarge(stringList);
         roomDetail.setRoomImageSmall(stringList);
@@ -129,12 +126,12 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
         tvRoomSize.setText(roomDetail.getRoomSize());
         tvRoomType.setText(roomDetail.getRoomType());
 
-        roomTypeChoiceAdapter = new RoomTypeChoiceAdapter(getContext(), roomDetail.getRoomImageSmall());
+        commonTypeChoiceAdapter = new CommonTypeChoiceAdapter(getContext(), roomDetail.getRoomImageSmall());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         rvchooseroomtype.setLayoutManager(layoutManager);
         rvchooseroomtype.setHasFixedSize(true);
-        rvchooseroomtype.setAdapter(roomTypeChoiceAdapter);
-        roomTypeChoiceAdapter.setItemClickListener(new ItemClickListener() {
+        rvchooseroomtype.setAdapter(commonTypeChoiceAdapter);
+        commonTypeChoiceAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(int position, Object data) {
                 if(roomDetail.getRoomImageLarge().get(position) != null && !roomDetail.getRoomImageLarge().get(position).equals("")) {
@@ -145,7 +142,7 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
                 }
             }
         });
-
+        
         imguparrow.setOnClickListener(this);
         imgdownarrow.setOnClickListener(this);
 

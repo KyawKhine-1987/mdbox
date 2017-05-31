@@ -47,10 +47,23 @@ public class ContactReceptionActivity extends AppCompatActivity {
             }
         });
 
+
         ivback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        ivback.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    ivback.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.focus_background));
+                } else
+                {
+                    ivback.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.backarrow));
+                }
             }
         });
     }

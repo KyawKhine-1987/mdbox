@@ -78,6 +78,20 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
                 holder.llcontainer.bringToFront();
             }
         });
+
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+                    holder.llcontainer.startAnimation(animScale);
+                    holder.llcontainer.bringToFront();
+                } else
+                {
+                    holder.llcontainer.clearAnimation();
+                }
+            }
+        });
     }
 
     @Override

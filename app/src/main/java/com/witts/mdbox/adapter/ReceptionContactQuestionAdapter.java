@@ -1,20 +1,16 @@
 package com.witts.mdbox.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
 import com.witts.mdbox.interfaces.ItemClickListener;
-import com.witts.mdbox.model.ContactQuestion;
-import com.witts.mdbox.model.ContactType;
+import com.witts.mdbox.model.QAObject;
 
 import java.util.List;
 
@@ -25,12 +21,12 @@ import java.util.List;
 public class ReceptionContactQuestionAdapter extends RecyclerView.Adapter<ReceptionContactQuestionAdapter.ViewHolder> {
 
     private Context context;
-    private List<ContactQuestion> contactQuestionList;
-    private ItemClickListener<ContactQuestion> itemClickListener;
+    private List<QAObject> QAObjectList;
+    private ItemClickListener<QAObject> itemClickListener;
 
-    public ReceptionContactQuestionAdapter(Context context, List<ContactQuestion> contactQuestionList) {
+    public ReceptionContactQuestionAdapter(Context context, List<QAObject> QAObjectList) {
         this.context = context;
-        this.contactQuestionList = contactQuestionList;
+        this.QAObjectList = QAObjectList;
     }
 
     @Override
@@ -40,22 +36,33 @@ public class ReceptionContactQuestionAdapter extends RecyclerView.Adapter<Recept
     }
 
     @Override
-    public void onBindViewHolder(ReceptionContactQuestionAdapter.ViewHolder holder,final int position) {
-        final ContactQuestion contactQuestion = contactQuestionList.get(position);
+    public void onBindViewHolder(final ReceptionContactQuestionAdapter.ViewHolder holder, final int position) {
+        final QAObject QAObject = QAObjectList.get(position);
 
-        holder.tvquestion1.setText(contactQuestion.getContactQuestion1());
-        holder.tvquestion2.setText(contactQuestion.getContactQuestion2());
+        holder.tvquestion1.setText(QAObject.getContactQuestion1());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.onItemClick(position, contactQuestion);
+                itemClickListener.onItemClick(position, QAObject);
+            }
+        });
+
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    holder.llcontainer.setBackgroundResource(R.drawable.contact_background_select);
+                }
+                else {
+                    holder.llcontainer.setBackgroundResource(R.drawable.contact_background_unselect);
+                }
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return contactQuestionList.size();
+        return QAObjectList.size();
     }
 
     @Override
@@ -65,12 +72,12 @@ public class ReceptionContactQuestionAdapter extends RecyclerView.Adapter<Recept
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvquestion1;
-        public TextView tvquestion2;
+        public LinearLayout llcontainer;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvquestion1 = (TextView) itemView.findViewById(R.id.tvquestion1);
-            tvquestion2 = (TextView) itemView.findViewById(R.id.tvquestion2);
+            llcontainer = (LinearLayout) itemView.findViewById(R.id.llcontainer);
         }
     }
 

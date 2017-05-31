@@ -7,11 +7,5 @@
         android:state_selected="true"
         android:drawable="@drawable/menu_background_one"/>
     <item
-        android:state_focused="true"
-        android:drawable="@drawable/menu_background_one"/>
-    <item
-        android:state_activated="true"
-        android:drawable="@drawable/menu_background_one"/>
-    <item
         android:drawable="@drawable/bgone"/>
 </selector>

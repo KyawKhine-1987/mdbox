@@ -7,7 +7,6 @@ package com.witts.mdbox.model;
 public class MenuContent {
     public String menuTitle;
     public String menuImgUrl;
-    public String menuBackgroundUrl;
 
     public String getMenuTitle() {
         return menuTitle;
@@ -25,11 +24,4 @@ public class MenuContent {
         this.menuImgUrl = menuImgUrl;
     }
 
-    public String getMenuBackgroundUrl() {
-        return menuBackgroundUrl;
-    }
-
-    public void setMenuBackgroundUrl(String menuBackgroundUrl) {
-        this.menuBackgroundUrl = menuBackgroundUrl;
-    }
 }

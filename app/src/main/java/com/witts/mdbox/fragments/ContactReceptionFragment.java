@@ -9,26 +9,39 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.BasedActivity;
 import com.witts.mdbox.adapter.ReceptionContactQuestionAdapter;
 import com.witts.mdbox.adapter.ReceptionContactTypeAdapter;
+import com.witts.mdbox.common.Constant;
+import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
-import com.witts.mdbox.model.ContactQuestion;
+import com.witts.mdbox.model.QAListWrapper;
+import com.witts.mdbox.model.QAObject;
 import com.witts.mdbox.model.ContactType;
+import com.witts.mdbox.model.WebServiceResult;
+import com.witts.mdbox.service.QAListService;
+import com.witts.mdbox.service.WelcomeService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class ContactReceptionFragment extends Fragment {
+public class ContactReceptionFragment extends BaseFragment {
     private static final String ARG_CONTACTTYPE = "contactType";
     private String mContactType;
     @BindView(R.id.rvcontact_type)
@@ -39,8 +52,16 @@ public class ContactReceptionFragment extends Fragment {
     ReceptionContactQuestionAdapter contactQuestionAdapter;
     ContactType contactType;
     List<ContactType> contactTypeList = new ArrayList<>();
-    ContactQuestion contactQuestion;
-    List<ContactQuestion> contactQuestionList = new ArrayList<>();
+    QAObject QAObject;
+    List<QAObject> QAObjectList = new ArrayList<>();
+    private String accessToken= Constant.ACCESS_TOKEN;
+    private String languageCode="JP";
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
     public ContactReceptionFragment() {}
 
     public static ContactReceptionFragment newInstance(String contactType) {
@@ -57,6 +78,14 @@ public class ContactReceptionFragment extends Fragment {
         if (getArguments() != null) {
             mContactType = getArguments().getString(ARG_CONTACTTYPE);
         }
+
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
+//        int parseTime = Integer.parseInt(realTime.substring(0,2));
+//        time = String.valueOf(parseTime-6);
+
         contactType = new ContactType();
         contactType.setContractType("Water");
         contactTypeList.add(contactType);
@@ -72,18 +101,18 @@ public class ContactReceptionFragment extends Fragment {
         contactType = new ContactType();
         contactType.setContractType("Room");
         contactTypeList.add(contactType);
-        contactQuestion = new ContactQuestion();
-        contactQuestion.setContactQuestion1("Problem with water supply");
-        contactQuestion.setContactQuestion2("Problem with water supply");
-        contactQuestionList.add(contactQuestion);
-        contactQuestion = new ContactQuestion();
-        contactQuestion.setContactQuestion1("Problem with water supply");
-        contactQuestion.setContactQuestion2("Problem with water supply");
-        contactQuestionList.add(contactQuestion);
-        contactQuestion = new ContactQuestion();
-        contactQuestion.setContactQuestion1("Problem with water supply");
-        contactQuestion.setContactQuestion2("Problem with water supply");
-        contactQuestionList.add(contactQuestion);
+        QAObject = new QAObject();
+        QAObject.setContactQuestion1("Problem with water supply");
+        QAObject.setContactQuestion2("Problem with water supply");
+        QAObjectList.add(QAObject);
+        QAObject = new QAObject();
+        QAObject.setContactQuestion1("Problem with water supply");
+        QAObject.setContactQuestion2("Problem with water supply");
+        QAObjectList.add(QAObject);
+        QAObject = new QAObject();
+        QAObject.setContactQuestion1("Problem with water supply");
+        QAObject.setContactQuestion2("Problem with water supply");
+        QAObjectList.add(QAObject);
     }
 
     @Override
@@ -98,22 +127,48 @@ public class ContactReceptionFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        contactTypeAdapter = new ReceptionContactTypeAdapter(getContext(), contactTypeList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        rvcontact_type.setLayoutManager(layoutManager);
-        rvcontact_type.setHasFixedSize(true);
-        rvcontact_type.setAdapter(contactTypeAdapter);
-        contactTypeAdapter.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemClick(int position, Object data) {
-                callrvContactQuestionAdapter();}
-        });
-        callrvContactQuestionAdapter();
+        callWebService();
 
     }
 
+    private void callWebService() {
+        showProgressDialog();
+        final QAListService qaListService = ServiceFactory.getService(QAListService.class);
+        qaListService.qaList(accessToken,languageCode,date,time,timezone,channel,clientVersion,versionNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<WebServiceResult<QAListWrapper>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                        Toast.makeText(getContext(),"Fail..",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(final WebServiceResult<QAListWrapper> qaListWrapperWebServiceResult) {
+                        dismissProgressDialog();
+                        Toast.makeText(getContext(),"Success..",Toast.LENGTH_SHORT).show();contactTypeAdapter = new ReceptionContactTypeAdapter(getContext(), contactTypeList);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                        rvcontact_type.setLayoutManager(layoutManager);
+                        rvcontact_type.setHasFixedSize(true);
+                        rvcontact_type.setAdapter(contactTypeAdapter);
+                        contactTypeAdapter.setItemClickListener(new ItemClickListener() {
+                            @Override
+                            public void onItemClick(int position, Object data) {
+                                callrvContactQuestionAdapter();}
+                        });
+                        callrvContactQuestionAdapter();
+                    }
+                });
+    }
+
     private void callrvContactQuestionAdapter(){
-        contactQuestionAdapter = new ReceptionContactQuestionAdapter(getContext(), contactQuestionList);
+        contactQuestionAdapter = new ReceptionContactQuestionAdapter(getContext(), QAObjectList);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         rvcontact_question.setLayoutManager(gridLayoutManager);
         rvcontact_question.setHasFixedSize(true);

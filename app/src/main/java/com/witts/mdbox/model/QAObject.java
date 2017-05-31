@@ -4,7 +4,7 @@ package com.witts.mdbox.model;
  * Created by wm02 on 5/18/2017.
  */
 
-public class ContactQuestion {
+public class QAObject {
 
     public String contactQuestion1;
     public  String contactQuestion2;

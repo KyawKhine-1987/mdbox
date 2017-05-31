@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:layout_marginBottom="5dp"
     android:layout_marginTop="5dp"
-    android:background="@drawable/contact_background"
+    android:background="@drawable/contact_background_unselect"
     android:clickable="true"
     android:focusable="true">
     <ImageView
@@ -21,5 +21,5 @@
         android:text="water"
         android:textSize="12sp"
         android:layout_gravity="center"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 </LinearLayout>

@@ -16,6 +16,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_below="@+id/rvChooseLanguage"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
         android:src="@drawable/qr_and_hand" />
 </RelativeLayout>
