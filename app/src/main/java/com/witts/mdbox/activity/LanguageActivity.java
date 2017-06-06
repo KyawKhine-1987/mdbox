@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 
 import com.witts.mdbox.R;
 import com.witts.mdbox.adapter.LanguageAdapter;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.WebServiceResult;
@@ -30,6 +32,16 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
     LanguageAdapter languageAdapter;
     List<WelcomeMessage> welcomeMessageList = new ArrayList<>();
     WelcomeMessage welcomeMessage;
+
+    private String accessToken= Constant.ACCESS_TOKEN;
+    private String languageCode="jp";
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
+    private String key="welcomeMessage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +71,8 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
 
 
 //        final WelcomeService welcomeService = ServiceFactory.getService(WelcomeService.class);
-//        welcomeService.hotelLanguageSettingList().observeOn(AndroidSchedulers.mainThread())
+//        welcomeService.hotelLanguageSettingList(accessToken,languageCode,key,date,time,timezone,channel,clientVersion,versionNo)
+//                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribeOn(Schedulers.io())
 //                .subscribe(new Observer<WebServiceResult<WelcomeMessageWrapper>>() {
 //                    @Override

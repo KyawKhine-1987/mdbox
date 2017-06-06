@@ -43,10 +43,8 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
 
     MenuAdapter menuAdapter;
     private Animation animScale;
-    public static final String TAG = "MenuActivity";
     List<MenuContent> menuContentList = new ArrayList<>();
     MenuContent menuContent;
-
     List<Menu> menuList = new ArrayList<>();
 
     private String accessToken= Constant.ACCESS_TOKEN;
@@ -127,7 +125,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
                 .subscribe(new Observer<WebServiceResult<MenuListWrapper>>() {
                     @Override
                     public void onCompleted() {
-
+                        dismissProgressDialog();
                     }
 
                     @Override
@@ -154,8 +152,6 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
                             rvChooseMenu.setHasFixedSize(true);
                             rvChooseMenu.setAdapter(menuAdapter);
                             menuAdapter.setItemClickListener(MenuActivity.this);
-
-                            dismissProgressDialog();
                             Toast.makeText(getBaseContext(), "Success..", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -165,31 +161,24 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
     @Override
     public void onItemClick(int position, MenuContent data) {
         if(position==0) {
-            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
             goToBedroomDetail();
         }
         if(position==1) {
-            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
             goToEntertainmentDetail();
         }
         if(position==2) {
-            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
             goToFoodDetail();
         }
         if(position==3) {
-            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
             goToBedroomDetail();
         }
         if(position==4) {
-            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
-            goToBedroomDetail();
+            goToRestaurantList();
         }
         if(position==5) {
-            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
             goToContactReception();
         }
         if(position==6) {
-            animScale = AnimationUtils.loadAnimation(this, R.anim.scale_up);
             goToBedroomDetail();
         }
     }
@@ -211,6 +200,11 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
 
     private void goToContactReception() {
         Intent intent = new Intent(MenuActivity.this, ContactReceptionActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToRestaurantList() {
+        Intent intent = new Intent(MenuActivity.this, RestaurantListActivity.class);
         startActivity(intent);
     }
 }

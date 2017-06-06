@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flcontainer"
+    android:layout_width="180dp"
+    android:layout_height="150dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/imgbackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/restaurant_bg_one"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvlabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hotel Bedroom"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffffff"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#50ffffff"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/ivmenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/salad"
+            android:layout_weight="7"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

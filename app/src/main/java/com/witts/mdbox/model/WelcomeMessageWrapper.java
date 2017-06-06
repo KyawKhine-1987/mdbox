@@ -10,39 +10,64 @@ import java.util.List;
  */
 
 public class WelcomeMessageWrapper {
-    public int branchId;
-    public int hotelId;
 
-    @SerializedName("logo_url")
-    @Expose
-    public String logoUrl;
+    @SerializedName("date")
+    public String date;
+
+    @SerializedName("sortingOrder")
+    public String sortingOrder;
+
+    @SerializedName("timezone")
+    public String timezone;
+
+    @SerializedName("time")
+    public String time;
+
+    @SerializedName("key")
+    public String key;
 
     @SerializedName("welcomeMessageList")
     @Expose
     public List<WelcomeMessage> welcomeMessageList;
 
-    public int getBranchId() {
-        return branchId;
+    public String getDate() {
+        return date;
     }
 
-    public void setBranchId(int branchId) {
-        this.branchId = branchId;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public int getHotelId() {
-        return hotelId;
+    public String getSortingOrder() {
+        return sortingOrder;
     }
 
-    public void setHotelId(int hotelId) {
-        this.hotelId = hotelId;
+    public void setSortingOrder(String sortingOrder) {
+        this.sortingOrder = sortingOrder;
     }
 
-    public String getLogoUrl() {
-        return logoUrl;
+    public String getTimezone() {
+        return timezone;
     }
 
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public List<WelcomeMessage> getWelcomeMessageList() {

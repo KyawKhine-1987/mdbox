@@ -21,10 +21,10 @@ import java.util.List;
 public class ReceptionContactQuestionAdapter extends RecyclerView.Adapter<ReceptionContactQuestionAdapter.ViewHolder> {
 
     private Context context;
-    private List<QAObject> QAObjectList;
-    private ItemClickListener<QAObject> itemClickListener;
+    private List<String> QAObjectList;
+    private ItemClickListener<String> itemClickListener;
 
-    public ReceptionContactQuestionAdapter(Context context, List<QAObject> QAObjectList) {
+    public ReceptionContactQuestionAdapter(Context context, List<String> QAObjectList) {
         this.context = context;
         this.QAObjectList = QAObjectList;
     }
@@ -37,9 +37,9 @@ public class ReceptionContactQuestionAdapter extends RecyclerView.Adapter<Recept
 
     @Override
     public void onBindViewHolder(final ReceptionContactQuestionAdapter.ViewHolder holder, final int position) {
-        final QAObject QAObject = QAObjectList.get(position);
+        final String QAObject = QAObjectList.get(position);
 
-        holder.tvquestion1.setText(QAObject.getContactQuestion1());
+        holder.tvquestion1.setText(QAObject);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -25,8 +25,12 @@ import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.QAListWrapper;
 import com.witts.mdbox.model.QAObject;
 import com.witts.mdbox.model.ContactType;
+import com.witts.mdbox.model.Question;
+import com.witts.mdbox.model.QuestionSubCategory;
+import com.witts.mdbox.model.QuestionWrapper;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.QAListService;
+import com.witts.mdbox.service.QuestionService;
 import com.witts.mdbox.service.WelcomeService;
 
 import java.text.SimpleDateFormat;
@@ -43,7 +47,7 @@ import rx.schedulers.Schedulers;
 
 public class ContactReceptionFragment extends BaseFragment {
     private static final String ARG_CONTACTTYPE = "contactType";
-    private String mContactType;
+    private ArrayList<QuestionSubCategory> questionSubCategoryList;
     @BindView(R.id.rvcontact_type)
     RecyclerView rvcontact_type;
     @BindView(R.id.rvcontact_question)
@@ -53,21 +57,14 @@ public class ContactReceptionFragment extends BaseFragment {
     ContactType contactType;
     List<ContactType> contactTypeList = new ArrayList<>();
     QAObject QAObject;
-    List<QAObject> QAObjectList = new ArrayList<>();
-    private String accessToken= Constant.ACCESS_TOKEN;
-    private String languageCode="JP";
-    private String date="";
-    private String time="";
-    private String timezone="UTC";
-    private String channel="WEB";
-    private String clientVersion="1.0";
-    private String versionNo="0001";
+    List<String> QAObjectList = new ArrayList<>();
+    List<Question> questionList = new ArrayList<>();
     public ContactReceptionFragment() {}
 
-    public static ContactReceptionFragment newInstance(String contactType) {
+    public static ContactReceptionFragment newInstance(ArrayList<QuestionSubCategory> questionSubCategoryList) {
         ContactReceptionFragment fragment = new ContactReceptionFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_CONTACTTYPE, contactType);
+        args.putParcelableArrayList(ARG_CONTACTTYPE, questionSubCategoryList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,44 +72,31 @@ public class ContactReceptionFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        questionSubCategoryList = new ArrayList<>();
         if (getArguments() != null) {
-            mContactType = getArguments().getString(ARG_CONTACTTYPE);
+            questionSubCategoryList = getArguments().getParcelableArrayList(ARG_CONTACTTYPE);
         }
 
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
-        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
-        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
-//        int parseTime = Integer.parseInt(realTime.substring(0,2));
-//        time = String.valueOf(parseTime-6);
+        for (int i = 0; i < questionSubCategoryList.size(); i++){
+            if(questionSubCategoryList.get(i).getPublishInd().equals("Y")){
+                int size = questionSubCategoryList.get(i).getSubCategoryAttributes().size();
+                for(int j = 0;j<size;j ++){
+                    if(questionSubCategoryList.get(i).getSubCategoryAttributes().get(j).getLanguageCode().equals(Constant.SELECTED_LANGUAGE))
+                    {
+                        contactType = new ContactType();
+                        contactType.setContractType(questionSubCategoryList.get(i).getSubCategoryAttributes().get(j).getName());
+                        contactTypeList.add(contactType);
+                    }
+                }
+                questionList = questionSubCategoryList.get(i).getQuestionList();
+                for(int j = 0 ;j<questionList.size();j++){
+                    if(questionList.get(j).getQuestionAttributes().size()>0)
+                    if(questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(Constant.SELECTED_LANGUAGE))
+                    QAObjectList.add(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                }
+            }
+        }
 
-        contactType = new ContactType();
-        contactType.setContractType("Water");
-        contactTypeList.add(contactType);
-        contactType = new ContactType();
-        contactType.setContractType("Toilet");
-        contactTypeList.add(contactType);
-        contactType = new ContactType();
-        contactType.setContractType("Bathtub");
-        contactTypeList.add(contactType);
-        contactType = new ContactType();
-        contactType.setContractType("Service");
-        contactTypeList.add(contactType);
-        contactType = new ContactType();
-        contactType.setContractType("Room");
-        contactTypeList.add(contactType);
-        QAObject = new QAObject();
-        QAObject.setContactQuestion1("Problem with water supply");
-        QAObject.setContactQuestion2("Problem with water supply");
-        QAObjectList.add(QAObject);
-        QAObject = new QAObject();
-        QAObject.setContactQuestion1("Problem with water supply");
-        QAObject.setContactQuestion2("Problem with water supply");
-        QAObjectList.add(QAObject);
-        QAObject = new QAObject();
-        QAObject.setContactQuestion1("Problem with water supply");
-        QAObject.setContactQuestion2("Problem with water supply");
-        QAObjectList.add(QAObject);
     }
 
     @Override
@@ -127,44 +111,23 @@ public class ContactReceptionFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        callWebService();
+        contactTypeAdapter = new ReceptionContactTypeAdapter(getContext(), contactTypeList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvcontact_type.setLayoutManager(layoutManager);
+        rvcontact_type.setHasFixedSize(true);
+        rvcontact_type.setAdapter(contactTypeAdapter);
+        rvcontact_type.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
 
-    }
-
-    private void callWebService() {
-        showProgressDialog();
-        final QAListService qaListService = ServiceFactory.getService(QAListService.class);
-        qaListService.qaList(accessToken,languageCode,date,time,timezone,channel,clientVersion,versionNo)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<WebServiceResult<QAListWrapper>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissProgressDialog();
-                        Toast.makeText(getContext(),"Fail..",Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(final WebServiceResult<QAListWrapper> qaListWrapperWebServiceResult) {
-                        dismissProgressDialog();
-                        Toast.makeText(getContext(),"Success..",Toast.LENGTH_SHORT).show();contactTypeAdapter = new ReceptionContactTypeAdapter(getContext(), contactTypeList);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                        rvcontact_type.setLayoutManager(layoutManager);
-                        rvcontact_type.setHasFixedSize(true);
-                        rvcontact_type.setAdapter(contactTypeAdapter);
-                        contactTypeAdapter.setItemClickListener(new ItemClickListener() {
-                            @Override
-                            public void onItemClick(int position, Object data) {
-                                callrvContactQuestionAdapter();}
-                        });
-                        callrvContactQuestionAdapter();
-                    }
-                });
+            }
+        });
+        contactTypeAdapter.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onItemClick(int position, Object data) {
+                callrvContactQuestionAdapter();}
+        });
+        callrvContactQuestionAdapter();
     }
 
     private void callrvContactQuestionAdapter(){

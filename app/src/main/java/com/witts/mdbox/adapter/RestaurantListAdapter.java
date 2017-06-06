@@ -11,63 +11,53 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
-import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.MenuContent;
 
 import java.util.List;
 
 /**
- * Created by wm02 on 4/6/2017.
+ * Created by wm02 on 6/1/2017.
  */
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
+public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAdapter.ViewHolder> {
+
     public static Context context;
     private List<MenuContent> menuContentList;
-    private ItemClickListener<MenuContent> itemClickListener;
     private Animation animScale;
     private int pos = 0;
 
-    public MenuAdapter(Context context,List<MenuContent> menuContentList) {
+    public RestaurantListAdapter(Context context,List<MenuContent> menuContentList) {
         this.context = context;
         this.menuContentList = menuContentList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.menu_item, viewGroup, false);
-        return new ViewHolder(view);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_restaurant_list, viewGroup, false);
+        return new RestaurantListAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder,final int position) {
         final MenuContent menuContent = menuContentList.get(position);
-
         holder.tvlabel.setText(menuContent.getMenuTitle());
-        if(menuContent.getMenuImgUrl() != null && !menuContent.getMenuImgUrl().equals("")) {
-            Glide.with(context).load(menuContent.getMenuImgUrl())
-                    .error(R.drawable.foodanddrink)
-                    .into(holder.ivmenu);
-        }
         normalBackground(position,holder.imgbackground);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.onItemClick(position, menuContent);
-                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
                 animatedBackground(position,holder.imgbackground);
                 holder.flcontainer.startAnimation(animScale);
-
             }
         });
+
         holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+                    animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
                     animatedBackground(position,holder.imgbackground);
                     holder.flcontainer.startAnimation(animScale);
                 } else
@@ -89,7 +79,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         return menuContentList.size();
     }
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imgbackground;
         public ImageView ivmenu;
@@ -104,27 +93,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             flcontainer = (FrameLayout) itemView.findViewById(R.id.flcontainer);
         }
     }
-    public void setItemClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
 
     public void normalBackground(int position,View v){
         ImageView imgView = (ImageView)v;
         pos = position%6;
         switch (pos){
-            case 0:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgone));
+            case 0:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_bg_one));
                 break;
-            case 1:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgtwo));
+            case 1:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_bg_two));
                 break;
-            case 2:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgthree));
+            case 2:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_bg_three));
                 break;
-            case 3:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgfour));
+            case 3:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_bg_four));
                 break;
-            case 4:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgfive));
+            case 4:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_bg_five));
                 break;
-            case 5:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgsix));
+            case 5:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_bg_six));
                 break;
-            default:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.bgone));
+            default:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_bg_one));
                 break;
 
         }
@@ -134,27 +120,27 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         ImageView imgView = (ImageView)v;
         pos = position%6;
         switch (pos) {
-            case 0:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_one));
+            case 0:imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_animated_bgone));
                 break;
             case 1:
-                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_two));
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_animated_bgtwo));
                 break;
             case 2:
-                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_three));
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_animated_bgthree));
                 break;
             case 3:
-                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_four));
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_animated_bgfour));
                 break;
             case 4:
-                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_five));
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_animated_bgfive));
                 break;
             case 5:
-                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_six));
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_animated_bgsix));
                 break;
             default:
-                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.menu_background_one));
+                imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_animated_bgone));
                 break;
         }
     }
 
-    }
+}

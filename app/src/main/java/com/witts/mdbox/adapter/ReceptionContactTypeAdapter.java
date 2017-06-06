@@ -27,7 +27,7 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
     private ItemClickListener<ContactType> itemClickListener;
     private int focusedItem = 0;
     private int selected_item = 0;
-
+    private int previous_selected_item = 0;
     public ReceptionContactTypeAdapter(Context context, List<ContactType> contactTypeList) {
         this.context = context;
         this.contactTypeList = contactTypeList;
@@ -57,10 +57,14 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
                 notifyItemChanged(focusedItem);
 //                if(holder.itemView.isSelected())
 //                {
+//                if(previous_selected_item != selected_item) {
+//                    contactTypeList.get(position).setTextColor(context.getResources().getColor(R.color.black));
+//                }
 //                    holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.white));
+                // previous_selected_item = position;
 //                }
 //                else {
-                    holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.black));
+                    //holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.black));
 //                }
             }
         });
@@ -71,13 +75,22 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
                 if(hasFocus){
                   holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.white));
                 }
-                else if(selected_item == position)
+                else
+                if(selected_item == position)
                 {
                     holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.white));
                 }
                 else {
                   holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.black));
                 }
+            }
+        });
+
+        holder.tvcontact_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
             }
         });
     }

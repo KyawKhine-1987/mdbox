@@ -31,6 +31,7 @@ public class EntertainmentActivity extends BasedActivity {
 
     EntertainmentType entertainmentType;
     List<EntertainmentType> entertainmentTypeList = new ArrayList<>();
+    List<String> imageUrlList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

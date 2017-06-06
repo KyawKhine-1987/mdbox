@@ -26,7 +26,7 @@ public class Menu {
     @SerializedName("publishInd")
     public String publishInd;
 
-    @SerializedName("menuAttributes ")
+    @SerializedName("menuAttributes")
     @Expose
     public List<MenuAttribute> menuAttributes;
 

@@ -9,14 +9,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.witts.mdbox.R;
+import com.witts.mdbox.common.Constant;
+import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.fragments.ContactReceptionFragment;
+import com.witts.mdbox.model.CategoryAttributes;
+import com.witts.mdbox.model.QuestionCategory;
+import com.witts.mdbox.model.QuestionWrapper;
+import com.witts.mdbox.model.WebServiceResult;
+import com.witts.mdbox.service.QuestionService;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class ContactReceptionActivity extends AppCompatActivity {
+public class ContactReceptionActivity extends BasedActivity {
 
     @BindView(R.id.tlreceptioncontacttype)
     TabLayout tlreceptioncontacttype;
@@ -24,29 +40,35 @@ public class ContactReceptionActivity extends AppCompatActivity {
     ViewPager vprecptioncontacttype;
     @BindView(R.id.ivback)
     ImageView ivback;
+
+    private String accessToken= "3a44e50e-ccfc-4b4c-a993-22e3f1bc684a";
+    private String languageCode="jp";
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
+
+    List<QuestionCategory> questionCategoryList;
+    public String[] categoryTabTitle ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_reception);
         ButterKnife.bind(this);
+
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        vprecptioncontacttype.setAdapter(pagerAdapter);
-        vprecptioncontacttype.clearOnPageChangeListeners();
-        vprecptioncontacttype.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlreceptioncontacttype));
-        tlreceptioncontacttype.setTabsFromPagerAdapter(pagerAdapter);
-        tlreceptioncontacttype.post(new Runnable() {
-            @Override
-            public void run() {
-                tlreceptioncontacttype.setupWithViewPager(vprecptioncontacttype);
-            }
-        });
-
+        callWebService();
 
         ivback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +90,60 @@ public class ContactReceptionActivity extends AppCompatActivity {
         });
     }
 
+    private void callWebService() {
+        showProgressDialog();
+        final QuestionService questionListService = ServiceFactory.getService(QuestionService.class);
+        questionListService.questions(accessToken,languageCode,date,time,timezone,channel,clientVersion,versionNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<WebServiceResult<QuestionWrapper>>() {
+                    @Override
+                    public void onCompleted() {
+                        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+                        vprecptioncontacttype.setAdapter(pagerAdapter);
+                        vprecptioncontacttype.clearOnPageChangeListeners();
+                        vprecptioncontacttype.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlreceptioncontacttype));
+                        tlreceptioncontacttype.setTabsFromPagerAdapter(pagerAdapter);
+                        tlreceptioncontacttype.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tlreceptioncontacttype.setupWithViewPager(vprecptioncontacttype);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                        Toast.makeText(getApplicationContext(),"Fail..",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(final WebServiceResult<QuestionWrapper> qaListWrapperWebServiceResult) {
+                        dismissProgressDialog();
+                        Toast.makeText(getApplicationContext(),"Success..",Toast.LENGTH_SHORT).show();
+                        questionCategoryList = new ArrayList<QuestionCategory>();
+                        questionCategoryList = qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList();
+                        int size = qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList().size();
+                        categoryTabTitle = new String[size];
+                        for (int i = 0;i < size ; i ++)
+                        {
+                            if(qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList().get(i).getPublishInd().equals("N")) { //here to change
+                                List<CategoryAttributes> categoryAttributesList = new ArrayList<CategoryAttributes>();
+                                categoryAttributesList = qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList().get(i).getCategoryAttributes();
+                                for (int j = 0; j < categoryAttributesList.size(); j++)
+                                {
+                                    if(categoryAttributesList.get(j).getLanguageCode().equals(Constant.SELECTED_LANGUAGE))
+                                        categoryTabTitle[i] = categoryAttributesList.get(j).getName();
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
     public class PagerAdapter extends FragmentPagerAdapter {
-        final int PAGE_COUNT = 3;
+        final int PAGE_COUNT = categoryTabTitle.length;
         private String tabTitles[] = new String[] { "Room Service", "Hotel Restaurant", "Other Service"};
         public PagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -78,17 +152,23 @@ public class ContactReceptionActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             ContactReceptionFragment fragment;
-            switch (position) {
-                case 0:
-                    fragment = ContactReceptionFragment.newInstance("Room Service");
+            for (int i = 0; i < categoryTabTitle.length; i++){
+                if( i == position){
+                    fragment = ContactReceptionFragment.newInstance(questionCategoryList.get(i).getQuestionSubCategoryList());
                     return fragment;
-                case 1:
-                    fragment = ContactReceptionFragment.newInstance("Hotel Restaurant");
-                    return fragment;
-                case 2:
-                    fragment = ContactReceptionFragment.newInstance("Other Service");
-                    return fragment;
+                }
             }
+//            switch (position) {
+//                case 0:
+//                    fragment = ContactReceptionFragment.newInstance("Room Service");
+//                    return fragment;
+//                case 1:
+//                    fragment = ContactReceptionFragment.newInstance("Hotel Restaurant");
+//                    return fragment;
+//                case 2:
+//                    fragment = ContactReceptionFragment.newInstance("Other Service");
+//                    return fragment;
+//            }
             return null;
         }
 
@@ -99,7 +179,7 @@ public class ContactReceptionActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
+            return categoryTabTitle[position];
         }
     }
 }
