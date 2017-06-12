@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/receptionbackground"
-    android:padding="10dp">
+    android:background="@drawable/roomdetailbackground">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -19,28 +18,22 @@
             android:layout_weight="6"
             android:layout_marginRight="30dp">
             <android.support.design.widget.TabLayout
-                android:id="@+id/tlreceptioncontacttype"
+                android:id="@+id/tlplaceCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="fill"
                 app:tabMaxWidth="0dp"
                 app:tabMode="scrollable"
-                app:tabBackground="@drawable/tab_contact_type"
+                app:tabBackground="@drawable/tab_color_selector_place"
                 app:tabTextColor="@color/secondary_text_default_material_dark"
                 app:tabSelectedTextColor="@android:color/white"
-                app:tabIndicatorColor="#c6e063"
+                app:tabIndicatorColor="#ffc63d"
                 android:elevation="20dp"
-                app:tabIndicatorHeight="0dp"
-                android:fillViewport="false"
-                app:tabPaddingStart="15dp"
-                app:tabPaddingEnd="15dp"/>
+                app:tabIndicatorHeight="0dp"/>
         </FrameLayout>
-
-
         <RelativeLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content">
-
             <ImageView
                 android:id="@+id/ivback"
                 android:layout_width="wrap_content"
@@ -48,15 +41,17 @@
                 android:src="@drawable/backarrow"
                 android:layout_marginLeft="240dp"
                 android:focusable="true"/>
-        </RelativeLayout>
 
+        </RelativeLayout>
     </LinearLayout>
     <android.support.v4.view.ViewPager
-        android:id="@+id/vprecptioncontacttype"
+        android:id="@+id/vpplaceDetail"
         android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"/>
 
 </FrameLayout>
+
 

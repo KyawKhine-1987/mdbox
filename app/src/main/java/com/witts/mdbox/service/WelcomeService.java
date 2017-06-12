@@ -16,8 +16,8 @@ import rx.Observable;
 
 public interface WelcomeService {
     @POST(ApiConfig.MESSAGE_URL)
-    public Observable<WebServiceResult<WelcomeMessageWrapper>> hotelLanguageSettingList(@Query("accessToken") String accessToken, @Query("key") String key,
-                                                                                        @Query("languageCode") String languageCode, @Query("date") String date, @Query("time") String time,
+    public Observable<WebServiceResult<WelcomeMessageWrapper>> hotelLanguageSettingList(@Query("accessToken") String accessToken, @Query("keys") String key,
+                                                                                        @Query("date") String date, @Query("time") String time,
                                                                                         @Query("timezone") String timezone, @Query("channel") String channel,
                                                                                         @Query("clientVersion") String clientVersion, @Query("versionNo") String versionNo);
 }

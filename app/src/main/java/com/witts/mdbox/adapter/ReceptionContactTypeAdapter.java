@@ -1,12 +1,14 @@
 package com.witts.mdbox.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -26,7 +28,7 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
     private List<ContactType> contactTypeList;
     private ItemClickListener<ContactType> itemClickListener;
     private int focusedItem = 0;
-    private int selected_item = 0;
+    private static int selected_item = -1;
     private int previous_selected_item = 0;
     public ReceptionContactTypeAdapter(Context context, List<ContactType> contactTypeList) {
         this.context = context;
@@ -50,11 +52,14 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, contactType);
+                if(selected_item == -1)
                 selected_item = position;
+                notifyItemChanged(selected_item);
                 holder.itemView.setSelected(true);
-                notifyItemChanged(focusedItem);
                 focusedItem = holder.getLayoutPosition();
-                notifyItemChanged(focusedItem);
+                selected_item = focusedItem;
+                holder.llcontainer.setBackground(context.getResources().getDrawable(R.drawable.contact_background_on));
+                notifyItemChanged(selected_item);
 //                if(holder.itemView.isSelected())
 //                {
 //                if(previous_selected_item != selected_item) {
@@ -73,15 +78,13 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus){
-                  holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.white));
+                  holder.llcontainer.setBackground(context.getResources().getDrawable(R.drawable.contact_background_on));
                 }
-                else
-                if(selected_item == position)
-                {
-                    holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.white));
+                else if(selected_item == position){
+                    holder.llcontainer.setBackground(context.getResources().getDrawable(R.drawable.contact_background_on));
                 }
                 else {
-                  holder.tvcontact_type.setTextColor(context.getResources().getColor(R.color.black));
+                    holder.llcontainer.setBackground(context.getResources().getDrawable(R.drawable.contact_background_unselect));
                 }
             }
         });
@@ -145,6 +148,7 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout llcontainer;
         public TextView tvcontact_type;
         public ImageView ivcontact_image;
 
@@ -152,6 +156,7 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
             super(itemView);
             tvcontact_type = (TextView) itemView.findViewById(R.id.tvcontact_type);
             ivcontact_image = (ImageView) itemView.findViewById(R.id.ivcontact_image);
+            llcontainer = (LinearLayout) itemView.findViewById(R.id.llcontainer);
         }
     }
 

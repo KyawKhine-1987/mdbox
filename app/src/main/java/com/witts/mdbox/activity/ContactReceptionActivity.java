@@ -41,8 +41,8 @@ public class ContactReceptionActivity extends BasedActivity {
     @BindView(R.id.ivback)
     ImageView ivback;
 
-    private String accessToken= "3a44e50e-ccfc-4b4c-a993-22e3f1bc684a";
-    private String languageCode="jp";
+    private String accessToken= Constant.ACCESS_TOKEN;
+    private String languageCode=LanguageActivity.languageCode;
     private String date="";
     private String time="";
     private String timezone="UTC";
@@ -51,7 +51,7 @@ public class ContactReceptionActivity extends BasedActivity {
     private String versionNo="0001";
 
     List<QuestionCategory> questionCategoryList;
-    public String[] categoryTabTitle ;
+    public List<String> categoryTabTitle ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,16 +125,16 @@ public class ContactReceptionActivity extends BasedActivity {
                         questionCategoryList = new ArrayList<QuestionCategory>();
                         questionCategoryList = qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList();
                         int size = qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList().size();
-                        categoryTabTitle = new String[size];
+                        categoryTabTitle = new ArrayList<String>();
                         for (int i = 0;i < size ; i ++)
                         {
-                            if(qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList().get(i).getPublishInd().equals("N")) { //here to change
+                            if(qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList().get(i).getPublishInd().equals("Y")) { //here to change
                                 List<CategoryAttributes> categoryAttributesList = new ArrayList<CategoryAttributes>();
                                 categoryAttributesList = qaListWrapperWebServiceResult.getResponse().getQuestionCategoryList().get(i).getCategoryAttributes();
                                 for (int j = 0; j < categoryAttributesList.size(); j++)
                                 {
-                                    if(categoryAttributesList.get(j).getLanguageCode().equals(Constant.SELECTED_LANGUAGE))
-                                        categoryTabTitle[i] = categoryAttributesList.get(j).getName();
+                                    if(categoryAttributesList.get(j).getLanguageCode().equals(LanguageActivity.languageCode))
+                                        categoryTabTitle.add(categoryAttributesList.get(j).getName());
                                 }
                             }
                         }
@@ -143,7 +143,7 @@ public class ContactReceptionActivity extends BasedActivity {
     }
 
     public class PagerAdapter extends FragmentPagerAdapter {
-        final int PAGE_COUNT = categoryTabTitle.length;
+        final int PAGE_COUNT = categoryTabTitle.size();
         private String tabTitles[] = new String[] { "Room Service", "Hotel Restaurant", "Other Service"};
         public PagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -152,7 +152,7 @@ public class ContactReceptionActivity extends BasedActivity {
         @Override
         public Fragment getItem(int position) {
             ContactReceptionFragment fragment;
-            for (int i = 0; i < categoryTabTitle.length; i++){
+            for (int i = 0; i < categoryTabTitle.size(); i++){
                 if( i == position){
                     fragment = ContactReceptionFragment.newInstance(questionCategoryList.get(i).getQuestionSubCategoryList());
                     return fragment;
@@ -179,7 +179,7 @@ public class ContactReceptionActivity extends BasedActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return categoryTabTitle[position];
+            return categoryTabTitle.get(position);
         }
     }
 }

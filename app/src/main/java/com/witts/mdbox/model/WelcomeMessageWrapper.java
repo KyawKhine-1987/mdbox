@@ -23,12 +23,29 @@ public class WelcomeMessageWrapper {
     @SerializedName("time")
     public String time;
 
-    @SerializedName("key")
-    public String key;
-
-    @SerializedName("welcomeMessageList")
+    @SerializedName("languageList")
     @Expose
-    public List<WelcomeMessage> welcomeMessageList;
+    public List<Language> languageList;
+
+    public List<Language> getLanguageList() {
+        return languageList;
+    }
+
+    public void setLanguageList(List<Language> languageList) {
+        this.languageList = languageList;
+    }
+
+    public List<Key> getKeyList() {
+        return keyList;
+    }
+
+    public void setKeyList(List<Key> keyList) {
+        this.keyList = keyList;
+    }
+
+    @SerializedName("keyList")
+    @Expose
+    public List<Key> keyList;
 
     public String getDate() {
         return date;
@@ -62,19 +79,4 @@ public class WelcomeMessageWrapper {
         this.time = time;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public List<WelcomeMessage> getWelcomeMessageList() {
-        return welcomeMessageList;
-    }
-
-    public void setWelcomeMessageList(List<WelcomeMessage> welcomeMessageList) {
-        this.welcomeMessageList = welcomeMessageList;
-    }
 }

@@ -48,7 +48,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
     List<Menu> menuList = new ArrayList<>();
 
     private String accessToken= Constant.ACCESS_TOKEN;
-    private String languageCode="jp";
+    private String languageCode=LanguageActivity.languageCode;
     private String date="";
     private String time="";
     private String timezone="UTC";
@@ -170,7 +170,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
             goToFoodDetail();
         }
         if(position==3) {
-            goToBedroomDetail();
+            goToPlaceDetail();
         }
         if(position==4) {
             goToRestaurantList();
@@ -205,6 +205,11 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
 
     private void goToRestaurantList() {
         Intent intent = new Intent(MenuActivity.this, RestaurantListActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToPlaceDetail(){
+        Intent intent = new Intent(MenuActivity.this, PlaceGuideActivity.class);
         startActivity(intent);
     }
 }

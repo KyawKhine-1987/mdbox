@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.witts.mdbox.R;
 import com.witts.mdbox.activity.BasedActivity;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.adapter.ReceptionContactQuestionAdapter;
 import com.witts.mdbox.adapter.ReceptionContactTypeAdapter;
 import com.witts.mdbox.common.Constant;
@@ -76,12 +77,15 @@ public class ContactReceptionFragment extends BaseFragment {
         if (getArguments() != null) {
             questionSubCategoryList = getArguments().getParcelableArrayList(ARG_CONTACTTYPE);
         }
+        bindquestiondata();
+        }
 
+    private void bindquestiondata() {
         for (int i = 0; i < questionSubCategoryList.size(); i++){
             if(questionSubCategoryList.get(i).getPublishInd().equals("Y")){
                 int size = questionSubCategoryList.get(i).getSubCategoryAttributes().size();
                 for(int j = 0;j<size;j ++){
-                    if(questionSubCategoryList.get(i).getSubCategoryAttributes().get(j).getLanguageCode().equals(Constant.SELECTED_LANGUAGE))
+                    if(questionSubCategoryList.get(i).getSubCategoryAttributes().get(j).getLanguageCode().equals(LanguageActivity.languageCode))
                     {
                         contactType = new ContactType();
                         contactType.setContractType(questionSubCategoryList.get(i).getSubCategoryAttributes().get(j).getName());
@@ -89,14 +93,19 @@ public class ContactReceptionFragment extends BaseFragment {
                     }
                 }
                 questionList = questionSubCategoryList.get(i).getQuestionList();
-                for(int j = 0 ;j<questionList.size();j++){
-                    if(questionList.get(j).getQuestionAttributes().size()>0)
-                    if(questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(Constant.SELECTED_LANGUAGE))
-                    QAObjectList.add(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                QAObjectList = new ArrayList<>();
+                if(questionList!=null) {
+                    for (int j = 0; j < questionList.size(); j++) {
+                        if (questionList.get(j).getQuestionAttributes().size() > 0)
+                            if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode))
+                                QAObjectList.add(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                    }
                 }
+//                else
+//                     QAObjectList.add("Nothing to show");
+//
             }
         }
-
     }
 
     @Override
@@ -125,54 +134,72 @@ public class ContactReceptionFragment extends BaseFragment {
         contactTypeAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(int position, Object data) {
+                questionList = questionSubCategoryList.get(position).getQuestionList();
+                QAObjectList = new ArrayList<>();
+                if(questionList!=null) {
+                    for (int j = 0; j < questionList.size(); j++) {
+                        if (questionList.get(j).getQuestionAttributes().size() > 0)
+                            if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode))
+                                QAObjectList.add(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                    }
+                }
                 callrvContactQuestionAdapter();}
         });
+        questionList = questionSubCategoryList.get(0).getQuestionList();
+        QAObjectList = new ArrayList<>();
+        if(questionList!=null) {
+            for (int j = 0; j < questionList.size(); j++) {
+                if (questionList.get(j).getQuestionAttributes().size() > 0)
+                    if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode))
+                        QAObjectList.add(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+            }
+        }
         callrvContactQuestionAdapter();
     }
 
-    private void callrvContactQuestionAdapter(){
-        contactQuestionAdapter = new ReceptionContactQuestionAdapter(getContext(), QAObjectList);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
-        rvcontact_question.setLayoutManager(gridLayoutManager);
-        rvcontact_question.setHasFixedSize(true);
-        rvcontact_question.setAdapter(contactQuestionAdapter);
-        contactQuestionAdapter.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemClick(int position, Object data) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.CustomDialog);
-                builder.setCancelable(false)
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                try{
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button positiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    Button negativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-                    if(positiveButton != null) {
-                        positiveButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.alertdialog_background));
+    private void callrvContactQuestionAdapter() {
+            contactQuestionAdapter = new ReceptionContactQuestionAdapter(getContext(), QAObjectList);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+            rvcontact_question.setLayoutManager(gridLayoutManager);
+            rvcontact_question.setHasFixedSize(true);
+            rvcontact_question.setAdapter(contactQuestionAdapter);
+            contactQuestionAdapter.setItemClickListener(new ItemClickListener() {
+                @Override
+                public void onItemClick(int position, Object data) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
+                    builder.setCancelable(false)
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    try {
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        Button positiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                        Button negativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+                        if (positiveButton != null) {
+                            positiveButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.alertdialog_background));
+                        }
+                        if (negativeButton != null) {
+                            negativeButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.alertdialog_background));
+                        }
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        );
+                        params.setMargins(20, 0, 20, 0);
+                        negativeButton.setLayoutParams(params);
+                        positiveButton.setLayoutParams(params);
+                    } catch (Exception e) {
+                        System.out.println("display dialog error");
                     }
-                    if(negativeButton != null) {
-                        negativeButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.alertdialog_background));
-                    }
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                    );
-                    params.setMargins(20,0,20,0);
-                    negativeButton.setLayoutParams(params);
-                    positiveButton.setLayoutParams(params);
-                }catch (Exception e) {
-                    System.out.println("display dialog error");
                 }
-            }
-        });
+            });
     }
 }
