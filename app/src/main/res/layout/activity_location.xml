@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/roomdetailbackground"
+    tools:context="com.witts.mdbox.activity.LocationActivity">
+
+    <!--This is LinearLayoutArea1 and it position has left side. It's Binding relevant data from API-1 which is included TabLayout and ViewPager.-->
+    <LinearLayout
+        android:id="@+id/llArea1"
+        android:layout_width="@dimen/llArea1_width"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--android:layout_marginRight="20dp"-->
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tlLocationCategoryList"
+            android:layout_width="@dimen/tlLocationCategoryList_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tlLocationCategoryList_marginLeftandRight"
+            android:layout_marginRight="@dimen/tlLocationCategoryList_marginLeftandRight"
+            android:layout_marginTop="@dimen/tlLocationCategoryList_marginTop"
+            android:elevation="@dimen/tlLocationCategoryList_elevation"
+            android:fillViewport="false"
+            app:tabBackground="@drawable/tab_color_selector_location"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/tlLocationCategoryListColor_On"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="@dimen/tabPaddingStartandEnd"
+            app:tabPaddingStart="@dimen/tabPaddingStartandEnd"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/secondary_text_default_material_dark"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vpLocationCategoryList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/flIVBack"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fl_height"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/fl_marginLeft"
+        android:layout_marginRight="@dimen/fl_marginRight"
+        android:layout_marginTop="@dimen/fl_marginTop">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:src="@drawable/backarrow"/>
+    </FrameLayout>
+
+</RelativeLayout>
