@@ -33,14 +33,7 @@ public class WebserviceInterceptor implements Interceptor {
         Request request = chain.request();
         HttpUrl url = request.url();
         WebserviceRequestBody newBody = new WebserviceRequestBody(request.body());
-
-        if(MDBApplication.accessToken != null){
-            request = request.newBuilder()
-                    .addHeader("Authorization", "Bearer " + MDBApplication.accessToken)
-                    .build();
-        }
-
-        if(request.method().equalsIgnoreCase("GET") || request.body() instanceof MultipartBody){
+        if(request.method().equalsIgnoreCase("GET")){
             HttpUrl.Builder builder = url.newBuilder();
             Map<String,String> params = WebserviceUtil.getBasicRequestParams();
             for(Map.Entry<String, String> entry : params.entrySet()) {
@@ -49,13 +42,12 @@ public class WebserviceInterceptor implements Interceptor {
             url = builder.build();
         }
         else {
+
             //adding basic params including token
             newBody.addParameters(WebserviceUtil.getBasicRequestParams());
         }
-
         Request.Builder builder = request.newBuilder().url(url);
         if(request.method().equalsIgnoreCase("POST")){
-            builder.header("Content-Type", "application/json");
             builder.post(newBody);
         }
         Request newRequest = builder.build();
@@ -66,26 +58,13 @@ public class WebserviceInterceptor implements Interceptor {
         Buffer buffer = source.buffer();
         String content = buffer.clone().readString(Charset.forName("UTF-8"));
         Log.i("body", content);
-
-        //validating json
-        try{
-            JSONObject obj = new JSONObject(content);
-            if(response.code() != 200){
-                String desc = obj.getString("error_description");
-                String error = obj.getString("error");
-
-                WebserviceException exception = new WebserviceException(desc);
-                exception.setErrorMessage(desc);
-                exception.setError(error);
-                exception.setCode(response.code());
-                throw exception;
+        if(newRequest.url().toString().endsWith("/login") && response.code() == 200){
+            String token = WebserviceUtil.extractToken(content);
+            if(token != null){
+                MDBApplication.saveToken(token);
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            throw new IOException("Invalid Response");
-        } catch (WebserviceException e){
-            throw e;
         }
+
         return response;
     }
 }

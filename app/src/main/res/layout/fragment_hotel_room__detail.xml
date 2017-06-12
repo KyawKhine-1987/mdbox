@@ -27,7 +27,7 @@
             app:tabGravity="fill"
             app:tabMaxWidth="0dp"
             app:tabMode="scrollable"
-            app:tabBackground="@drawable/tab_color_selector"
+            app:tabBackground="@drawable/tab_color_selector_room"
             app:tabTextColor="@color/secondary_text_default_material_dark"
             app:tabSelectedTextColor="@android:color/white"
             app:tabIndicatorColor="#c6e063"

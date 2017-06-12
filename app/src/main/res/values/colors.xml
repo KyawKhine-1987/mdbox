@@ -10,4 +10,6 @@
     <color name="darkblue">#060440</color>
     <color name="backgroundstoke">#f2e838</color>
     <color name="mainmenuTextColor">#3d2e58</color>
+    <color name="contactBackground">#f6544d</color>
+    <color name="dialogbuttonbackground">#edebea</color>
 </resources>

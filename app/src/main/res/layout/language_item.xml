@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_marginBottom="10dp"
+    android:clickable="true"
+    android:focusable="true">
+    <LinearLayout
+        android:id="@+id/llcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/appcompact_mainactivity_background"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="3"
+        android:layout_marginLeft="250dp"
+        android:layout_marginRight="250dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5">
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="50dp"
+                android:text="Welcome To Sakura Hotel"
+                android:gravity="center"
+                android:textColor="@color/mainmenuTextColor"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/ivFlag"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/flag_of_united_states"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:padding="3dp"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tvLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="English"
+                android:paddingRight="10dp"
+                android:textColor="@color/mainmenuTextColor"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/imgback"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/chevron_right"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

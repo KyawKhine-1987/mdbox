@@ -2,7 +2,7 @@
     <item android:drawable="@drawable/bgsix" />
     <item>
         <shape>
-            <stroke android:width="2dip" android:color="#f2e838" />
+            <stroke android:width="1dip" android:color="#f2e838" />
             <corners android:radius="2dip"/>
         </shape>
     </item>

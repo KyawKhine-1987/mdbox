@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llcontainer"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="vertical"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/contact_background"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true">
+    <TextView
+        android:id="@+id/tvquestion1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Problem with water supply."
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"/>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#403c3c"/>-->
+    <!--<TextView-->
+        <!--android:id="@+id/tvquestion2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Problem with water supply."-->
+        <!--android:textSize="15sp"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginTop="3dp"/>-->
+</LinearLayout>

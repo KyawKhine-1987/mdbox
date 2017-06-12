@@ -1,0 +1,10 @@
+<layer-list  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/restaurant_bg_five" />
+    <item>
+        <shape>
+            <stroke android:width="1dip" android:color="#f2e838" />
+            <corners android:radius="1dip"/>
+        </shape>
+    </item>
+
+</layer-list>
