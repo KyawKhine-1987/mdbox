@@ -32,4 +32,6 @@ public class ApiConfig {
     public static final String SEND_QUESTION_URL ="json/device/send-question";
 
     public static final String ROOM_TYPE_LIST_URL = "json/room/room-type-list";
+
+    public static final String ENTERTAINMENT_LIST_URL = "json/entertainment/entertainment-list";
 }

@@ -10,14 +10,23 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.witts.mdbox.R;
+import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.fragments.EntertainmentTypeFragment;
+import com.witts.mdbox.model.EntertainmentListWrapper;
 import com.witts.mdbox.model.EntertainmentType;
+import com.witts.mdbox.model.WebServiceResult;
+import com.witts.mdbox.service.EntertainmentService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class EntertainmentActivity extends BasedActivity {
     @BindView(R.id.tlentertainmentDetail)
@@ -32,9 +41,24 @@ public class EntertainmentActivity extends BasedActivity {
     EntertainmentType entertainmentType;
     List<EntertainmentType> entertainmentTypeList = new ArrayList<>();
     List<String> imageUrlList = new ArrayList<>();
+
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String languageCode=LanguageActivity.languageCode;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
         entertainmentType = new EntertainmentType();
         entertainmentType.setEntertainmentType("Swimming pool");
@@ -62,6 +86,8 @@ public class EntertainmentActivity extends BasedActivity {
         super.onResume();
         setContentView(R.layout.activity_entertainment);
         ButterKnife.bind(this);
+
+        callWebService();
 
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         vpentertainmentDetail.setAdapter(pagerAdapter);
@@ -94,6 +120,34 @@ public class EntertainmentActivity extends BasedActivity {
                 }
             }
         });
+    }
+
+    private void callWebService() {
+        showProgressDialog();
+        final EntertainmentService entertainmentService = ServiceFactory.getService(EntertainmentService.class);
+        entertainmentService.roomTypeList(accessToken,languageCode,date,time,timezone,channel,clientVersion,versionNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<WebServiceResult<EntertainmentListWrapper>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                        showAlert(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(final WebServiceResult<EntertainmentListWrapper> entertainmentListWrapperWebServiceResult) {
+                        if (entertainmentListWrapperWebServiceResult != null) {
+                        }
+
+                        dismissProgressDialog();
+                    }
+                });
     }
 
     public class PagerAdapter extends FragmentPagerAdapter {
