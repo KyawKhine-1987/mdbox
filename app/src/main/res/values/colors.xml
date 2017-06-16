@@ -12,4 +12,14 @@
     <color name="mainmenuTextColor">#3d2e58</color>
     <color name="contactBackground">#f6544d</color>
     <color name="dialogbuttonbackground">#edebea</color>
+
+    <!--activity_location.xml-->
+    <color name="tlLocationCategoryListColor_On">#ffc92b</color>
+    <color name="tlLocationCategoryListColor_Off">#886f31</color>
+
+    <!--LocationFragment.java-->
+    <color name="grey">#90A4AE</color>
+
+    <!--fragmentLocation.xml-->
+    <color name="skyBlue">#a3ccff</color>
 </resources>

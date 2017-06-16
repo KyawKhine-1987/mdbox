@@ -16,4 +16,10 @@ public class ApiConfig {
     public static final String QUESTION_URL = "json/device/questions";
 
     public static final String MESSAGE_URL = "json/device/messages";
+
+    /*This url used to LocationCategoryList.*/
+    public static final String LOCATION_CATEGORY_LIST_URL = "json/device/location-categorylist";
+
+    /*This url used to LocationList.*/
+    public static final String LOCATION_LIST_URL = "json/device/locationlist";
 }
