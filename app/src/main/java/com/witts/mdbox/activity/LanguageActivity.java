@@ -1,9 +1,12 @@
 package com.witts.mdbox.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.witts.mdbox.R;
@@ -13,10 +16,12 @@ import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.Key;
 import com.witts.mdbox.model.Language;
+import com.witts.mdbox.model.LoginMACAddressWrapper;
 import com.witts.mdbox.model.Message;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.model.WelcomeMessage;
 import com.witts.mdbox.model.WelcomeMessageWrapper;
+import com.witts.mdbox.service.LoginService;
 import com.witts.mdbox.service.WelcomeService;
 
 import java.text.SimpleDateFormat;
@@ -49,6 +54,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
     Key key;
 
     public static String languageCode ;
+    public static String ACCESSTOKEN ;
 
     private String accessToken= Constant.ACCESS_TOKEN;
     private String date="";
@@ -58,20 +64,30 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
     private String clientVersion="1.0";
     private String versionNo="0001";
     private String keys="welcomeMessage,";
+    private String versionNoMAC="0002";
     List<String> mykeyList;
     LinearLayoutManager layoutManager;
+    String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_language);
         ButterKnife.bind(this);
+        showProgressDialog();
+        WifiManager wimanager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        address = wimanager.getConnectionInfo().getMacAddress();
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
+
+        if(!address.equals("")){
+            callWebserviceForMAC(address);
+        }
+        layoutManager = new LinearLayoutManager(this);
+        mykeyList = new ArrayList<String>(Arrays.asList(keys.split(",")));
 
 //        welcomeMessage = new WelcomeMessage();
 //        welcomeMessage.setDisplayLanguageName("English");
@@ -82,12 +98,37 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
 //        welcomeMessageList.add(welcomeMessage);
     }
 
+    private void callWebserviceForMAC(String address) {
+        final LoginService loginService = ServiceFactory.getService(LoginService.class);
+        loginService.getAccessToken(address,date,time,timezone,channel,clientVersion,versionNoMAC)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<WebServiceResult<LoginMACAddressWrapper>>() {
+                    @Override
+                    public void onCompleted() {
+                        callWebservice();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+
+                        showAlert(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(final WebServiceResult<LoginMACAddressWrapper> loginMACAddressWrapperWebServiceResult) {
+
+                        if (loginMACAddressWrapperWebServiceResult != null) {
+                            ACCESSTOKEN = loginMACAddressWrapperWebServiceResult.getResponse().getAccessToken();
+                        }
+                    }
+                });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        layoutManager = new LinearLayoutManager(this);
-        callWebservice();
-        mykeyList = new ArrayList<String>(Arrays.asList(keys.split(",")));
 //        languageAdapter = new LanguageAdapter(getApplicationContext(), welcomeMessageList);
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 //        rvChooseLanguage.setLayoutManager(layoutManager);

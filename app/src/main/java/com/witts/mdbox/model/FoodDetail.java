@@ -5,67 +5,32 @@ package com.witts.mdbox.model;
  */
 
 public class FoodDetail {
-    public String foodName;
-    public String japaneseName;
-    public String foodPrice;
-    public String foodMaterial;
-    public String otherInfo;
-    public String foodImageSmallUrl;
-    public String foodImageLargeUrl;
+    public String displayName;
+    public String value;
+    public String unit;
 
-    public String getFoodImageSmallUrl() {
-        return foodImageSmallUrl;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setFoodImageSmallUrl(String foodImageSmallUrl) {
-        this.foodImageSmallUrl = foodImageSmallUrl;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getFoodImageLargeUrl() {
-        return foodImageLargeUrl;
+    public String getValue() {
+        return value;
     }
 
-    public void setFoodImageLargeUrl(String foodImageLargeUrl) {
-        this.foodImageLargeUrl = foodImageLargeUrl;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public String getFoodName() {
-        return foodName;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
-    public String getJapaneseName() {
-        return japaneseName;
-    }
-
-    public void setJapaneseName(String japaneseName) {
-        this.japaneseName = japaneseName;
-    }
-
-    public String getFoodPrice() {
-        return foodPrice;
-    }
-
-    public void setFoodPrice(String foodPrice) {
-        this.foodPrice = foodPrice;
-    }
-
-    public String getFoodMaterial() {
-        return foodMaterial;
-    }
-
-    public void setFoodMaterial(String foodMaterial) {
-        this.foodMaterial = foodMaterial;
-    }
-
-    public String getOtherInfo() {
-        return otherInfo;
-    }
-
-    public void setOtherInfo(String otherInfo) {
-        this.otherInfo = otherInfo;
-    }
 }

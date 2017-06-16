@@ -1,5 +1,6 @@
 package com.witts.mdbox.activity;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.annotation.IntRange;
 import android.os.Bundle;
@@ -11,16 +12,27 @@ import android.widget.ImageView;
 
 import com.witts.mdbox.R;
 import com.witts.mdbox.adapter.RestaurantListAdapter;
+import com.witts.mdbox.common.ServiceFactory;
+import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.Menu;
 import com.witts.mdbox.model.MenuContent;
+import com.witts.mdbox.model.Restaurant;
+import com.witts.mdbox.model.RestaurantWrapper;
+import com.witts.mdbox.model.WebServiceResult;
+import com.witts.mdbox.service.RestaurantService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class RestaurantListActivity extends BasedActivity {
+public class RestaurantListActivity extends BasedActivity implements ItemClickListener{
     @BindView(R.id.ivback)
     ImageView ivback;
 
@@ -31,31 +43,26 @@ public class RestaurantListActivity extends BasedActivity {
     private Animation animScale;
     List<MenuContent> menuContentList = new ArrayList<>();
     MenuContent menuContent;
-    List<Menu> menuList = new ArrayList<>();
+    List<Restaurant> restaurantList = new ArrayList<>();
+    LinearLayoutManager linearLayoutManager;
+
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String languageCode= LanguageActivity.languageCode;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        menuContent = new MenuContent();
-        menuContent.setMenuTitle("Salad");
-        menuContentList.add(menuContent);
-
-        menuContent = new MenuContent();
-        menuContent.setMenuTitle("Sandwich");
-        menuContentList.add(menuContent);
-
-        menuContent = new MenuContent();
-        menuContent.setMenuTitle("Pizza");
-        menuContentList.add(menuContent);
-
-        menuContent = new MenuContent();
-        menuContent.setMenuTitle("Cupcake");
-        menuContentList.add(menuContent);
-
-        menuContent = new MenuContent();
-        menuContent.setMenuTitle("Noodle Noodle Noodle Noodle");
-        menuContentList.add(menuContent);
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
     }
 
     @Override
@@ -63,16 +70,9 @@ public class RestaurantListActivity extends BasedActivity {
         super.onResume();
         setContentView(R.layout.activity_resturant_list);
         ButterKnife.bind(this);
+        callWebService();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rvChooseRestaurant.setLayoutManager(linearLayoutManager);
-        rvChooseRestaurant.setHasFixedSize(true);
-        RecyclerViewMargin decoration = new RecyclerViewMargin(25, menuContentList.size());
-        rvChooseRestaurant.addItemDecoration(decoration);
-        restaurantListAdapter = new RestaurantListAdapter(getApplicationContext(), menuContentList);
-        rvChooseRestaurant.setAdapter(restaurantListAdapter);
-
+        linearLayoutManager = new LinearLayoutManager(this);
         ivback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +90,59 @@ public class RestaurantListActivity extends BasedActivity {
                 }
             }
         });
+    }
+
+    private void callWebService() {
+        showProgressDialog();
+        final RestaurantService restaurantService = ServiceFactory.getService(RestaurantService.class);
+        restaurantService.foodCategoryList(accessToken,languageCode,date,time,timezone,channel,clientVersion,versionNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<WebServiceResult<RestaurantWrapper>>() {
+                    @Override
+                    public void onCompleted() {
+                        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                        rvChooseRestaurant.setLayoutManager(linearLayoutManager);
+                        rvChooseRestaurant.setHasFixedSize(true);
+                        RecyclerViewMargin decoration = new RecyclerViewMargin(25, menuContentList.size());
+                        rvChooseRestaurant.addItemDecoration(decoration);
+                        restaurantListAdapter = new RestaurantListAdapter(getApplicationContext(), menuContentList);
+                        rvChooseRestaurant.setAdapter(restaurantListAdapter);
+                        restaurantListAdapter.setItemClickListener(RestaurantListActivity.this);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                        showAlert(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(final WebServiceResult<RestaurantWrapper> restaurantWrapperWebServiceResult) {
+                        if (restaurantWrapperWebServiceResult != null) {
+                            restaurantList = new ArrayList<>();
+                            menuContentList= new ArrayList<MenuContent>();
+                            restaurantList = restaurantWrapperWebServiceResult.getResponse().getRestaurantList();
+                            for(int i=0;i<restaurantList.size();i++)
+                            {
+                                menuContent = new MenuContent();
+                                menuContent.setMenuTitle(restaurantList.get(i).getAttributeList().get(0).getName());
+                                menuContent.setMenuImgUrl(restaurantList.get(i).getImagePath());
+                                menuContent.setRestaurantId(restaurantList.get(i).getRestaurantId());
+                                menuContentList.add(menuContent);
+                            }
+                        }
+                        dismissProgressDialog();
+                    }
+                });
+    }
+
+    @Override
+    public void onItemClick(int position, Object data) {
+        MenuContent content = (MenuContent) data;
+        Intent intent = new Intent(RestaurantListActivity.this, FoodGuideActivity.class);
+        intent.putExtra("RESTAURANTID",content.getRestaurantId());
+        startActivity(intent);
     }
 
     public class RecyclerViewMargin extends RecyclerView.ItemDecoration {

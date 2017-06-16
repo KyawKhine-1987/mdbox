@@ -10,6 +10,7 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".MDBApplication"
@@ -58,7 +59,7 @@
             android:name=".activity.RestaurantListActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.PlaceGuideActivity"
+        <activity android:name=".activity.SouvenirGuideActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

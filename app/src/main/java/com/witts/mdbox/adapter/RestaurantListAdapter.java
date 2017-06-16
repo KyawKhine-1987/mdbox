@@ -11,7 +11,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
+import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.MenuContent;
 
 import java.util.List;
@@ -26,6 +29,14 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     private List<MenuContent> menuContentList;
     private Animation animScale;
     private int pos = 0;
+    private ItemClickListener<MenuContent> itemClickListener;
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
 
     public RestaurantListAdapter(Context context,List<MenuContent> menuContentList) {
         this.context = context;
@@ -42,11 +53,19 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     public void onBindViewHolder(final ViewHolder holder,final int position) {
         final MenuContent menuContent = menuContentList.get(position);
         holder.tvlabel.setText(menuContent.getMenuTitle());
+        String imageapi =menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+                "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+        Glide.with(context)
+                .load(imageapi)
+                .placeholder(R.drawable.spinner_of_dots)
+                .error(R.drawable.spinner_of_dots)
+                .into(holder.ivmenu);
         normalBackground(position,holder.imgbackground);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                itemClickListener.onItemClick(position, menuContent);
                 animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
                 animatedBackground(position,holder.imgbackground);
                 holder.flcontainer.startAnimation(animScale);
@@ -141,6 +160,10 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
                 imgView.setImageDrawable(context.getResources().getDrawable(R.drawable.restaurant_animated_bgone));
                 break;
         }
+    }
+
+    public void setItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
 }

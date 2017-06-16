@@ -7,6 +7,15 @@ package com.witts.mdbox.model;
 public class MenuContent {
     public String menuTitle;
     public String menuImgUrl;
+    public int restaurantId;
+
+    public int getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(int restaurantId) {
+        this.restaurantId = restaurantId;
+    }
 
     public String getMenuTitle() {
         return menuTitle;

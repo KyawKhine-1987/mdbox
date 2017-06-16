@@ -17,9 +17,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
-                android:scaleType="centerCrop"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/cuisine">
+                android:scaleType="fitXY"
+                android:layout_marginLeft="20dp">
             </ImageView>
             <LinearLayout
                 android:layout_width="0dp"
@@ -36,7 +35,7 @@
                     android:layout_marginTop="15dp"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/txtlabel"
+                        android:id="@+id/tvlabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -80,87 +79,10 @@
                             android:id="@+id/svinfocontainer"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/tvDetail"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginLeft="15dp">
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Chinese Name :"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                    <TextView
-                                        android:id="@+id/tvFood_Name"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Double Room"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Price :"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                    <TextView
-                                        android:id="@+id/tvPrice"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Double 30,000 yen"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Material :"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:id="@+id/tvFood_Material"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="140cm"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:id="@+id/tvOther_Info"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="* Prices vary due to season, events etc. "
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                            </LinearLayout>
+                                android:layout_height="match_parent" />
                         </ScrollView>
                     </LinearLayout>
                     <ImageView

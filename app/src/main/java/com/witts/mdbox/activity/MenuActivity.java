@@ -3,7 +3,6 @@ package com.witts.mdbox.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -47,7 +46,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
     MenuContent menuContent;
     List<Menu> menuList = new ArrayList<>();
 
-    private String accessToken= Constant.ACCESS_TOKEN;
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
     private String languageCode=LanguageActivity.languageCode;
     private String date="";
     private String time="";
@@ -167,13 +166,13 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
             goToEntertainmentDetail();
         }
         if(position==2) {
-            goToFoodDetail();
+            goToRestaurantList();
         }
         if(position==3) {
-            goToPlaceDetail();
+            goToFoodDetail();
         }
         if(position==4) {
-            goToRestaurantList();
+            goToPlaceDetail();
         }
         if(position==5) {
             goToContactReception();
@@ -209,7 +208,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
     }
 
     private void goToPlaceDetail(){
-        Intent intent = new Intent(MenuActivity.this, PlaceGuideActivity.class);
+        Intent intent = new Intent(MenuActivity.this, SouvenirGuideActivity.class);
         startActivity(intent);
     }
 }

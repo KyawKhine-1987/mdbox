@@ -10,11 +10,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.interfaces.ItemClickListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +33,14 @@ public class CommonTypeChoiceAdapter extends RecyclerView.Adapter<CommonTypeChoi
     private Animation animScale;
     private ItemClickListener<String> itemClickListener;
     private int focusedItem = 0;
+    private String accessToken= Constant.ACCESS_TOKEN;
+    private String languageCode= LanguageActivity.languageCode;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
     public CommonTypeChoiceAdapter(Context context, List<String> roomImageList) {
         this.mContext = context;
         this.roomImageList = roomImageList;
@@ -41,12 +54,18 @@ public class CommonTypeChoiceAdapter extends RecyclerView.Adapter<CommonTypeChoi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder,final int position) {
-
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
         holder.itemView.setSelected(focusedItem == position);
         final String imageUrl = roomImageList.get(position);
         if(imageUrl != null && !imageUrl.equals("")) {
-            Picasso.with(mContext)
-                    .load(imageUrl)
+            String imageapi = imageUrl+"/?accessToken="+accessToken+"&date="+date+"&" +
+                    "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+            Glide.with(mContext)
+                    .load(imageapi)
+                    .placeholder(R.drawable.spinner_of_dots)
                     .error(R.drawable.bedroom_small)
                     .into(holder.ivroomviewchoice);
         }
@@ -56,10 +75,10 @@ public class CommonTypeChoiceAdapter extends RecyclerView.Adapter<CommonTypeChoi
             public void onClick(View v) {
                 itemClickListener.onItemClick(position,imageUrl);
                 holder.ivroomviewchoice.setBackgroundResource(R.drawable.background);
-                notifyItemChanged(focusedItem);
-                focusedItem = position;
-                notifyItemChanged(focusedItem);
-                notifyDataSetChanged();
+//                notifyItemChanged(focusedItem);
+//                focusedItem = position;
+//                notifyItemChanged(focusedItem);
+//                notifyDataSetChanged();
             }
         });
 

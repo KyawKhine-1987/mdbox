@@ -23,6 +23,17 @@ public class Language {
     @SerializedName("languageFlagUrl")
     public String languageFlagUrl;
 
+    @SerializedName("isSelected")
+    public String isSelected;
+
+    public String getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(String isSelected) {
+        this.isSelected = isSelected;
+    }
+
     public int getLanguageId() {
         return languageId;
     }

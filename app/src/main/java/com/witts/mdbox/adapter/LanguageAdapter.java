@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.WelcomeMessage;
 
@@ -26,6 +28,13 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     private Context context;
     private Animation animScale;
     private List<WelcomeMessage> welcomeMessageList;
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
@@ -65,7 +74,13 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 
         holder.tvWelcome.setText(welcomeMessage.getWelcomeMessage());
         if(welcomeMessage.getLanguageFlagUrl() != null && !welcomeMessage.getLanguageFlagUrl().equals("")) {
-            Picasso.with(context).load(welcomeMessage.getLanguageFlagUrl()).into(holder.ivFlag);
+            String imageapi =welcomeMessage.getLanguageFlagUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+                    "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+            Glide.with(context)
+                    .load(imageapi)
+                    .placeholder(R.drawable.spinner_of_dots)
+                    .error(R.drawable.spinner_of_dots)
+                    .into(holder.ivFlag);
         }
         holder.tvLanguage.setText(welcomeMessage.getDisplayLanguageName());
 
