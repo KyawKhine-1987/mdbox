@@ -3,7 +3,6 @@ package com.witts.mdbox.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -179,7 +178,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
             goToContactReception();
         }
         if(position==6) {
-            goToBedroomDetail();
+            goToLocationCategory();
         }
     }
 
@@ -212,4 +211,10 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
         Intent intent = new Intent(MenuActivity.this, PlaceGuideActivity.class);
         startActivity(intent);
     }
+
+    private void goToLocationCategory() {
+        Intent intent = new Intent(MenuActivity.this, LocationActivity.class);
+        startActivity(intent);
+    }
+
 }
