@@ -1,0 +1,37 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--activity_location.xml-->
+    <dimen name="tlLocationCategoryList_width">400dp</dimen>
+    <dimen name="rlTopandBottom_height">300dp</dimen>
+    <dimen name="llArea1_width">700dp</dimen>
+    <dimen name="tlLocationCategoryList_elevation">20dp</dimen>
+    <dimen name="radius">3dp</dimen>
+    <dimen name="tabPaddingStartandEnd">15dp</dimen>
+    <dimen name="tlLocationCategoryList_marginLeftandRight">20dp</dimen>
+    <dimen name="tlLocationCategoryList_marginTop">5dp</dimen>
+    <dimen name="fl_height">40dp</dimen>
+    <dimen name="fl_marginLeft">20dp</dimen>
+    <dimen name="fl_marginRight">5dp</dimen>
+    <dimen name="fl_marginTop">5dp</dimen>
+
+    <!--fragment_location.xml-->
+    <!--Start nexus7 resolution size-->
+
+    <dimen name="llArea2and4_width">700dp</dimen>
+    <dimen name="llArea2and3_height">400dp</dimen>
+    <dimen name="iv_width">70dp</dimen>
+
+    <!--End-->
+
+    <!--LocationFragment.java-->
+    <dimen name="divider">2dp</dimen>
+    <dimen name="leftmargin">1dp</dimen>
+    <dimen name="rightmargin">1dp</dimen>
+
+    <!--item_location_name.xml-->
+    <dimen name="tv_LocationName_height">40dp</dimen>
+    <dimen name="tv_LocationName_marginLeft">10dp</dimen>
+</resources>
