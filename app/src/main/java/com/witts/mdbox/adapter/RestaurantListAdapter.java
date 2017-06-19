@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.witts.mdbox.R;
 import com.witts.mdbox.activity.LanguageActivity;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.MenuContent;
 
@@ -53,7 +54,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     public void onBindViewHolder(final ViewHolder holder,final int position) {
         final MenuContent menuContent = menuContentList.get(position);
         holder.tvlabel.setText(menuContent.getMenuTitle());
-        String imageapi =menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+        String imageapi = Constant.IMAGE_UPLOAD_URL + menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
                 "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
         Glide.with(context)
                 .load(imageapi)
@@ -69,6 +70,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
                 animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
                 animatedBackground(position,holder.imgbackground);
                 holder.flcontainer.startAnimation(animScale);
+                holder.flcontainer.bringToFront();
             }
         });
 
@@ -79,6 +81,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
                     animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
                     animatedBackground(position,holder.imgbackground);
                     holder.flcontainer.startAnimation(animScale);
+                    holder.flcontainer.bringToFront();
                 } else
                 {
                     holder.flcontainer.clearAnimation();

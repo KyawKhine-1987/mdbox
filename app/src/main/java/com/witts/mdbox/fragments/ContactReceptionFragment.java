@@ -37,6 +37,7 @@ import com.witts.mdbox.service.QAListService;
 import com.witts.mdbox.service.QuestionService;
 import com.witts.mdbox.service.SendQuestionService;
 import com.witts.mdbox.service.WelcomeService;
+import com.witts.mdbox.util.PropertiesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -197,14 +198,15 @@ public class ContactReceptionFragment extends BaseFragment {
                 public void onItemClick(int position, final Object data) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
                     builder.setCancelable(false)
-                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(PropertiesUtil.getProperty("i0001",LanguageActivity.languageCode+"_message.properties",getContext()), new DialogInterface.OnClickListener() {
+
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
                                     QuestionContent questionContent = (QuestionContent) data;
                                     callWebService(questionContent.getQuestionID());
                                 }
                             })
-                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(PropertiesUtil.getProperty("i0002",LanguageActivity.languageCode+"_message.properties",getContext()), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
                                 }
@@ -249,7 +251,7 @@ public class ContactReceptionFragment extends BaseFragment {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        showAlert(e.getMessage());
+                        showAlert("Connection Timeout");
                     }
 
                     @Override

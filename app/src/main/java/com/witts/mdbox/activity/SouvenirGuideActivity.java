@@ -147,8 +147,7 @@ public class SouvenirGuideActivity extends BasedActivity {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-
-                        showAlert(e.getMessage());
+                        showAlert("Connection Timeout");
                     }
 
                     @Override

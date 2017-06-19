@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
 import com.witts.mdbox.activity.LanguageActivity;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.ContactType;
 
@@ -54,7 +55,7 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
         final ContactType contactType = contactTypeList.get(position);
         holder.tvcontact_type.setText(contactType.getContractType());
         if(contactType.getContactImageUrl() != null && !contactType.getContactImageUrl().equals("")) {
-                String imageapi = contactType.getContactImageUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+                String imageapi =  Constant.IMAGE_UPLOAD_URL + contactType.getContactImageUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
                         "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
                 Glide.with(context)
                         .load(imageapi)

@@ -61,7 +61,7 @@ public class CommonTypeChoiceAdapter extends RecyclerView.Adapter<CommonTypeChoi
         holder.itemView.setSelected(focusedItem == position);
         final String imageUrl = roomImageList.get(position);
         if(imageUrl != null && !imageUrl.equals("")) {
-            String imageapi = Constant.IMAGE_UPLOAD_URL+imageUrl+"/?accessToken="+accessToken+"&date="+date+"&" +
+            String imageapi = Constant.IMAGE_UPLOAD_URL + imageUrl+"/?accessToken="+accessToken+"&date="+date+"&" +
                     "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
             Glide.with(mContext)
                     .load(imageapi)

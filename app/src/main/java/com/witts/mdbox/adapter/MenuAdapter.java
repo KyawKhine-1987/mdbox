@@ -15,9 +15,12 @@ import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
 import com.witts.mdbox.activity.LanguageActivity;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.MenuContent;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,9 +56,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder,final int position) {
         final MenuContent menuContent = menuContentList.get(position);
 
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
         holder.tvlabel.setText(menuContent.getMenuTitle());
         if(menuContent.getMenuImgUrl() != null && !menuContent.getMenuImgUrl().equals("")) {
-                String imageapi =menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+                String imageapi = Constant.IMAGE_UPLOAD_URL + menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
                         "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
                 Glide.with(context)
                         .load(imageapi)

@@ -114,7 +114,7 @@ public class RestaurantListActivity extends BasedActivity implements ItemClickLi
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        showAlert(e.getMessage());
+                        showAlert("Connection Timeout");
                     }
 
                     @Override

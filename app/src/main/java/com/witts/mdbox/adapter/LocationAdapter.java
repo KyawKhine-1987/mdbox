@@ -98,9 +98,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             Log.i(LOG_TAG, "TEST : ViewHolder() called...");
-
             LocationName = (TextView)itemView.findViewById(R.id.tv_LocationName);
         }
     }
