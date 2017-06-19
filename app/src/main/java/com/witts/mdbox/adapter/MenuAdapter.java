@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.MenuContent;
 
@@ -29,6 +30,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private ItemClickListener<MenuContent> itemClickListener;
     private Animation animScale;
     private int pos = 0;
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
 
     public MenuAdapter(Context context,List<MenuContent> menuContentList) {
         this.context = context;
@@ -47,9 +55,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
         holder.tvlabel.setText(menuContent.getMenuTitle());
         if(menuContent.getMenuImgUrl() != null && !menuContent.getMenuImgUrl().equals("")) {
-            Glide.with(context).load(menuContent.getMenuImgUrl())
-                    .error(R.drawable.foodanddrink)
-                    .into(holder.ivmenu);
+                String imageapi =menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+                        "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+                Glide.with(context)
+                        .load(imageapi)
+                        .placeholder(R.drawable.spinner_of_dots)
+                        .error(R.drawable.spinner_of_dots)
+                        .into(holder.ivmenu);
         }
         normalBackground(position,holder.imgbackground);
 
@@ -70,10 +82,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
                     animatedBackground(position,holder.imgbackground);
                     holder.flcontainer.startAnimation(animScale);
+                    holder.flcontainer.bringToFront();
                 } else
                 {
-                    holder.flcontainer.clearAnimation();
                     normalBackground(position,holder.imgbackground);
+                    holder.flcontainer.clearAnimation();
                 }
             }
         });

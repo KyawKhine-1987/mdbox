@@ -25,8 +25,9 @@ public class Question {
     @Expose
     public List<Integer> answerIds;
 
+    //change need here
     @SerializedName("priority")
-    public int priority;
+    public String priority;
 
     @SerializedName("publishInd")
     public String publishInd;
@@ -63,11 +64,11 @@ public class Question {
         this.answerIds = answerIds;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 

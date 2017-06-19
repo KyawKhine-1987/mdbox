@@ -9,6 +9,7 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- Google Maps start -->
     <permission
         android:name="com.witts.mdbox.permission.MAPS_RECEIVE"
@@ -68,7 +69,7 @@
             android:name=".activity.RestaurantListActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.PlaceGuideActivity"
+        <activity android:name=".activity.SouvenirGuideActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
 

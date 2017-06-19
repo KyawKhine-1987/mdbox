@@ -41,7 +41,7 @@ public class ContactReceptionActivity extends BasedActivity {
     @BindView(R.id.ivback)
     ImageView ivback;
 
-    private String accessToken= Constant.ACCESS_TOKEN;
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
     private String languageCode=LanguageActivity.languageCode;
     private String date="";
     private String time="";

@@ -1,8 +1,6 @@
 package com.witts.mdbox.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.witts.mdbox.model.enums.MDBCode;
 
 /**
  * Created by thanhtetaung on 18/1/16.

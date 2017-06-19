@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.witts.mdbox.R;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.QAObject;
+import com.witts.mdbox.model.QuestionContent;
 
 import java.util.List;
 
@@ -21,10 +22,10 @@ import java.util.List;
 public class ReceptionContactQuestionAdapter extends RecyclerView.Adapter<ReceptionContactQuestionAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> QAObjectList;
-    private ItemClickListener<String> itemClickListener;
+    private List<QuestionContent> QAObjectList;
+    private ItemClickListener<QuestionContent> itemClickListener;
 
-    public ReceptionContactQuestionAdapter(Context context, List<String> QAObjectList) {
+    public ReceptionContactQuestionAdapter(Context context, List<QuestionContent> QAObjectList) {
         this.context = context;
         this.QAObjectList = QAObjectList;
     }
@@ -37,9 +38,9 @@ public class ReceptionContactQuestionAdapter extends RecyclerView.Adapter<Recept
 
     @Override
     public void onBindViewHolder(final ReceptionContactQuestionAdapter.ViewHolder holder, final int position) {
-        final String QAObject = QAObjectList.get(position);
+        final QuestionContent QAObject = QAObjectList.get(position);
 
-        holder.tvquestion1.setText(QAObject);
+        holder.tvquestion1.setText(QAObject.getQuestion());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

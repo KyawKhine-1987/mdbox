@@ -23,15 +23,19 @@ import com.witts.mdbox.adapter.ReceptionContactTypeAdapter;
 import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
+import com.witts.mdbox.model.MenuContent;
 import com.witts.mdbox.model.QAListWrapper;
 import com.witts.mdbox.model.QAObject;
 import com.witts.mdbox.model.ContactType;
 import com.witts.mdbox.model.Question;
+import com.witts.mdbox.model.QuestionContent;
 import com.witts.mdbox.model.QuestionSubCategory;
 import com.witts.mdbox.model.QuestionWrapper;
+import com.witts.mdbox.model.SendQuestionWrapper;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.QAListService;
 import com.witts.mdbox.service.QuestionService;
+import com.witts.mdbox.service.SendQuestionService;
 import com.witts.mdbox.service.WelcomeService;
 
 import java.text.SimpleDateFormat;
@@ -58,8 +62,17 @@ public class ContactReceptionFragment extends BaseFragment {
     ContactType contactType;
     List<ContactType> contactTypeList = new ArrayList<>();
     QAObject QAObject;
-    List<String> QAObjectList = new ArrayList<>();
+    List<QuestionContent> QAObjectList = new ArrayList<>();
     List<Question> questionList = new ArrayList<>();
+    QuestionContent questionContent;
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String languageCode=LanguageActivity.languageCode;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
     public ContactReceptionFragment() {}
 
     public static ContactReceptionFragment newInstance(ArrayList<QuestionSubCategory> questionSubCategoryList) {
@@ -77,6 +90,10 @@ public class ContactReceptionFragment extends BaseFragment {
         if (getArguments() != null) {
             questionSubCategoryList = getArguments().getParcelableArrayList(ARG_CONTACTTYPE);
         }
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
         bindquestiondata();
         }
 
@@ -97,8 +114,12 @@ public class ContactReceptionFragment extends BaseFragment {
                 if(questionList!=null) {
                     for (int j = 0; j < questionList.size(); j++) {
                         if (questionList.get(j).getQuestionAttributes().size() > 0)
-                            if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode))
-                                QAObjectList.add(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                            if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode)) {
+                                questionContent = new QuestionContent();
+                                questionContent.setQuestion(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                                questionContent.setQuestionID(questionList.get(j).getQuestionId());
+                                QAObjectList.add(questionContent);
+                            }
                     }
                 }
 //                else
@@ -139,9 +160,13 @@ public class ContactReceptionFragment extends BaseFragment {
                 if(questionList!=null) {
                     for (int j = 0; j < questionList.size(); j++) {
                         if (questionList.get(j).getQuestionAttributes().size() > 0)
-                            if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode))
-                                QAObjectList.add(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
-                    }
+                            if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode)) {
+                                questionContent = new QuestionContent();
+                                questionContent.setQuestion(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                                questionContent.setQuestionID(questionList.get(j).getQuestionId());
+                                QAObjectList.add(questionContent);
+                            }
+                }
                 }
                 callrvContactQuestionAdapter();}
         });
@@ -150,8 +175,12 @@ public class ContactReceptionFragment extends BaseFragment {
         if(questionList!=null) {
             for (int j = 0; j < questionList.size(); j++) {
                 if (questionList.get(j).getQuestionAttributes().size() > 0)
-                    if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode))
-                        QAObjectList.add(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                    if (questionList.get(j).getQuestionAttributes().get(0).getLanguageCode().equals(LanguageActivity.languageCode)) {
+                        questionContent = new QuestionContent();
+                        questionContent.setQuestion(questionList.get(j).getQuestionAttributes().get(0).getQuestionText());
+                        questionContent.setQuestionID(questionList.get(j).getQuestionId());
+                        QAObjectList.add(questionContent);
+                    }
             }
         }
         callrvContactQuestionAdapter();
@@ -165,12 +194,14 @@ public class ContactReceptionFragment extends BaseFragment {
             rvcontact_question.setAdapter(contactQuestionAdapter);
             contactQuestionAdapter.setItemClickListener(new ItemClickListener() {
                 @Override
-                public void onItemClick(int position, Object data) {
+                public void onItemClick(int position, final Object data) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
                     builder.setCancelable(false)
                             .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
+                                    QuestionContent questionContent = (QuestionContent) data;
+                                    callWebService(questionContent.getQuestionID());
                                 }
                             })
                             .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -201,5 +232,37 @@ public class ContactReceptionFragment extends BaseFragment {
                     }
                 }
             });
+    }
+
+    private void callWebService(int questionID) {
+        showProgressDialog();
+        final SendQuestionService loginService = ServiceFactory.getService(SendQuestionService.class);
+        loginService.getAccessToken(accessToken,questionID,date,time,timezone,channel,clientVersion,versionNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<SendQuestionWrapper>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                        showAlert(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(final SendQuestionWrapper sendQuestionWrapper) {
+                        dismissProgressDialog();
+
+                        if (sendQuestionWrapper.getMeta().getCode() != null && !sendQuestionWrapper.getMeta().getCode().isEmpty()) {
+                            Toast.makeText(getContext(),"Question has been sent",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getContext(),"Fail ..",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

@@ -11,14 +11,23 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import com.witts.mdbox.R;
+import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.fragments.HotelRoomTypeFragment;
 import com.witts.mdbox.model.RoomType;
+import com.witts.mdbox.model.RoomTypeListWrapper;
+import com.witts.mdbox.model.WebServiceResult;
+import com.witts.mdbox.service.RoomTypeService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class HotelRoomDetailActivity extends BasedActivity {
     @BindView(R.id.tlhotelDetail)
@@ -34,9 +43,24 @@ public class HotelRoomDetailActivity extends BasedActivity {
     List<RoomType> roomTypeList = new ArrayList<>();
     private Animation animScale;
 
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String languageCode=LanguageActivity.languageCode;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
+
         roomType = new RoomType();
         roomType.setRoomType("BedRoom");
         roomTypeList.add(roomType);
@@ -60,6 +84,8 @@ public class HotelRoomDetailActivity extends BasedActivity {
 
         setContentView(R.layout.activity_hotel_room_detail);
         ButterKnife.bind(this);
+
+        callWebService();
 
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         vphotelDetail.setAdapter(pagerAdapter);
@@ -92,6 +118,34 @@ public class HotelRoomDetailActivity extends BasedActivity {
                 }
             }
         });
+    }
+
+    private void callWebService() {
+        showProgressDialog();
+        final RoomTypeService roomTypeService = ServiceFactory.getService(RoomTypeService.class);
+        roomTypeService.roomTypeList(accessToken,languageCode,date,time,timezone,channel,clientVersion,versionNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<WebServiceResult<RoomTypeListWrapper>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                        showAlert(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(final WebServiceResult<RoomTypeListWrapper> roomTypeListWrapperWebServiceResult) {
+                        if (roomTypeListWrapperWebServiceResult != null) {
+                        }
+
+                        dismissProgressDialog();
+                    }
+                });
     }
 
     public class PagerAdapter extends FragmentPagerAdapter {

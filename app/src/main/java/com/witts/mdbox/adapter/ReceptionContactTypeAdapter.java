@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.ContactType;
 
@@ -30,6 +32,13 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
     private int focusedItem = 0;
     private static int selected_item = -1;
     private int previous_selected_item = 0;
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
     public ReceptionContactTypeAdapter(Context context, List<ContactType> contactTypeList) {
         this.context = context;
         this.contactTypeList = contactTypeList;
@@ -45,7 +54,13 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
         final ContactType contactType = contactTypeList.get(position);
         holder.tvcontact_type.setText(contactType.getContractType());
         if(contactType.getContactImageUrl() != null && !contactType.getContactImageUrl().equals("")) {
-            Picasso.with(context).load(contactType.getContactImageUrl()).into(holder.ivcontact_image);
+                String imageapi = contactType.getContactImageUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+                        "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+                Glide.with(context)
+                        .load(imageapi)
+                        .placeholder(R.drawable.spinner_of_dots)
+                        .error(R.drawable.spinner_of_dots)
+                        .into(holder.ivcontact_image);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

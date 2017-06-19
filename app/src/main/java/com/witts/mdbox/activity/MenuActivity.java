@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.witts.mdbox.R;
 import com.witts.mdbox.adapter.MenuAdapter;
-import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.Menu;
@@ -41,12 +40,11 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
     TextView tvreception;
 
     MenuAdapter menuAdapter;
-    private Animation animScale;
     List<MenuContent> menuContentList = new ArrayList<>();
     MenuContent menuContent;
     List<Menu> menuList = new ArrayList<>();
 
-    private String accessToken= Constant.ACCESS_TOKEN;
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
     private String languageCode=LanguageActivity.languageCode;
     private String date="";
     private String time="";
@@ -65,33 +63,6 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-//        menuContent = new MenuContent();
-//        menuContent.setMenuTitle("Hotel Bedroom");
-//        menuContentList.add(menuContent);
-//
-//        menuContent = new MenuContent();
-//        menuContent.setMenuTitle("Swimming Pool");
-//        menuContentList.add(menuContent);
-//
-//        menuContent = new MenuContent();
-//        menuContent.setMenuTitle("Food and Drink");
-//        menuContentList.add(menuContent);
-//
-//        menuContent = new MenuContent();
-//        menuContent.setMenuTitle("Hotel Service");
-//        menuContentList.add(menuContent);
-//
-//        menuContent = new MenuContent();
-//        menuContent.setMenuTitle("Noodle");
-//        menuContentList.add(menuContent);
-//
-//        menuContent = new MenuContent();
-//        menuContent.setMenuTitle("Room Service");
-//        menuContentList.add(menuContent);
-//
-//        menuContent = new MenuContent();
-//        menuContent.setMenuTitle("Map");
-//        menuContentList.add(menuContent);
     }
 
     @Override
@@ -104,14 +75,6 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
 
         tvreception.setSelected(true);
         tvreception.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textmove));
-
-//        List<Hotel> lstHotel = new ArrayList<>();
-//
-//        Hotel hotel = new Hotel();
-//        hotel.setName("Hotel 1");
-//        hotel.setSomehting();
-//
-//        lstHotel.add(hotel);
 
     }
 
@@ -130,7 +93,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        Toast.makeText(getBaseContext(),"Fail..",Toast.LENGTH_SHORT).show();
+                        showAlert("Connection Timeout");
                     }
 
                     @Override
@@ -166,13 +129,13 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
             goToEntertainmentDetail();
         }
         if(position==2) {
-            goToFoodDetail();
+            goToRestaurantList();
         }
         if(position==3) {
-            goToPlaceDetail();
+            goToFoodDetail();
         }
         if(position==4) {
-            goToRestaurantList();
+            goToPlaceDetail();
         }
         if(position==5) {
             goToContactReception();
@@ -208,7 +171,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
     }
 
     private void goToPlaceDetail(){
-        Intent intent = new Intent(MenuActivity.this, PlaceGuideActivity.class);
+        Intent intent = new Intent(MenuActivity.this, SouvenirGuideActivity.class);
         startActivity(intent);
     }
 

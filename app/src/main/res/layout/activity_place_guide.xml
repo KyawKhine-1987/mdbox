@@ -29,7 +29,9 @@
                 app:tabSelectedTextColor="@android:color/white"
                 app:tabIndicatorColor="#ffc63d"
                 android:elevation="20dp"
-                app:tabIndicatorHeight="0dp"/>
+                app:tabIndicatorHeight="0dp"
+                android:descendantFocusability="afterDescendants"
+                android:focusable="true" />
         </FrameLayout>
         <RelativeLayout
             android:layout_width="300dp"
@@ -50,7 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:descendantFocusability="beforeDescendants"/>
 
 </FrameLayout>
 

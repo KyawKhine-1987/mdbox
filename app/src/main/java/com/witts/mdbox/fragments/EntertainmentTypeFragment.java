@@ -13,12 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.adapter.CommonTypeChoiceAdapter;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.interfaces.ItemClickListener;
+import com.witts.mdbox.model.Entertainment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,7 +32,8 @@ import butterknife.ButterKnife;
 
 public class EntertainmentTypeFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_TYPE = "param1";
-    private String mType;
+    private static final String ARG_TITLE = "param2";
+    private String title;
 
     @BindView(R.id.rvchooseentertainmenttype)
     RecyclerView rvchooseentertainmenttype;
@@ -43,37 +50,35 @@ public class EntertainmentTypeFragment extends Fragment implements View.OnClickL
     @BindView(R.id.svinfocontainer)
     ScrollView svinfocontainer;
 
-    @BindView(R.id.tvEntertain_Name)
-    TextView tvEntertainName;
+    @BindView(R.id.tvLabel)
+    TextView tvLabel;
 
-    @BindView(R.id.tvPrice)
-    TextView tvPrice;
-
-    @BindView(R.id.tvTime)
-    TextView tvTime;
-
-    @BindView(R.id.tvOther_Info)
-    TextView tvOtherInfo;
-
-    @BindView(R.id.tvRental1)
-    TextView tvRental1;
-
-    @BindView(R.id.tvRental2)
-    TextView tvRental2;
+    @BindView(R.id.tvDetail)
+    TextView tvDetail;
 
     @BindView(R.id.ivDetailImageContainer)
     ImageView ivDetailImageContainer;
     CommonTypeChoiceAdapter commonTypeChoiceAdapter;
-    List<String> imageUrlList = new ArrayList<>();
+    Entertainment entertainment = new Entertainment();
+
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String languageCode= LanguageActivity.languageCode;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
 
     public EntertainmentTypeFragment() {
         // Required empty public constructor
     }
 
-    public static EntertainmentTypeFragment newInstance(String type) {
+    public static EntertainmentTypeFragment newInstance(Entertainment type,String title) {
         EntertainmentTypeFragment fragment = new EntertainmentTypeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TYPE, type);
+        args.putParcelable(ARG_TYPE, type);
+        args.putString(ARG_TITLE,title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,11 +86,11 @@ public class EntertainmentTypeFragment extends Fragment implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        entertainment = new Entertainment();
         if (getArguments() != null) {
-            mType = getArguments().getString(ARG_TYPE);
+            entertainment = getArguments().getParcelable(ARG_TYPE);
+            title = getArguments().getString(ARG_TITLE);
         }
-
-        imageUrlList.add("www.google.com");
     }
 
     @Override
@@ -101,7 +106,12 @@ public class EntertainmentTypeFragment extends Fragment implements View.OnClickL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        commonTypeChoiceAdapter = new CommonTypeChoiceAdapter(getContext(), imageUrlList);
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
+
+        commonTypeChoiceAdapter = new CommonTypeChoiceAdapter(getContext(), entertainment.getImagePaths());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         rvchooseentertainmenttype.setLayoutManager(layoutManager);
         rvchooseentertainmenttype.setHasFixedSize(true);
@@ -109,8 +119,31 @@ public class EntertainmentTypeFragment extends Fragment implements View.OnClickL
         commonTypeChoiceAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(int position, Object data) {
+                String imageapi = Constant.IMAGE_UPLOAD_URL+entertainment.getImagePaths().get(position)+"/?accessToken="+accessToken+"&date="+date+"&" +
+                        "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+                Glide.with(getContext())
+                        .load(imageapi)
+                        .placeholder(R.drawable.spinner_of_dots)
+                        .error(R.drawable.spinner_of_dots)
+                        .into(ivDetailImageContainer);
                 }
         });
+
+        String imageapi = Constant.IMAGE_UPLOAD_URL+entertainment.getImagePaths().get(0)+"/?accessToken="+accessToken+"&date="+date+"&" +
+                "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+        Glide.with(getContext())
+                .load(imageapi)
+                .placeholder(R.drawable.spinner_of_dots)
+                .error(R.drawable.spinner_of_dots)
+                .into(ivDetailImageContainer);
+
+        StringBuilder entertainmentString=new StringBuilder();
+        for (int i=0;i<entertainment.getAttributeList().size();i++) {
+            entertainmentString.append(entertainment.getAttributeList().get(i).getDisplayName() + " :" +
+                    entertainment.getAttributeList().get(i).getValue() + " " + entertainment.getAttributeList().get(i).getUnit()+"\n");
+        }
+        tvLabel.setText(title);
+        tvDetail.setText(entertainmentString);
 
         imguparrow.setOnClickListener(this);
         imgdownarrow.setOnClickListener(this);

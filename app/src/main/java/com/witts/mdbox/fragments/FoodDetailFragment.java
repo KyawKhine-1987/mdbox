@@ -13,22 +13,39 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.adapter.CommonTypeChoiceAdapter;
+import com.witts.mdbox.common.Constant;
+import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
+import com.witts.mdbox.model.Food;
+import com.witts.mdbox.model.FoodAttribute;
+import com.witts.mdbox.model.FoodCategory;
 import com.witts.mdbox.model.FoodDetail;
+import com.witts.mdbox.model.FoodDetailandImage;
+import com.witts.mdbox.model.FoodMenu;
+import com.witts.mdbox.model.FoodMenuWrapper;
+import com.witts.mdbox.model.WebServiceResult;
+import com.witts.mdbox.service.FoodCategoryListService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
-public class FoodDetailFragment extends Fragment implements View.OnClickListener{
+public class FoodDetailFragment extends BaseFragment implements View.OnClickListener{
     private static final String ARG_FOODTYPE = "param1";
-    private String mFoodType;
+    private int mFoodType;
 
     @BindView(R.id.rvchoosefoodtype)
     RecyclerView rvchoosefoodtype;
@@ -45,33 +62,41 @@ public class FoodDetailFragment extends Fragment implements View.OnClickListener
     @BindView(R.id.svinfocontainer)
     ScrollView svinfocontainer;
 
-    @BindView(R.id.tvFood_Name)
-    TextView tvFoodName;
+    @BindView(R.id.tvDetail)
+    TextView tvDetail;
 
-    @BindView(R.id.tvPrice)
-    TextView tvPrice;
-
-    @BindView(R.id.tvFood_Material)
-    TextView tvFoodMaterial;
-
-    @BindView(R.id.tvOther_Info)
-    TextView tvOtherInfo;
+    @BindView(R.id.tvlabel)
+    TextView tvlabel;
 
     @BindView(R.id.ivDetailImageContainer)
     ImageView ivDetailImageContainer;
 
-    FoodDetail foodDetail;
     List<FoodDetail> foodDetailList = new ArrayList<>();
-    List<String> imageUrlList = new ArrayList<>();
     CommonTypeChoiceAdapter commonTypeChoiceAdapter;
+    List<String> imageList = new ArrayList<>();
+    List<FoodDetailandImage> foodDetailandImageList = new ArrayList<>();
+
+    List<Food> foodList = new ArrayList<>();
+
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String languageCode= LanguageActivity.languageCode;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
+
+    LinearLayoutManager layoutManager;
+
     public FoodDetailFragment() {
         // Required empty public constructor
     }
 
-    public static FoodDetailFragment newInstance(String foodType) {
+    public static FoodDetailFragment newInstance(int foodType) {
         FoodDetailFragment fragment = new FoodDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_FOODTYPE, foodType);
+        args.putInt(ARG_FOODTYPE, foodType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,28 +105,14 @@ public class FoodDetailFragment extends Fragment implements View.OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mFoodType = getArguments().getString(ARG_FOODTYPE);
+            mFoodType = getArguments().getInt(ARG_FOODTYPE);
         }
 
-        foodDetail = new FoodDetail();
-        foodDetail.setJapaneseName("Sukiyaki");
-        foodDetail.setFoodName("Hot Pot");
-        foodDetail.setFoodPrice("2190 yen(tax included)");
-        foodDetail.setFoodMaterial("Beef, Japanese green onions, Shiitake, Shirataki baked tofu,\n" +
-                "Haruna chrysanthemum");
-        foodDetail.setOtherInfo("① Initially put meat \n" +
-                "② Put vegetables \n" +
-                "③ Tangle with eggs \n" +
-                "④ Put the melting egg and bake it for a while");
-        foodDetail.setFoodImageLargeUrl("www.image.com");
-        foodDetail.setFoodImageSmallUrl("www.image.com");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-        foodDetailList.add(foodDetail);
-
-        for(int i = 0;i < foodDetailList.size();i++)
-        {
-            imageUrlList.add(foodDetailList.get(i).getFoodImageSmallUrl());
-        }
     }
 
     @Override
@@ -116,35 +127,113 @@ public class FoodDetailFragment extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        tvFoodMaterial.setText(foodDetail.getFoodMaterial());
-        tvFoodName.setText(foodDetail.getFoodName());
-        tvOtherInfo.setText(foodDetail.getOtherInfo());
-        tvPrice.setText(foodDetail.getFoodPrice());
-
-        commonTypeChoiceAdapter = new CommonTypeChoiceAdapter(getContext(), imageUrlList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
-        rvchoosefoodtype.setLayoutManager(layoutManager);
-        rvchoosefoodtype.setHasFixedSize(true);
-        rvchoosefoodtype.setAdapter(commonTypeChoiceAdapter);
-        commonTypeChoiceAdapter.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemClick(int position, Object data) {
-                if(foodDetailList.get(position).getFoodImageLargeUrl() != null && !foodDetailList.get(position).getFoodImageLargeUrl().equals("")) {
-                    Picasso.with(getContext())
-                            .load(foodDetailList.get(position).getFoodImageLargeUrl())
-                            .error(R.drawable.cuisine)
-                            .into(ivDetailImageContainer);
-                    tvFoodMaterial.setText(foodDetail.getFoodMaterial());
-                    tvFoodName.setText(foodDetail.getFoodName());
-                    tvOtherInfo.setText(foodDetail.getOtherInfo());
-                    tvPrice.setText(foodDetail.getFoodPrice());
-                }
-            }
-        });
+        callWebService();
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
 
         imguparrow.setOnClickListener(this);
         imgdownarrow.setOnClickListener(this);
+    }
+
+    private void callWebService() {
+        showProgressDialog();
+        final FoodCategoryListService foodCategoryListService = ServiceFactory.getService(FoodCategoryListService.class);
+        foodCategoryListService.foodMenuList(accessToken,languageCode,date,time,timezone,channel,clientVersion,versionNo,mFoodType)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<WebServiceResult<FoodMenuWrapper>>() {
+                    @Override
+                    public void onCompleted() {
+                        if (foodList.size() > 0) {
+                            prepareandbindData(foodList);
+                            commonTypeChoiceAdapter = new CommonTypeChoiceAdapter(getContext(), imageList);
+                            rvchoosefoodtype.setLayoutManager(layoutManager);
+                            rvchoosefoodtype.setHasFixedSize(true);
+                            rvchoosefoodtype.setAdapter(commonTypeChoiceAdapter);
+                            commonTypeChoiceAdapter.setItemClickListener(new ItemClickListener() {
+                                @Override
+                                public void onItemClick(int position, Object data) {
+                                    if (imageList.get(position) != null && !imageList.get(position).equals("")) {
+                                        String imageapi = Constant.IMAGE_UPLOAD_URL + imageList.get(position) + "/?accessToken=" + accessToken + "&date=" + date + "&" +
+                                                "time=" + time + "&timezone=" + timezone + "&channel=" + channel + "&clientVersion=" + clientVersion + "&versionNo=" + versionNo + "&name=image";
+                                        Glide.with(getContext())
+                                                .load(imageapi)
+                                                .placeholder(R.drawable.spinner_of_dots)
+                                                .error(R.drawable.spinner_of_dots)
+                                                .into(ivDetailImageContainer);
+
+                                        StringBuilder foodBuilder = new StringBuilder();
+                                        for (int i = 1; i < foodDetailandImageList.get(position).getFoodDetailList().size(); i++) {
+                                            foodBuilder.append(foodDetailandImageList.get(position).getFoodDetailList().get(i).getDisplayName() + " :" +
+                                                    foodDetailandImageList.get(position).getFoodDetailList().get(i).getValue() + " " + foodDetailandImageList.get(position).getFoodDetailList().get(i).getUnit() + "\n");
+                                        }
+                                        tvlabel.setText(foodDetailandImageList.get(position).getFoodDetailList().get(0).getDisplayName());
+                                        tvDetail.setText(foodBuilder);
+                                    }
+                                }
+                            });
+                            String imageapi = imageList.get(0) + "/?accessToken=" + accessToken + "&date=" + date + "&" +
+                                    "time=" + time + "&timezone=" + timezone + "&channel=" + channel + "&clientVersion=" + clientVersion + "&versionNo=" + versionNo + "&name=image";
+                            Glide.with(getContext())
+                                    .load(imageapi)
+                                    .placeholder(R.drawable.spinner_of_dots)
+                                    .error(R.drawable.spinner_of_dots)
+                                    .into(ivDetailImageContainer);
+
+                            StringBuilder foodBuilder = new StringBuilder();
+                            for (int i = 1; i < foodDetailandImageList.get(0).getFoodDetailList().size(); i++) {
+                                foodBuilder.append(foodDetailandImageList.get(0).getFoodDetailList().get(i).getDisplayName() + " :" +
+                                        foodDetailandImageList.get(0).getFoodDetailList().get(i).getValue() + " " + foodDetailandImageList.get(0).getFoodDetailList().get(i).getUnit() + "\n");
+                            }
+                            tvlabel.setText(foodDetailandImageList.get(0).getFoodDetailList().get(0).getDisplayName());
+                            tvDetail.setText(foodBuilder);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                        showAlert(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(final WebServiceResult<FoodMenuWrapper> foodMenuWrapperWebServiceResult) {
+                        if (foodMenuWrapperWebServiceResult != null) {
+                            for(int i=0;i<foodMenuWrapperWebServiceResult.getResponse().getFoodCategoryList().size();i++) {
+                                FoodMenu foodMenu = foodMenuWrapperWebServiceResult.getResponse().getFoodCategoryList().get(i);
+                                foodList = new ArrayList<Food>();
+                                if (foodMenu.getFoodList()!= null && foodMenu.getFoodList().size() > 0) {
+                                    for (int j = 0; j < foodMenu.getFoodList().size(); j++) {
+                                        Food food = new Food();
+                                        food = foodMenu.getFoodList().get(j);
+                                        foodList.add(food);
+                                    }
+                                }
+                            }
+                        }
+                        dismissProgressDialog();
+                    }
+                });
+    }
+
+    private void prepareandbindData(List<Food> foodList) {
+        imageList = new ArrayList<>();
+        foodDetailandImageList = new ArrayList<>();
+        for(int i=0;i<foodList.size();i++)
+        {
+            foodDetailList =new ArrayList<>();
+            for(int j=0;j<foodList.get(i).getAttributeList().size();j++) {
+                FoodDetail foodDetail = new FoodDetail();
+                foodDetail.setDisplayName(foodList.get(i).getAttributeList().get(j).getDisplayName());
+                foodDetail.setUnit(foodList.get(i).getAttributeList().get(j).getUnit());
+                foodDetail.setValue(foodList.get(i).getAttributeList().get(j).getValue());
+                foodDetailList.add(foodDetail);
+            }
+            FoodDetailandImage souvenirImageandDetail = new FoodDetailandImage();
+            souvenirImageandDetail.setImageUrl(foodList.get(i).getImagePath());
+            souvenirImageandDetail.setFoodDetailList(foodDetailList);
+            foodDetailandImageList.add(souvenirImageandDetail);
+            imageList.add(foodList.get(i).getImagePath());
+        }
     }
 
     @Override
