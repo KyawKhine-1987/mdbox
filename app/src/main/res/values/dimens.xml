@@ -16,6 +16,7 @@
     <dimen name="fl_marginLeft">20dp</dimen>
     <dimen name="fl_marginRight">5dp</dimen>
     <dimen name="fl_marginTop">5dp</dimen>
+    <dimen name="hide_tabIndicatorHeight">0dp</dimen>
 
     <!--fragment_location.xml-->
     <!--Start nexus5X resolution size-->

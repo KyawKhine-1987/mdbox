@@ -28,5 +28,4 @@ public interface LocationCategoryListService {
                                                                   @Query("timezone") String timezone, @Query("channel") String channel,
                                                                   @Query("clientVersion") String clientVersion, @Query("versionNo") String versionNo,
                                                                   @Query("locationCategoryId") int locationCategoryId);
-    /*@Query("languageCode") String languageCode,*/
 }

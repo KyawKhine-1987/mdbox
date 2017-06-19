@@ -28,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.http.HEAD;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -52,8 +53,9 @@ public class LocationActivity extends BasedActivity {
     ImageView ivBack;
 
     //Declare and passed through with eight arguments and which is binding relevant data from API-1.
-    private String accessToken = Constant.ACCESS_TOKEN;
-    private String languageCode = "jp";
+    private String accessToken = LanguageActivity.ACCESSTOKEN;
+    private String languageCode = LanguageActivity.languageCode;
+
     private String date = "";
     private String time = "";
     private String timezone = "UTC";
@@ -194,7 +196,7 @@ public class LocationActivity extends BasedActivity {
                                 if (locationCategoryWebServiceResult.getResponse().getLocationList().get(i).getPublishInd().equals("Y")) {
                                     locationAttributesList.add(locationCategoryWebServiceResult.getResponse().getLocationList().get(i).getLocationAttribute().get(0));
                                     for (int j = 0; j < locationAttributesList.size(); j++) {
-                                        if (locationAttributesList.get(j).getLanguageCode().equals(Constant.SELECTED_LANGUAGE))
+                                        if (locationAttributesList.get(j).getLanguageCode().equals(LanguageActivity.languageCode))
                                             locationCategoryListTabTitle[i] = locationAttributesList.get(j).getName();
                                     }
                                 }
