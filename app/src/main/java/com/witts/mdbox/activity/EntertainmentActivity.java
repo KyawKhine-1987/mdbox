@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import com.witts.mdbox.R;
 import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.fragments.EntertainmentTypeFragment;
+import com.witts.mdbox.model.Entertainment;
+import com.witts.mdbox.model.EntertainmentAttribute;
 import com.witts.mdbox.model.EntertainmentListWrapper;
 import com.witts.mdbox.model.EntertainmentType;
 import com.witts.mdbox.model.WebServiceResult;
@@ -40,6 +42,7 @@ public class EntertainmentActivity extends BasedActivity {
 
     EntertainmentType entertainmentType;
     List<EntertainmentType> entertainmentTypeList = new ArrayList<>();
+    List<EntertainmentAttribute> entertainmentAttributeList = new ArrayList<>();
     List<String> imageUrlList = new ArrayList<>();
 
     private String accessToken= LanguageActivity.ACCESSTOKEN;
@@ -50,6 +53,9 @@ public class EntertainmentActivity extends BasedActivity {
     private String channel="WEB";
     private String clientVersion="1.0";
     private String versionNo="0001";
+
+    public List<String> categoryTabTitle = new ArrayList<>();
+    public List<Entertainment> entertainmentList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,19 +95,6 @@ public class EntertainmentActivity extends BasedActivity {
 
         callWebService();
 
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        vpentertainmentDetail.setAdapter(pagerAdapter);
-        vpentertainmentDetail.clearOnPageChangeListeners();
-        vpentertainmentDetail.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlentertainmentDetail));
-        tlentertainmentDetail.setTabsFromPagerAdapter(pagerAdapter);
-        tlentertainmentDetail.post(new Runnable() {
-            @Override
-            public void run() {
-                tlentertainmentDetail.setupWithViewPager(vpentertainmentDetail);
-            }
-        });
-
-
         ivback.setOnClickListener(new View .OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,21 +124,47 @@ public class EntertainmentActivity extends BasedActivity {
                 .subscribe(new Observer<WebServiceResult<EntertainmentListWrapper>>() {
                     @Override
                     public void onCompleted() {
-
+                        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+                        vpentertainmentDetail.setAdapter(pagerAdapter);
+                        vpentertainmentDetail.clearOnPageChangeListeners();
+                        vpentertainmentDetail.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlentertainmentDetail));
+                        tlentertainmentDetail.setTabsFromPagerAdapter(pagerAdapter);
+                        tlentertainmentDetail.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tlentertainmentDetail.setupWithViewPager(vpentertainmentDetail);
+                            }
+                        });
+                        dismissProgressDialog();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        dismissProgressDialog();
                         showAlert(e.getMessage());
                     }
 
                     @Override
                     public void onNext(final WebServiceResult<EntertainmentListWrapper> entertainmentListWrapperWebServiceResult) {
                         if (entertainmentListWrapperWebServiceResult != null) {
+                            categoryTabTitle = new ArrayList<>();
+                            entertainmentList = new ArrayList<Entertainment>();
+                            for(int i =0;i<entertainmentListWrapperWebServiceResult.getResponse().getEntertainmentList().size();i++) {
+                                Entertainment entertainment = new Entertainment();
+                                entertainment = entertainmentListWrapperWebServiceResult.getResponse().getEntertainmentList().get(i);
+                                entertainmentAttributeList = new ArrayList<EntertainmentAttribute>();
+                                for(int j=0;j<entertainment.getAttributeList().size();j++)
+                                {
+                                    if(entertainment.getAttributeList().get(j).getAttributeName().equalsIgnoreCase("title"))
+                                        categoryTabTitle.add(entertainment.getAttributeList().get(j).getDisplayName());
+                                    else
+                                        entertainmentAttributeList.add(entertainment.getAttributeList().get(j));
+                                }
+                                Entertainment e = new Entertainment();
+                                e.setImagePaths(entertainment.getImagePaths());
+                                e.setAttributeList(entertainmentAttributeList);
+                                entertainmentList.add(e);
+                            }
                         }
-
-                        dismissProgressDialog();
                     }
                 });
     }
@@ -159,10 +178,10 @@ public class EntertainmentActivity extends BasedActivity {
         public Fragment getItem(int position) {
             EntertainmentTypeFragment fragment;
 
-            for(int i=0;i<entertainmentTypeList.size();i++) {
+            for(int i=0;i<categoryTabTitle.size();i++) {
                 if (position == i)
                 {
-                    fragment = EntertainmentTypeFragment.newInstance(entertainmentTypeList.get(i).getEntertainmentType());
+                    fragment = EntertainmentTypeFragment.newInstance(entertainmentList.get(i),categoryTabTitle.get(i));
                     return fragment;
                 }
             }
@@ -171,12 +190,12 @@ public class EntertainmentActivity extends BasedActivity {
 
         @Override
         public int getCount() {
-            return entertainmentTypeList.size();
+            return categoryTabTitle.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return entertainmentTypeList.get(position).getEntertainmentType();
+            return categoryTabTitle.get(position);
         }
     }
 }

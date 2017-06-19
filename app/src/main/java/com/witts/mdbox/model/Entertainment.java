@@ -1,5 +1,8 @@
 package com.witts.mdbox.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +12,7 @@ import java.util.List;
  * Created by wm02 on 6/16/2017.
  */
 
-public class Entertainment {
+public class Entertainment implements Parcelable{
 
     @SerializedName("branchId")
     public int branchId;
@@ -69,4 +72,13 @@ public class Entertainment {
     public String publishInd;
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
 }

@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
 import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.adapter.CommonTypeChoiceAdapter;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.Food;
@@ -152,7 +153,7 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
                                 @Override
                                 public void onItemClick(int position, Object data) {
                                     if (imageList.get(position) != null && !imageList.get(position).equals("")) {
-                                        String imageapi = imageList.get(position) + "/?accessToken=" + accessToken + "&date=" + date + "&" +
+                                        String imageapi = Constant.IMAGE_UPLOAD_URL + imageList.get(position) + "/?accessToken=" + accessToken + "&date=" + date + "&" +
                                                 "time=" + time + "&timezone=" + timezone + "&channel=" + channel + "&clientVersion=" + clientVersion + "&versionNo=" + versionNo + "&name=image";
                                         Glide.with(getContext())
                                                 .load(imageapi)

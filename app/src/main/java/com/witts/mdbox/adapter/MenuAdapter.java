@@ -82,10 +82,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
                     animatedBackground(position,holder.imgbackground);
                     holder.flcontainer.startAnimation(animScale);
+                    holder.flcontainer.bringToFront();
                 } else
                 {
-                    holder.flcontainer.clearAnimation();
                     normalBackground(position,holder.imgbackground);
+                    holder.flcontainer.clearAnimation();
                 }
             }
         });

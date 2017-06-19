@@ -75,7 +75,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
         setContentView(R.layout.activity_language);
         ButterKnife.bind(this);
         showProgressDialog();
-        WifiManager wimanager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiManager wimanager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         address = wimanager.getConnectionInfo().getMacAddress();
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
@@ -112,8 +112,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-
-                        showAlert(e.getMessage());
+                        showAlert("Connection Timeout");
                     }
 
                     @Override
@@ -181,8 +180,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-
-                        showAlert(e.getMessage());
+                        showAlert("Connection Timeout");
                     }
 
                     @Override

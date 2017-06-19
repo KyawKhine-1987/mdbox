@@ -37,7 +37,7 @@
                     android:layout_marginTop="15dp"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/txtlabel"
+                        android:id="@+id/tvLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -82,131 +82,10 @@
                             android:id="@+id/svinfocontainer"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/tvDetail"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginLeft="15dp">
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="* Name :"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                    <TextView
-                                        android:id="@+id/tvEntertain_Name"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="游 泳 館"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="* Time :"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                    <TextView
-                                        android:id="@+id/tvTime"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="10: 00 ~ 22: 00 "
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="* Price :"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                    <TextView
-                                        android:id="@+id/tvPrice"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="1,000 yen / day"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="* Rental Item:"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="\tSwimming clothing:"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                    <TextView
-                                        android:id="@+id/tvRental1"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="300 yen / day"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="\tFloating wheel:"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                    <TextView
-                                        android:id="@+id/tvRental2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="300 yen / day"
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp">
-                                    <TextView
-                                        android:id="@+id/tvOther_Info"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="* Our Hotel's pool is easy to escape from congestion The popularity is highly enclosed every year when you can spend a lot of time, and in recent years there are many cases where you can use the spa and jacuzzi in combination with the fulfillment of events, such as night boules and events being mined Relaxation effect is also perfect."
-                                        android:textColor="#fff"
-                                        android:textSize="12sp"/>
-                                </LinearLayout>
-                            </LinearLayout>
+                                android:layout_height="match_parent" />
                         </ScrollView>
                     </LinearLayout>
                     <ImageView
