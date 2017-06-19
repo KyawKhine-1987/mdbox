@@ -23,8 +23,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.adapter.LocationAdapter;
-import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.LocationList;
@@ -86,8 +86,8 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
     private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 
     //Declare we used to GoogleMap, passed through with eight arguments and which is binding relevant data from API-2.
-    private String accessToken = Constant.ACCESS_TOKEN;
-    private String languageCode = "JP";
+    private String accessToken = LanguageActivity.ACCESSTOKEN;
+    private String languageCode = LanguageActivity.languageCode;
     private String date = "";
     private String time = "";
     private String timezone = "UTC";
@@ -269,6 +269,7 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
 
                                 //This method is included textview which is binding relevant data from API-2.
                                 bindingData();
+                                //TODO LIST
                             }
                         });
                     }

@@ -38,7 +38,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLocationNameList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:descendantFocusability="afterDescendants"/>
 
     </LinearLayout>
 
@@ -210,10 +212,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:maxLines="2"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 tools:text="This is Binding Data for Area 3."/>
+            <!--android:maxLines="4"-->
         </ScrollView>
 
         <ImageView

@@ -13,6 +13,8 @@ import com.witts.mdbox.interfaces.ItemClickListener;
 
 import java.util.List;
 
+import static com.witts.mdbox.adapter.MenuAdapter.context;
+
 /**
  * Created by Kyaw Khine on 06/08/2017.
  */
@@ -25,6 +27,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     private Context mContext;
     private List<String> mLocationList;
     private ItemClickListener<String> mItemClickListener;
+    private static int selected_item = -1;
 
     //Constructor
     public LocationAdapter(Context context, List<String> locationList) {
@@ -46,7 +49,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(LocationAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final LocationAdapter.ViewHolder holder, final int position) {
         Log.i(LOG_TAG, "TEST : onBindViewHolder() called...");
 
         //Get the locationName data from mLocationList position.
@@ -59,9 +62,27 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i(LOG_TAG, "TEST : onClick() called...");
 
                 //Set the relevant position data in the RecyclerView.
                 mItemClickListener.onItemClick(position, locationName);
+
+                holder.LocationName.setBackgroundResource(R.drawable.selected_background);
+            }
+        });
+
+        holder.LocationName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    holder.LocationName.setBackground(context.getResources().getDrawable(R.drawable.selected_background));
+                }
+                else if(selected_item == position){
+                    holder.LocationName.setBackground(context.getResources().getDrawable(R.drawable.selected_background));
+                }
+                else {
+                    holder.LocationName.setBackground(context.getResources().getDrawable(R.drawable.unselected_background));
+                }
             }
         });
     }
