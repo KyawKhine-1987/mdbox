@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rlContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+    <!--This is LinearLayoutArea2 and it position has left side. It's Binding relevant data from API 2.-->
+    <LinearLayout
+        android:id="@+id/llArea2"
+        android:layout_width="@dimen/llArea2_width"
+        android:layout_height="@dimen/llArea2and3_height"
+        android:layout_marginLeft="@dimen/ten"
+        android:layout_marginTop="@dimen/ten"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/fragment"
+            layout="@layout/activity_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <!--This is LinearLayoutArea3 and it position has right side.  It's Binding relevant data from API-2 which is included RecyclerView.-->
+    <LinearLayout
+        android:id="@+id/llArea3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/llArea2and3_height"
+        android:layout_marginLeft="@dimen/ten"
+        android:layout_marginRight="@dimen/ten"
+        android:layout_marginTop="@dimen/ten"
+        android:layout_toRightOf="@id/llArea2"
+        android:background="@color/skyBlue"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvLocationNameList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <!--This is LinearLayoutArea4 and it position has left side of bottom.-->
+    <LinearLayout
+        android:id="@+id/llArea4"
+        android:layout_width="@dimen/llArea4_width"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llArea2"
+        android:orientation="vertical">
+
+        <!--There're imageview, textview and scrollview for each PostalCode, PlaceName and Address included in this LinearLayoutSubArea1 .-->
+        <LinearLayout
+            android:id="@+id/llSubArea1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/six"
+                android:layout_weight="0"
+                android:src="@drawable/location"/>
+
+            <TextView
+                android:id="@+id/tvPostalCode"
+                android:layout_width="@dimen/tvPostalCode_width"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/two"
+                android:layout_weight="0"
+                android:fontFamily="Roboto"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                tools:text="This is Postal Code."/>
+
+            <ScrollView
+                android:id="@+id/svPlaceName"
+                android:layout_width="@dimen/svPlaceName_width"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tvPlaceName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/two"
+                    android:fontFamily="Roboto"
+                    android:lineSpacingMultiplier="1.1"
+                    android:maxLines="2"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    tools:text="This is Place Name."/>
+
+            </ScrollView>
+
+            <ScrollView
+                android:id="@+id/svAddress"
+                android:layout_width="@dimen/svAddress_width"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/three"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/two"
+                    android:fontFamily="Roboto"
+                    android:lineSpacingMultiplier="1.1"
+                    android:maxLines="3"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    tools:text="This is Address."/>
+
+            </ScrollView>
+        </LinearLayout>
+
+        <!--There're imageview and textview for phone included in this linearlayoutArea2.-->
+        <LinearLayout
+            android:id="@+id/llSubArea2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/six"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/six"
+                android:layout_weight="0"
+                android:src="@drawable/phone"/>
+
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/two"
+                android:layout_weight="1"
+                android:fontFamily="Roboto"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                tools:text="This is Phone Number."/>
+
+        </LinearLayout>
+
+        <!--There're imageview and textview for url included in this linearlayoutArea3.-->
+
+        <LinearLayout
+            android:id="@+id/llSubArea3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/six"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivURL"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/six"
+                android:layout_weight="0"
+                android:src="@drawable/url"/>
+
+            <TextView
+                android:id="@+id/tvURL"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/two"
+                android:layout_weight="1"
+                android:fontFamily="Roboto"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                tools:text="This is URL."/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--This is LinearLayoutArea5 which is included scrollview, textview and imageview and it position has right side of bottom.-->
+    <LinearLayout
+        android:id="@+id/llArea5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llArea3"
+        android:layout_toRightOf="@id/llArea4"
+        android:orientation="horizontal">
+
+        <ScrollView
+            android:id="@+id/svDesp"
+            android:layout_width="@dimen/svDesp_width"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/six"
+            android:layout_marginTop="@dimen/four"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvDesp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                tools:text="This is Binding Data for Area 3."/>
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/ivQRCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ivQRCode_marginTop"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/qr_and_hand"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

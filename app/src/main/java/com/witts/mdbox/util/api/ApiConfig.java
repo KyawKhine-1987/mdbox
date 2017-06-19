@@ -34,4 +34,10 @@ public class ApiConfig {
     public static final String ROOM_TYPE_LIST_URL = "json/room/room-type-list";
 
     public static final String ENTERTAINMENT_LIST_URL = "json/entertainment/entertainment-list";
+
+    /*This url used to LocationCategoryList.*/
+    public static final String LOCATION_CATEGORY_LIST_URL = "json/device/location-categorylist";
+
+    /*This url used to LocationList.*/
+    public static final String LOCATION_LIST_URL = "json/device/locationlist";
 }

@@ -141,7 +141,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
             goToContactReception();
         }
         if(position==6) {
-            goToBedroomDetail();
+            goToLocationCategory();
         }
     }
 
@@ -174,4 +174,10 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
         Intent intent = new Intent(MenuActivity.this, SouvenirGuideActivity.class);
         startActivity(intent);
     }
+
+    private void goToLocationCategory() {
+        Intent intent = new Intent(MenuActivity.this, LocationActivity.class);
+        startActivity(intent);
+    }
+
 }
