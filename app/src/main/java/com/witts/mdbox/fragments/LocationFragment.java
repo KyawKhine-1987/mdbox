@@ -168,6 +168,73 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
                 Log.e(LOG_TAG, "Problem making the SupportMapFragment.", e);
             }
         }
+
+        tvPostalCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvPostalCode.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvPostalCode.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvPlaceName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvPlaceName.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvPlaceName.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvAddress.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvAddress.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvPhone.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvPhone.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvURL.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvURL.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvURL.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvDesp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvDesp.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvDesp.setBackgroundResource(0);
+                }
+            }
+        });
+
         return rootView;
     }
 

@@ -76,6 +76,8 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
                 tools:text="This is Postal Code."/>
 
             <ScrollView
@@ -95,6 +97,8 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:maxLines="2"
+                    android:clickable="true"
+                    android:focusable="true"
                     tools:text="This is Place Name."/>
 
             </ScrollView>
@@ -116,6 +120,8 @@
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/white"
                     android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
                     tools:text="This is Address."/>
                 <!--android:maxLines="2"-->
             </ScrollView>
@@ -149,6 +155,8 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
                 tools:text="This is Phone Number."/>
 
         </LinearLayout>
@@ -181,6 +189,8 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
                 tools:text="This is URL."/>
         </LinearLayout>
 
@@ -211,6 +221,8 @@
                 android:gravity="center_horizontal"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
                 tools:text="This is Binding Data for Area 3."/>
             <!--android:maxLines="2"-->
         </ScrollView>
