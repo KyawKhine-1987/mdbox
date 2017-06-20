@@ -9,7 +9,7 @@
     <!--This is LinearLayoutArea2 and it position has left side. It's Binding relevant data from API 2.-->
     <LinearLayout
         android:id="@+id/llArea2"
-        android:layout_width="@dimen/llArea2_width"
+        android:layout_width="@dimen/llArea2and4_width"
         android:layout_height="@dimen/llArea2and3_height"
         android:layout_marginLeft="@dimen/ten"
         android:layout_marginTop="@dimen/ten"
@@ -38,16 +38,14 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLocationNameList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:descendantFocusability="afterDescendants"/>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
     <!--This is LinearLayoutArea4 and it position has left side of bottom.-->
     <LinearLayout
         android:id="@+id/llArea4"
-        android:layout_width="@dimen/llArea4_width"
+        android:layout_width="@dimen/llArea2and4_width"
         android:layout_height="match_parent"
         android:layout_below="@id/llArea2"
         android:orientation="vertical">
@@ -62,7 +60,7 @@
 
             <ImageView
                 android:id="@+id/ivLocation"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/iv_width"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/six"
                 android:layout_weight="0"
@@ -93,10 +91,10 @@
                     android:layout_marginTop="@dimen/two"
                     android:fontFamily="Roboto"
                     android:lineSpacingMultiplier="1.1"
-                    android:maxLines="2"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/white"
                     android:textStyle="bold"
+                    android:maxLines="2"
                     tools:text="This is Place Name."/>
 
             </ScrollView>
@@ -115,12 +113,11 @@
                     android:layout_marginTop="@dimen/two"
                     android:fontFamily="Roboto"
                     android:lineSpacingMultiplier="1.1"
-                    android:maxLines="3"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     tools:text="This is Address."/>
-
+                <!--android:maxLines="2"-->
             </ScrollView>
         </LinearLayout>
 
@@ -135,7 +132,7 @@
 
             <ImageView
                 android:id="@+id/ivPhone"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/iv_width"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/six"
@@ -168,7 +165,7 @@
 
             <ImageView
                 android:id="@+id/ivURL"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/iv_width"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/six"
                 android:layout_weight="0"
@@ -215,7 +212,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 tools:text="This is Binding Data for Area 3."/>
-            <!--android:maxLines="4"-->
+            <!--android:maxLines="2"-->
         </ScrollView>
 
         <ImageView
@@ -225,8 +222,10 @@
             android:layout_marginTop="@dimen/ivQRCode_marginTop"
             android:layout_weight="1"
             android:scaleType="fitCenter"
+            android:layout_marginLeft="@dimen/six"
             android:src="@drawable/qr_and_hand"/>
 
     </LinearLayout>
 
 </RelativeLayout>
+
