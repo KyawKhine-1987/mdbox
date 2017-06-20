@@ -269,7 +269,6 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
 
                                 //This method is included textview which is binding relevant data from API-2.
                                 bindingData();
-                                //TODO LIST
                             }
                         });
                     }
