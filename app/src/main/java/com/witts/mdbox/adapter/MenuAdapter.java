@@ -67,7 +67,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                 Glide.with(context)
                         .load(imageapi)
                         .placeholder(R.drawable.spinner_of_dots)
-                        .error(R.drawable.spinner_of_dots)
+                        .error(R.drawable.error_icon)
                         .into(holder.ivmenu);
         }
         normalBackground(position,holder.imgbackground);
@@ -76,10 +76,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, menuContent);
-                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-                animatedBackground(position,holder.imgbackground);
-                holder.flcontainer.startAnimation(animScale);
-
+//                normalBackground(position,holder.imgbackground);
+//                holder.flcontainer.clearAnimation();
             }
         });
         holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {

@@ -251,7 +251,7 @@ public class ContactReceptionFragment extends BaseFragment {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        showAlert("Connection Timeout");
+                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getContext()));
                     }
 
                     @Override
@@ -259,7 +259,7 @@ public class ContactReceptionFragment extends BaseFragment {
                         dismissProgressDialog();
 
                         if (sendQuestionWrapper.getMeta().getCode() != null && !sendQuestionWrapper.getMeta().getCode().isEmpty()) {
-                            Toast.makeText(getContext(),"Question has been sent",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),PropertiesUtil.getProperty("t0001",LanguageActivity.languageCode+"_message.properties",getContext()),Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Toast.makeText(getContext(),"Fail ..",Toast.LENGTH_SHORT).show();

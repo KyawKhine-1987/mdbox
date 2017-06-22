@@ -18,6 +18,7 @@ import com.witts.mdbox.model.EntertainmentListWrapper;
 import com.witts.mdbox.model.EntertainmentType;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.EntertainmentService;
+import com.witts.mdbox.util.PropertiesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -140,7 +141,7 @@ public class EntertainmentActivity extends BasedActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        showAlert(e.getMessage());
+                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getApplicationContext()));
                     }
 
                     @Override

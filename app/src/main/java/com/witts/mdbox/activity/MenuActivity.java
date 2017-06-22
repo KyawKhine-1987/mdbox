@@ -12,12 +12,14 @@ import android.widget.Toast;
 import com.witts.mdbox.R;
 import com.witts.mdbox.adapter.MenuAdapter;
 import com.witts.mdbox.common.ServiceFactory;
+import com.witts.mdbox.common.StatusBar;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.Menu;
 import com.witts.mdbox.model.MenuContent;
 import com.witts.mdbox.model.MenuListWrapper;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.MainMenuEnquiryService;
+import com.witts.mdbox.util.PropertiesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,25 +59,29 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_menu);
+        ButterKnife.bind(this);
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setContentView(R.layout.activity_menu);
-        ButterKnife.bind(this);
         gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
         callWebService();
 
         tvreception.setSelected(true);
         tvreception.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textmove));
 
+        StatusBar statusBar = new StatusBar(getApplicationContext());
+        int num = statusBar.getWiFiSignal();
+        String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void callWebService() {
@@ -93,7 +99,7 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        showAlert("Connection Timeout");
+                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getApplicationContext()));
                     }
 
                     @Override

@@ -30,4 +30,5 @@ public interface Constant {
     public static final String clientVersion = "1.0";
     public static final String versionNo = "0001";
     public static final String IMAGE_UPLOAD_URL = "http://139.59.248.59/images/";
+    public static final String WIFI_PASSWORD = "123456789";
 }

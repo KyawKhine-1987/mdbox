@@ -66,7 +66,7 @@ public class CommonTypeChoiceAdapter extends RecyclerView.Adapter<CommonTypeChoi
             Glide.with(mContext)
                     .load(imageapi)
                     .placeholder(R.drawable.spinner_of_dots)
-                    .error(R.drawable.bedroom_small)
+                    .error(R.drawable.error_icon)
                     .into(holder.ivroomviewchoice);
         }
 //        holder.ivroomviewchoice.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bedroom_small));

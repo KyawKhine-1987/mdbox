@@ -20,6 +20,7 @@ import com.witts.mdbox.model.Restaurant;
 import com.witts.mdbox.model.RestaurantWrapper;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.RestaurantService;
+import com.witts.mdbox.util.PropertiesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -114,7 +115,7 @@ public class RestaurantListActivity extends BasedActivity implements ItemClickLi
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        showAlert("Connection Timeout");
+                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getApplicationContext()));
                     }
 
                     @Override

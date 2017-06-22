@@ -124,7 +124,7 @@ public class EntertainmentTypeFragment extends Fragment implements View.OnClickL
                 Glide.with(getContext())
                         .load(imageapi)
                         .placeholder(R.drawable.spinner_of_dots)
-                        .error(R.drawable.spinner_of_dots)
+                        .error(R.drawable.error_icon)
                         .into(ivDetailImageContainer);
                 }
         });
@@ -134,7 +134,7 @@ public class EntertainmentTypeFragment extends Fragment implements View.OnClickL
         Glide.with(getContext())
                 .load(imageapi)
                 .placeholder(R.drawable.spinner_of_dots)
-                .error(R.drawable.spinner_of_dots)
+                .error(R.drawable.error_icon)
                 .into(ivDetailImageContainer);
 
         StringBuilder entertainmentString=new StringBuilder();

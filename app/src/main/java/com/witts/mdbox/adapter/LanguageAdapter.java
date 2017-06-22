@@ -85,7 +85,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
             Glide.with(context)
                     .load(imageapi)
                     .placeholder(R.drawable.spinner_of_dots)
-                    .error(R.drawable.spinner_of_dots)
+                    .error(R.drawable.error_icon)
                     .into(holder.ivFlag);
         }
         holder.tvLanguage.setText(welcomeMessage.getDisplayLanguageName());
@@ -93,10 +93,9 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //holder.llcontainer.clearAnimation();
+                holder.llcontainer.setBackground(context.getResources().getDrawable(R.drawable.appcompact_mainactivity_background));
                 itemClickListener.onItemClick(position, welcomeMessage);
-                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-                holder.llcontainer.startAnimation(animScale);
-                holder.llcontainer.bringToFront();
             }
         });
 

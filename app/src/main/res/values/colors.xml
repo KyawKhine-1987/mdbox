@@ -12,6 +12,7 @@
     <color name="mainmenuTextColor">#3d2e58</color>
     <color name="contactBackground">#f6544d</color>
     <color name="dialogbuttonbackground">#edebea</color>
+    <color name="buttonbackground">#ffa839</color>
 
     <!--activity_location.xml-->
     <color name="tlLocationCategoryListColor_On">#ffc92b</color>

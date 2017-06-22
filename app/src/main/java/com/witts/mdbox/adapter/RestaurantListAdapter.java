@@ -59,7 +59,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         Glide.with(context)
                 .load(imageapi)
                 .placeholder(R.drawable.spinner_of_dots)
-                .error(R.drawable.spinner_of_dots)
+                .error(R.drawable.error_icon)
                 .into(holder.ivmenu);
         normalBackground(position,holder.imgbackground);
 
@@ -67,10 +67,10 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, menuContent);
-                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
-                animatedBackground(position,holder.imgbackground);
-                holder.flcontainer.startAnimation(animScale);
-                holder.flcontainer.bringToFront();
+//                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+//                animatedBackground(position,holder.imgbackground);
+//                holder.flcontainer.startAnimation(animScale);
+//                holder.flcontainer.bringToFront();
             }
         });
 
@@ -78,7 +78,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
+                    animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
                     animatedBackground(position,holder.imgbackground);
                     holder.flcontainer.startAnimation(animScale);
                     holder.flcontainer.bringToFront();

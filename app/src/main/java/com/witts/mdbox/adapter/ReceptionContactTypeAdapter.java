@@ -60,7 +60,7 @@ public class ReceptionContactTypeAdapter extends RecyclerView.Adapter<ReceptionC
                 Glide.with(context)
                         .load(imageapi)
                         .placeholder(R.drawable.spinner_of_dots)
-                        .error(R.drawable.spinner_of_dots)
+                        .error(R.drawable.error_icon)
                         .into(holder.ivcontact_image);
         }
 

@@ -150,7 +150,7 @@ public class SouvenirDetailFragment extends BaseFragment {
                                     Glide.with(getContext())
                                             .load(imageapi)
                                             .placeholder(R.drawable.spinner_of_dots)
-                                            .error(R.drawable.spinner_of_dots)
+                                            .error(R.drawable.error_icon)
                                             .into(ivDetailImageContainer);
                                 }
                                 StringBuilder souvenirString=new StringBuilder();
@@ -169,7 +169,7 @@ public class SouvenirDetailFragment extends BaseFragment {
                             Glide.with(getContext())
                                     .load(imageapi)
                                     .placeholder(R.drawable.spinner_of_dots)
-                                    .error(R.drawable.spinner_of_dots)
+                                    .error(R.drawable.error_icon)
                                     .into(ivDetailImageContainer);
 
                         StringBuilder souvenirString=new StringBuilder();

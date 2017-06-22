@@ -20,6 +20,7 @@ import com.witts.mdbox.model.LocationAttribute;
 import com.witts.mdbox.model.LocationCategory;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.LocationCategoryListService;
+import com.witts.mdbox.util.PropertiesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -170,7 +171,7 @@ public class LocationActivity extends BasedActivity {
 
                         dismissProgressDialog();
                         //If the connection is break down then set the Toast message show with Fail.
-                        Toast.makeText(getBaseContext(), "Failed..", Toast.LENGTH_SHORT).show();
+                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getApplicationContext()));
                     }
 
                     @Override

@@ -158,7 +158,7 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
                                         Glide.with(getContext())
                                                 .load(imageapi)
                                                 .placeholder(R.drawable.spinner_of_dots)
-                                                .error(R.drawable.spinner_of_dots)
+                                                .error(R.drawable.error_icon)
                                                 .into(ivDetailImageContainer);
 
                                         StringBuilder foodBuilder = new StringBuilder();
@@ -176,7 +176,7 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
                             Glide.with(getContext())
                                     .load(imageapi)
                                     .placeholder(R.drawable.spinner_of_dots)
-                                    .error(R.drawable.spinner_of_dots)
+                                    .error(R.drawable.error_icon)
                                     .into(ivDetailImageContainer);
 
                             StringBuilder foodBuilder = new StringBuilder();
