@@ -13,13 +13,19 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.adapter.CommonTypeChoiceAdapter;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.RoomDetail;
+import com.witts.mdbox.model.RoomType;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,7 +33,9 @@ import butterknife.ButterKnife;
 
 public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickListener{
     private static final String ARG_ROOMTYPE = "param1";
-    private String mRoonType;
+    private static final String ARG_ROOMTITLE = "param2";
+    private RoomType roomType;
+    private String title;
 
     @BindView(R.id.rvchooseroomtype)
     RecyclerView rvchooseroomtype;
@@ -44,36 +52,35 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
     @BindView(R.id.svinfocontainer)
     NestedScrollView svinfocontainer;
 
-    @BindView(R.id.tvBed_Fee)
-    TextView tvBedFee;
+    @BindView(R.id.tvDetail)
+    TextView tvDetail;
 
-    @BindView(R.id.tvBed_Width)
-    TextView tvBedWidth;
-
-    @BindView(R.id.tvOther_info)
-    TextView tvOtherInfo;
-
-    @BindView(R.id.tvRoom_Size)
-    TextView tvRoomSize;
-
-    @BindView(R.id.tvRoom_Type)
-    TextView tvRoomType;
+    @BindView(R.id.tvLabel)
+    TextView tvLabel;
 
     @BindView(R.id.ivDetailImageContainer)
     ImageView ivDetailImageContainer;
-    RoomDetail roomDetail;
-    String info;
-    List<String> infoList = new ArrayList<>();
     CommonTypeChoiceAdapter commonTypeChoiceAdapter;
+
+    private String accessToken= LanguageActivity.ACCESSTOKEN;
+    private String languageCode= LanguageActivity.languageCode;
+    private String date="";
+    private String time="";
+    private String timezone="UTC";
+    private String channel="WEB";
+    private String clientVersion="1.0";
+    private String versionNo="0001";
+
     public HotelRoomTypeFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static HotelRoomTypeFragment newInstance(String roomType) {
+    public static HotelRoomTypeFragment newInstance(RoomType roomType,String title) {
         HotelRoomTypeFragment fragment = new HotelRoomTypeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ROOMTYPE, roomType);
+        args.putParcelable(ARG_ROOMTYPE, roomType);
+        args.putString(ARG_ROOMTITLE,title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,29 +89,9 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mRoonType = getArguments().getString(ARG_ROOMTYPE);
+            roomType = getArguments().getParcelable(ARG_ROOMTYPE);
+            title = getArguments().getString(ARG_ROOMTITLE);
         }
-
-        roomDetail = new RoomDetail();
-        roomDetail.setRoomType("Double Room");
-        roomDetail.setBedFee("30,000 yan");
-        roomDetail.setRoomSize("11m²");
-        roomDetail.setBedWidth("140 cm");
-
-        String string = "\n* Prices vary due to season, events etc.\n\n" +
-                "* The above rates include service charge and consumption tax.\n\n" +
-                "※ Non smoking floor is also available.\n\n" +
-                "※ If the accommodation fee is more than 10000 yen (tax not included)," +
-                "guests will be charged separately according to the E regulation.\n";
-
-        roomDetail.setOtherInfo(string);
-
-        String imageString = "https://s-media-cache-ak0.pinimg.com/736x/b7/48/98/b74898796fd9073ebd85ca9a6ce9d8b7.jpg";
-        List<String> stringList = new ArrayList<>();
-        stringList.add(imageString);
-        stringList.add(imageString);
-        roomDetail.setRoomImageLarge(stringList);
-        roomDetail.setRoomImageSmall(stringList);
     }
 
     @Override
@@ -120,13 +107,12 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvBedFee.setText(roomDetail.getBedFee());
-        tvBedWidth.setText(roomDetail.getBedWidth());
-        tvOtherInfo.setText(roomDetail.getOtherInfo());
-        tvRoomSize.setText(roomDetail.getRoomSize());
-        tvRoomType.setText(roomDetail.getRoomType());
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-        commonTypeChoiceAdapter = new CommonTypeChoiceAdapter(getContext(), roomDetail.getRoomImageSmall());
+        commonTypeChoiceAdapter = new CommonTypeChoiceAdapter(getContext(), roomType.getImages());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
         rvchooseroomtype.setLayoutManager(layoutManager);
         rvchooseroomtype.setHasFixedSize(true);
@@ -134,18 +120,35 @@ public class HotelRoomTypeFragment extends BaseFragment implements View.OnClickL
         commonTypeChoiceAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(int position, Object data) {
-                if(roomDetail.getRoomImageLarge().get(position) != null && !roomDetail.getRoomImageLarge().get(position).equals("")) {
-                    Picasso.with(getContext())
-                            .load(roomDetail.getRoomImageLarge().get(position))
-                            .error(R.drawable.bedroom)
-                            .into(ivDetailImageContainer);
-                }
+                String imageapi = Constant.IMAGE_UPLOAD_URL+roomType.getImages().get(position)+"/?accessToken="+accessToken+"&date="+date+"&" +
+                        "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+                Glide.with(getContext())
+                        .load(imageapi)
+                        .placeholder(R.drawable.spinner_of_dots)
+                        .error(R.drawable.error_icon)
+                        .into(ivDetailImageContainer);
             }
         });
-        
+
+        String imageapi = Constant.IMAGE_UPLOAD_URL+roomType.getImages().get(0)+"/?accessToken="+accessToken+"&date="+date+"&" +
+                "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
+        Glide.with(getContext())
+                .load(imageapi)
+                .placeholder(R.drawable.spinner_of_dots)
+                .error(R.drawable.error_icon)
+                .into(ivDetailImageContainer);
+
+        StringBuilder entertainmentString=new StringBuilder();
+        if(roomType.getGroupList().size()>0)
+            for (int i=0;i<roomType.getGroupList().size();i++) {
+                entertainmentString.append(roomType.getGroupList().get(i).getAttributeList().get(0).getDisplayName() + " :" +
+                        roomType.getGroupList().get(i).getAttributeList().get(0).getValue() + " " + roomType.getGroupList().get(i).getAttributeList().get(0).getUnit()+"\n");
+            }
+        tvLabel.setText(title);
+        tvDetail.setText(entertainmentString);
+
         imguparrow.setOnClickListener(this);
         imgdownarrow.setOnClickListener(this);
-
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.witts.mdbox.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,16 +12,16 @@ import java.util.List;
  * Created by wm02 on 5/19/2017.
  */
 
-public class RoomType {
+public class RoomType implements Parcelable {
      public String roomType;
 
     @SerializedName("images")
     @Expose
     public List<String> images;
 
-    @SerializedName("attributeList")
+    @SerializedName("groupList")
     @Expose
-    public List<RoomAttribute> attributeList;
+    public List<RoomTypeGroup> groupList;
 
     @SerializedName("roomTypeId")
     public int roomTypeId;
@@ -32,14 +35,6 @@ public class RoomType {
 
     public void setImages(List<String> images) {
         this.images = images;
-    }
-
-    public List<RoomAttribute> getAttributeList() {
-        return attributeList;
-    }
-
-    public void setAttributeList(List<RoomAttribute> attributeList) {
-        this.attributeList = attributeList;
     }
 
     public int getRoomTypeId() {
@@ -64,5 +59,23 @@ public class RoomType {
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;
+    }
+
+    public List<RoomTypeGroup> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<RoomTypeGroup> groupList) {
+        this.groupList = groupList;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

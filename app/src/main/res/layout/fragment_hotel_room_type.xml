@@ -37,7 +37,7 @@
                 android:layout_marginTop="15dp"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/txtlabel"
+                    android:id="@+id/tvLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -82,100 +82,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:focusableInTouchMode="true">
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tvDetail"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="15dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Room Type:"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                            <TextView
-                                android:id="@+id/tvRoom_Type"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Double Room"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bed Fee :"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                            <TextView
-                                android:id="@+id/tvBed_Fee"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Double 30,000 yen"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Room Size :"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                            <TextView
-                                android:id="@+id/tvRoom_Size"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="140cm"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bed Width :"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                            <TextView
-                                android:id="@+id/tvBed_Width"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="140cm"
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp">
-                            <TextView
-                                android:id="@+id/tvOther_info"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="* Prices vary due to season, events etc. "
-                                android:textColor="#fff"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-                    </LinearLayout>
+                        android:layout_height="match_parent" />
                     </android.support.v4.widget.NestedScrollView>
                 </LinearLayout>
                 <ImageView
