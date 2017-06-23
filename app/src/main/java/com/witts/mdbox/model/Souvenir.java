@@ -23,9 +23,9 @@ public class Souvenir {
     @SerializedName("publishInd")
     public String publishInd;
 
-    @SerializedName("attributeList")
+    @SerializedName("groupList")
     @Expose
-    public List<SouvenirAttribute> attributeList;
+    public List<SouvenirGroup> groupList;
 
     public int getSouvenirCategoryId() {
         return souvenirCategoryId;
@@ -51,19 +51,19 @@ public class Souvenir {
         this.publishInd = publishInd;
     }
 
-    public List<SouvenirAttribute> getAttributeList() {
-        return attributeList;
-    }
-
-    public void setAttributeList(List<SouvenirAttribute> attributeList) {
-        this.attributeList = attributeList;
-    }
-
     public int getSouvenirId() {
         return souvenirId;
     }
 
     public void setSouvenirId(int souvenirId) {
         this.souvenirId = souvenirId;
+    }
+
+    public List<SouvenirGroup> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<SouvenirGroup> groupList) {
+        this.groupList = groupList;
     }
 }

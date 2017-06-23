@@ -26,9 +26,9 @@ public class Food {
     @SerializedName("foodId")
     public int foodId;
 
-    @SerializedName("attributeList")
+    @SerializedName("groupList")
     @Expose
-    public List<FoodAttribute> attributeList;
+    public List<FoodGroup> groupList;
 
     @SerializedName("restaurantId")
     public int restaurantId;
@@ -76,14 +76,6 @@ public class Food {
         this.foodId = foodId;
     }
 
-    public List<FoodAttribute> getAttributeList() {
-        return attributeList;
-    }
-
-    public void setAttributeList(List<FoodAttribute> attributeList) {
-        this.attributeList = attributeList;
-    }
-
     public int getRestaurantId() {
         return restaurantId;
     }
@@ -98,5 +90,13 @@ public class Food {
 
     public void setPublishInd(String publishInd) {
         this.publishInd = publishInd;
+    }
+
+    public List<FoodGroup> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<FoodGroup> groupList) {
+        this.groupList = groupList;
     }
 }

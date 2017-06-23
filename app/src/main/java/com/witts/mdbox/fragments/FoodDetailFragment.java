@@ -198,6 +198,7 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void onNext(final WebServiceResult<FoodMenuWrapper> foodMenuWrapperWebServiceResult) {
                         if (foodMenuWrapperWebServiceResult != null) {
+                            if(foodMenuWrapperWebServiceResult.getResponse().getFoodCategoryList().size()>0)
                             for(int i=0;i<foodMenuWrapperWebServiceResult.getResponse().getFoodCategoryList().size();i++) {
                                 FoodMenu foodMenu = foodMenuWrapperWebServiceResult.getResponse().getFoodCategoryList().get(i);
                                 foodList = new ArrayList<Food>();
@@ -218,14 +219,16 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
     private void prepareandbindData(List<Food> foodList) {
         imageList = new ArrayList<>();
         foodDetailandImageList = new ArrayList<>();
+        if(foodList.size()>0)
         for(int i=0;i<foodList.size();i++)
         {
             foodDetailList =new ArrayList<>();
-            for(int j=0;j<foodList.get(i).getAttributeList().size();j++) {
+            if(foodList.get(i).getGroupList().size()>0)
+            for(int j=0;j<foodList.get(i).getGroupList().size();j++) {
                 FoodDetail foodDetail = new FoodDetail();
-                foodDetail.setDisplayName(foodList.get(i).getAttributeList().get(j).getDisplayName());
-                foodDetail.setUnit(foodList.get(i).getAttributeList().get(j).getUnit());
-                foodDetail.setValue(foodList.get(i).getAttributeList().get(j).getValue());
+                foodDetail.setDisplayName(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getDisplayName());
+                foodDetail.setUnit(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getUnit());
+                foodDetail.setValue(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getValue());
                 foodDetailList.add(foodDetail);
             }
             FoodDetailandImage souvenirImageandDetail = new FoodDetailandImage();

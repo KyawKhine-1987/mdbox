@@ -14,6 +14,7 @@ import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.fragments.EntertainmentTypeFragment;
 import com.witts.mdbox.model.Entertainment;
 import com.witts.mdbox.model.EntertainmentAttribute;
+import com.witts.mdbox.model.EntertainmentGroup;
 import com.witts.mdbox.model.EntertainmentListWrapper;
 import com.witts.mdbox.model.EntertainmentType;
 import com.witts.mdbox.model.WebServiceResult;
@@ -149,20 +150,26 @@ public class EntertainmentActivity extends BasedActivity {
                         if (entertainmentListWrapperWebServiceResult != null) {
                             categoryTabTitle = new ArrayList<>();
                             entertainmentList = new ArrayList<Entertainment>();
+                            if(entertainmentListWrapperWebServiceResult.getResponse().getEntertainmentList().size()>0)
                             for(int i =0;i<entertainmentListWrapperWebServiceResult.getResponse().getEntertainmentList().size();i++) {
                                 Entertainment entertainment = new Entertainment();
                                 entertainment = entertainmentListWrapperWebServiceResult.getResponse().getEntertainmentList().get(i);
                                 entertainmentAttributeList = new ArrayList<EntertainmentAttribute>();
-                                for(int j=0;j<entertainment.getAttributeList().size();j++)
+                                if(entertainment.getGroupList().size()>0)
+                                for(int j=0;j<entertainment.getGroupList().size();j++)
                                 {
-                                    if(entertainment.getAttributeList().get(j).getAttributeName().equalsIgnoreCase("title"))
-                                        categoryTabTitle.add(entertainment.getAttributeList().get(j).getDisplayName());
+                                    if(entertainment.getGroupList().get(j).getAttributeList().get(0).getAttributeName().equalsIgnoreCase("title"))
+                                        categoryTabTitle.add(entertainment.getGroupList().get(j).getAttributeList().get(0).getDisplayName());
                                     else
-                                        entertainmentAttributeList.add(entertainment.getAttributeList().get(j));
+                                        entertainmentAttributeList.add(entertainment.getGroupList().get(j).getAttributeList().get(0));
                                 }
                                 Entertainment e = new Entertainment();
+                                EntertainmentGroup entertainmentGroup = new EntertainmentGroup();
+                                entertainmentGroup.setAttributeList(entertainmentAttributeList);
+                                List<EntertainmentGroup> entertainmentGroupList = new ArrayList<EntertainmentGroup>();
+                                entertainmentGroupList.add(entertainmentGroup);
                                 e.setImagePaths(entertainment.getImagePaths());
-                                e.setAttributeList(entertainmentAttributeList);
+                                e.setGroupList(entertainmentGroupList);
                                 entertainmentList.add(e);
                             }
                         }

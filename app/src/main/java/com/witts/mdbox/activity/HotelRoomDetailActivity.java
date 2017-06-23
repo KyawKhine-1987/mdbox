@@ -13,7 +13,10 @@ import android.widget.ImageView;
 import com.witts.mdbox.R;
 import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.fragments.HotelRoomTypeFragment;
+import com.witts.mdbox.model.RoomAttribute;
+import com.witts.mdbox.model.RoomDetail;
 import com.witts.mdbox.model.RoomType;
+import com.witts.mdbox.model.RoomTypeGroup;
 import com.witts.mdbox.model.RoomTypeListWrapper;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.RoomTypeService;
@@ -41,7 +44,7 @@ public class HotelRoomDetailActivity extends BasedActivity {
 
     RoomType roomType;
     List<RoomType> roomTypeList = new ArrayList<>();
-    private Animation animScale;
+    List<RoomAttribute> roomAttributeList = new ArrayList<>();
 
     private String accessToken= LanguageActivity.ACCESSTOKEN;
     private String languageCode=LanguageActivity.languageCode;
@@ -51,6 +54,8 @@ public class HotelRoomDetailActivity extends BasedActivity {
     private String channel="WEB";
     private String clientVersion="1.0";
     private String versionNo="0001";
+
+    List<String> categoryTabTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,19 +92,6 @@ public class HotelRoomDetailActivity extends BasedActivity {
 
         callWebService();
 
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        vphotelDetail.setAdapter(pagerAdapter);
-        vphotelDetail.clearOnPageChangeListeners();
-        vphotelDetail.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlhotelDetail));
-        tlhotelDetail.setTabsFromPagerAdapter(pagerAdapter);
-        tlhotelDetail.post(new Runnable() {
-            @Override
-            public void run() {
-                tlhotelDetail.setupWithViewPager(vphotelDetail);
-            }
-        });
-
-
         ivback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +121,17 @@ public class HotelRoomDetailActivity extends BasedActivity {
                 .subscribe(new Observer<WebServiceResult<RoomTypeListWrapper>>() {
                     @Override
                     public void onCompleted() {
-
+                        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+                        vphotelDetail.setAdapter(pagerAdapter);
+                        vphotelDetail.clearOnPageChangeListeners();
+                        vphotelDetail.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlhotelDetail));
+                        tlhotelDetail.setTabsFromPagerAdapter(pagerAdapter);
+                        tlhotelDetail.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tlhotelDetail.setupWithViewPager(vphotelDetail);
+                            }
+                        });
                     }
 
                     @Override
@@ -141,8 +143,31 @@ public class HotelRoomDetailActivity extends BasedActivity {
                     @Override
                     public void onNext(final WebServiceResult<RoomTypeListWrapper> roomTypeListWrapperWebServiceResult) {
                         if (roomTypeListWrapperWebServiceResult != null) {
+                            categoryTabTitle = new ArrayList<>();
+                            roomTypeList = new ArrayList<RoomType>();
+                            if(roomTypeListWrapperWebServiceResult.getResponse().getRoomTypeList().size()>0)
+                                for(int i =0;i<roomTypeListWrapperWebServiceResult.getResponse().getRoomTypeList().size();i++) {
+                                    RoomType roomType = new RoomType();
+                                    roomType = roomTypeListWrapperWebServiceResult.getResponse().getRoomTypeList().get(i);
+                                    roomAttributeList = new ArrayList<RoomAttribute>();
+                                    if(roomType.getGroupList().size()>0)
+                                        for(int j=0;j<roomType.getGroupList().size();j++)
+                                        {
+                                            if(roomType.getGroupList().get(j).getKey().equalsIgnoreCase("title"))
+                                                categoryTabTitle.add(roomType.getGroupList().get(j).getAttributeList().get(0).getDisplayName());
+                                            else
+                                                roomAttributeList.add(roomType.getGroupList().get(j).getAttributeList().get(0));
+                                        }
+                                    RoomType r = new RoomType();
+                                    RoomTypeGroup roomTypeGroup = new RoomTypeGroup();
+                                    roomTypeGroup.setAttributeList(roomAttributeList);
+                                    List<RoomTypeGroup> roomTypeGroupList = new ArrayList<RoomTypeGroup>();
+                                    roomTypeGroupList.add(roomTypeGroup);
+                                    r.setImages(roomType.getImages());
+                                    r.setGroupList(roomTypeGroupList);
+                                    roomTypeList.add(r);
+                                }
                         }
-
                         dismissProgressDialog();
                     }
                 });
@@ -160,7 +185,7 @@ public class HotelRoomDetailActivity extends BasedActivity {
             for(int i=0;i<roomTypeList.size();i++) {
                 if (position == i)
                 {
-                    fragment = HotelRoomTypeFragment.newInstance(roomTypeList.get(i).getRoomType());
+                    fragment = HotelRoomTypeFragment.newInstance(roomTypeList.get(i),categoryTabTitle.get(i));
                     return fragment;
                 }
             }
@@ -169,12 +194,12 @@ public class HotelRoomDetailActivity extends BasedActivity {
 
         @Override
         public int getCount() {
-            return roomTypeList.size();
+            return categoryTabTitle.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return roomTypeList.get(position).getRoomType();
+            return categoryTabTitle.get(position);
         }
     }
 }

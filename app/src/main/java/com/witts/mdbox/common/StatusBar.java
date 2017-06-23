@@ -6,22 +6,33 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.text.format.DateFormat.getBestDateTimePattern;
+import zh.wang.android.yweathergetter4a.WeatherInfo;
+import zh.wang.android.yweathergetter4a.YahooWeather;
+import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
 
 /**
  * Created by wm02 on 6/22/2017.
  */
 
-public class StatusBar implements CommonStatusBar{
+public class StatusBar implements CommonStatusBar {
     Context context;
+    private YahooWeather mYahooWeather = YahooWeather.getInstance(5000, true);
 
     public StatusBar(Context context) {
         this.context = context;
+        mYahooWeather.queryYahooWeatherByLatLon(context, 16.819941, 96.123487, new YahooWeatherInfoListener() {
+            @Override
+            public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+                if(weatherInfo!=null){
+
+                }
+            }
+        });
+
     }
 
     @Override
@@ -67,4 +78,5 @@ public class StatusBar implements CommonStatusBar{
         }
         return formatter.format(time);
     }
+
 }
