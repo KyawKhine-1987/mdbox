@@ -9,35 +9,12 @@
     android:background="@drawable/roomdetailbackground"
     tools:context="com.witts.mdbox.activity.LocationActivity">
 
-    <LinearLayout
-        android:id="@+id/llStatusBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <include
-            android:id="@+id/StatusBar"
-            layout="@layout/activity_status_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/thirty"
-        android:background="@android:color/darker_gray"/>
-
     <!--This is LinearLayoutArea1 and it position has left side. It's Binding relevant data from API-1 which is included TabLayout and ViewPager.-->
     <LinearLayout
         android:id="@+id/llArea1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/fourty">
+        android:orientation="vertical">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tlLocationCategoryList"
@@ -69,11 +46,11 @@
     <FrameLayout
         android:id="@+id/flIVBack"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/fourty"
+        android:layout_height="@dimen/fl_height"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/twenty"
         android:layout_marginRight="@dimen/five"
-        android:layout_marginTop="@dimen/fourty">
+        android:layout_marginTop="@dimen/five">
 
         <ImageView
             android:id="@+id/ivBack"
