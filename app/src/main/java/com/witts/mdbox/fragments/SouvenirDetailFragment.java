@@ -150,7 +150,7 @@ public class SouvenirDetailFragment extends BaseFragment {
                                     Glide.with(getContext())
                                             .load(imageapi)
                                             .placeholder(R.drawable.spinner_of_dots)
-                                            .error(R.drawable.spinner_of_dots)
+                                            .error(R.drawable.error_icon)
                                             .into(ivDetailImageContainer);
                                 }
                                 StringBuilder souvenirString=new StringBuilder();
@@ -164,12 +164,12 @@ public class SouvenirDetailFragment extends BaseFragment {
                         });
                         rvchoosesouvenirtype.setAdapter(commonTypeChoiceAdapter);
 
-                        String imageapi = imageList.get(0)+"/?accessToken="+accessToken+"&date="+date+"&" +
+                        String imageapi =  Constant.IMAGE_UPLOAD_URL + imageList.get(0)+"/?accessToken="+accessToken+"&date="+date+"&" +
                                 "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
                             Glide.with(getContext())
                                     .load(imageapi)
                                     .placeholder(R.drawable.spinner_of_dots)
-                                    .error(R.drawable.spinner_of_dots)
+                                    .error(R.drawable.error_icon)
                                     .into(ivDetailImageContainer);
 
                         StringBuilder souvenirString=new StringBuilder();
@@ -185,7 +185,7 @@ public class SouvenirDetailFragment extends BaseFragment {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        showAlert(e.getMessage());
+                        showAlert("Connection Timeout");
                     }
 
                     @Override

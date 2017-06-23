@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.witts.mdbox.R;
 import com.witts.mdbox.activity.LanguageActivity;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.MenuContent;
 
@@ -53,12 +54,12 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
     public void onBindViewHolder(final ViewHolder holder,final int position) {
         final MenuContent menuContent = menuContentList.get(position);
         holder.tvlabel.setText(menuContent.getMenuTitle());
-        String imageapi =menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+        String imageapi = Constant.IMAGE_UPLOAD_URL + menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
                 "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
         Glide.with(context)
                 .load(imageapi)
                 .placeholder(R.drawable.spinner_of_dots)
-                .error(R.drawable.spinner_of_dots)
+                .error(R.drawable.error_icon)
                 .into(holder.ivmenu);
         normalBackground(position,holder.imgbackground);
 
@@ -66,9 +67,10 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, menuContent);
-                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
-                animatedBackground(position,holder.imgbackground);
-                holder.flcontainer.startAnimation(animScale);
+//                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+//                animatedBackground(position,holder.imgbackground);
+//                holder.flcontainer.startAnimation(animScale);
+//                holder.flcontainer.bringToFront();
             }
         });
 
@@ -76,9 +78,10 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up30);
+                    animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
                     animatedBackground(position,holder.imgbackground);
                     holder.flcontainer.startAnimation(animScale);
+                    holder.flcontainer.bringToFront();
                 } else
                 {
                     holder.flcontainer.clearAnimation();

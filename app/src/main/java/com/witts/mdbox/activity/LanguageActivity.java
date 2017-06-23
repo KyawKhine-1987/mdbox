@@ -23,6 +23,7 @@ import com.witts.mdbox.model.WelcomeMessage;
 import com.witts.mdbox.model.WelcomeMessageWrapper;
 import com.witts.mdbox.service.LoginService;
 import com.witts.mdbox.service.WelcomeService;
+import com.witts.mdbox.util.PropertiesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,7 +75,6 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
         ButterKnife.bind(this);
-        showProgressDialog();
         WifiManager wimanager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         address = wimanager.getConnectionInfo().getMacAddress();
 
@@ -83,9 +83,16 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-        if(!address.equals("")){
-            callWebserviceForMAC(address);
+        if(address == null){
+            showAlert("Invalid Device ID");
+            finish();
         }
+        else if(address.equals("")) {
+            showAlert("Invalid Device ID");
+            finish();
+        }
+        else
+            callWebserviceForMAC(address);
         layoutManager = new LinearLayoutManager(this);
         mykeyList = new ArrayList<String>(Arrays.asList(keys.split(",")));
 
@@ -99,6 +106,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
     }
 
     private void callWebserviceForMAC(String address) {
+        showProgressDialog();
         final LoginService loginService = ServiceFactory.getService(LoginService.class);
         loginService.getAccessToken(address,date,time,timezone,channel,clientVersion,versionNoMAC)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -112,6 +120,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
+//                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getApplicationContext()));
                         showAlert("Connection Timeout");
                     }
 

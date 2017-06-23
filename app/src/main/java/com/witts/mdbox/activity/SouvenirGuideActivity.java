@@ -19,6 +19,7 @@ import com.witts.mdbox.model.SouvenirCategoryListWrapper;
 import com.witts.mdbox.model.SouvenirCategorySC;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.SouvenirService;
+import com.witts.mdbox.util.PropertiesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -147,8 +148,7 @@ public class SouvenirGuideActivity extends BasedActivity {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-
-                        showAlert(e.getMessage());
+                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getApplicationContext()));
                     }
 
                     @Override

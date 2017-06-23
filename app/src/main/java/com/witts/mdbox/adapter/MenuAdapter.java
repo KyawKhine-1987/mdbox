@@ -15,9 +15,12 @@ import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.witts.mdbox.R;
 import com.witts.mdbox.activity.LanguageActivity;
+import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.MenuContent;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,14 +56,18 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder,final int position) {
         final MenuContent menuContent = menuContentList.get(position);
 
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
         holder.tvlabel.setText(menuContent.getMenuTitle());
         if(menuContent.getMenuImgUrl() != null && !menuContent.getMenuImgUrl().equals("")) {
-                String imageapi =menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
+                String imageapi = Constant.IMAGE_UPLOAD_URL + menuContent.getMenuImgUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
                         "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
                 Glide.with(context)
                         .load(imageapi)
                         .placeholder(R.drawable.spinner_of_dots)
-                        .error(R.drawable.spinner_of_dots)
+                        .error(R.drawable.error_icon)
                         .into(holder.ivmenu);
         }
         normalBackground(position,holder.imgbackground);
@@ -69,10 +76,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(position, menuContent);
-                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-                animatedBackground(position,holder.imgbackground);
-                holder.flcontainer.startAnimation(animScale);
-
+//                normalBackground(position,holder.imgbackground);
+//                holder.flcontainer.clearAnimation();
             }
         });
         holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {

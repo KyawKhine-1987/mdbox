@@ -61,12 +61,12 @@ public class CommonTypeChoiceAdapter extends RecyclerView.Adapter<CommonTypeChoi
         holder.itemView.setSelected(focusedItem == position);
         final String imageUrl = roomImageList.get(position);
         if(imageUrl != null && !imageUrl.equals("")) {
-            String imageapi = Constant.IMAGE_UPLOAD_URL+imageUrl+"/?accessToken="+accessToken+"&date="+date+"&" +
+            String imageapi = Constant.IMAGE_UPLOAD_URL + imageUrl+"/?accessToken="+accessToken+"&date="+date+"&" +
                     "time="+time+"&timezone="+timezone+"&channel="+channel+"&clientVersion="+clientVersion+"&versionNo="+versionNo+"&name=image";
             Glide.with(mContext)
                     .load(imageapi)
                     .placeholder(R.drawable.spinner_of_dots)
-                    .error(R.drawable.bedroom_small)
+                    .error(R.drawable.error_icon)
                     .into(holder.ivroomviewchoice);
         }
 //        holder.ivroomviewchoice.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bedroom_small));

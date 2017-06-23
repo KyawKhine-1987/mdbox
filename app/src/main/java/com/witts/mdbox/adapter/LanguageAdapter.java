@@ -18,6 +18,8 @@ import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.WelcomeMessage;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -72,6 +74,10 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final WelcomeMessage welcomeMessage = welcomeMessageList.get(position);
 
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
+        date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
+        time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
         holder.tvWelcome.setText(welcomeMessage.getWelcomeMessage());
         if(welcomeMessage.getLanguageFlagUrl() != null && !welcomeMessage.getLanguageFlagUrl().equals("")) {
             String imageapi =welcomeMessage.getLanguageFlagUrl()+"/?accessToken="+accessToken+"&date="+date+"&" +
@@ -79,7 +85,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
             Glide.with(context)
                     .load(imageapi)
                     .placeholder(R.drawable.spinner_of_dots)
-                    .error(R.drawable.spinner_of_dots)
+                    .error(R.drawable.error_icon)
                     .into(holder.ivFlag);
         }
         holder.tvLanguage.setText(welcomeMessage.getDisplayLanguageName());
@@ -87,10 +93,9 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //holder.llcontainer.clearAnimation();
+                holder.llcontainer.setBackground(context.getResources().getDrawable(R.drawable.appcompact_mainactivity_background));
                 itemClickListener.onItemClick(position, welcomeMessage);
-                animScale = AnimationUtils.loadAnimation(context, R.anim.scale_up);
-                holder.llcontainer.startAnimation(animScale);
-                holder.llcontainer.bringToFront();
             }
         });
 

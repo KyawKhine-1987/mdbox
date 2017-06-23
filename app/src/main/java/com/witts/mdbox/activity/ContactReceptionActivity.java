@@ -20,6 +20,7 @@ import com.witts.mdbox.model.QuestionCategory;
 import com.witts.mdbox.model.QuestionWrapper;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.QuestionService;
+import com.witts.mdbox.util.PropertiesUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class ContactReceptionActivity extends BasedActivity {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        Toast.makeText(getApplicationContext(),"Fail..",Toast.LENGTH_SHORT).show();
+                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getApplicationContext()));
                     }
 
                     @Override
