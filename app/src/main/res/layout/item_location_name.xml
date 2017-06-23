@@ -14,4 +14,3 @@
     android:textColor="@color/white"
     android:textSize="@dimen/font_size"
     tools:text="Location Name"/>
-    <!--android:layout_marginLeft="@dimen/tv_LocationName_marginLeft"-->
