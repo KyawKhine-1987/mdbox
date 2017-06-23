@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/thirty"
+        android:layout_marginTop="@dimen/twenty_three"
         android:background="@android:color/darker_gray"/>
 
     <!--This is LinearLayoutArea1 and it position has left side. It's Binding relevant data from API-1 which is included TabLayout and ViewPager.-->
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/forty">
+        android:layout_marginTop="@dimen/twenty">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tlLocationCategoryList"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twenty"
             android:layout_marginRight="@dimen/twenty"
-            android:layout_marginTop="@dimen/five"
+            android:layout_marginTop="@dimen/thirteen"
             android:elevation="@dimen/twenty"
             android:fillViewport="false"
             app:tabBackground="@drawable/tab_color_selector_location"
@@ -73,7 +73,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/twenty"
         android:layout_marginRight="@dimen/five"
-        android:layout_marginTop="@dimen/forty">
+        android:layout_marginTop="@dimen/thirty">
 
         <ImageView
             android:id="@+id/ivBack"
