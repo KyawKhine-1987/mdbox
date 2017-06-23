@@ -36,4 +36,6 @@
 
     <!--activity_status_bar.xml-->
     <dimen name="twenty_five">25dp</dimen>
+    <dimen name="twenty_three">23dp</dimen>
+    <dimen name="thirteen">13dp</dimen>
 </resources>

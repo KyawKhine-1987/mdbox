@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="horizontal"
+              android:background="@drawable/roomdetailbackground"
               tools:context="com.witts.mdbox.activity.LocationActivity">
 
     <TextView
@@ -11,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/twenty"
-        android:layout_marginTop="@dimen/five"
+        android:layout_marginTop="@dimen/divider_two"
         android:layout_weight="1"
         android:gravity="left"
         android:textColor="@color/white"
@@ -29,13 +30,14 @@
             android:id="@+id/ivWeather"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/six"
             android:src="@drawable/weather"/>
 
         <TextView
             android:id="@+id/tvTemperature"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/six"
+            android:layout_marginTop="@dimen/divider_two"
             android:gravity="center_horizontal"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size"
