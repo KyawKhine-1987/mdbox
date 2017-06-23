@@ -8,7 +8,7 @@
     <dimen name="twenty">20dp</dimen>
     <dimen name="radius">3dp</dimen>
     <dimen name="tabPaddingStartandEnd">15dp</dimen>
-    <dimen name="fl_height">40dp</dimen>
+    <dimen name="fourty">40dp</dimen>
     <dimen name="five">5dp</dimen>
     <dimen name="hide_tabIndicatorHeight">0dp</dimen>
 
@@ -23,7 +23,7 @@
     <dimen name="llArea2and4_width">650dp</dimen>
     <dimen name="llArea2and3_height">350dp</dimen>
     <dimen name="tvPostalCode_width">70dp</dimen>
-    <dimen name="svPlaceName_width">30dp</dimen>
+    <dimen name="thirty">30dp</dimen>
     <dimen name="svAddress_width">100dp</dimen>
     <dimen name="svDesp_width">330dp</dimen>
     <dimen name="ivQRCode_marginTop">20dp</dimen>
@@ -34,10 +34,8 @@
 
     <!--LocationFragment.java-->
     <dimen name="divider">2dp</dimen>
-    <dimen name="leftmargin">1dp</dimen>
-    <dimen name="rightmargin">1dp</dimen>
+    <dimen name="left_right_margin">1dp</dimen>
 
-    <!--item_location_name.xml-->
-    <dimen name="tv_LocationName_height">40dp</dimen>
-    <dimen name="tv_LocationName_marginLeft">10dp</dimen>
+    <!--activity_status_bar.xml-->
+    <dimen name="twenty_five">25dp</dimen>
 </resources>

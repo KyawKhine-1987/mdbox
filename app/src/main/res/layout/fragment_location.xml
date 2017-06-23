@@ -102,7 +102,7 @@
 
             <ScrollView
                 android:id="@+id/svPlaceName"
-                android:layout_width="@dimen/svPlaceName_width"
+                android:layout_width="@dimen/thirty"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/ten"
                 android:layout_weight="1">
