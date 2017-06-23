@@ -306,8 +306,8 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
                         //Assign the color, divider, left and right margins for that RecyclerView.
                         rvLocationNameList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
                                 .color(R.color.grey)
-                                .sizeResId(R.dimen.divider)
-                                .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                                .sizeResId(R.dimen.divider_two)
+                                .marginResId(R.dimen.left_right_margin, R.dimen.left_right_margin)
                                 .build());
 
                         //Set the RecyclerView with this below methods which are setLayoutManager, setHasFixedSize, setAdapter and also implement onItemClick method for rvLocationNameList.
