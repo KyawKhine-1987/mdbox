@@ -9,22 +9,44 @@
     android:background="@drawable/roomdetailbackground"
     tools:context="com.witts.mdbox.activity.LocationActivity">
 
+    <LinearLayout
+        android:id="@+id/llStatusBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/StatusBar"
+            layout="@layout/activity_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/twenty_three"
+        android:background="@android:color/darker_gray"/>
+
     <!--This is LinearLayoutArea1 and it position has left side. It's Binding relevant data from API-1 which is included TabLayout and ViewPager.-->
     <LinearLayout
         android:id="@+id/llArea1"
-        android:layout_width="@dimen/llArea1_width"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!--android:layout_marginRight="20dp"-->
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/twenty">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tlLocationCategoryList"
             android:layout_width="@dimen/tlLocationCategoryList_width"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/tlLocationCategoryList_marginLeftandRight"
-            android:layout_marginRight="@dimen/tlLocationCategoryList_marginLeftandRight"
-            android:layout_marginTop="@dimen/tlLocationCategoryList_marginTop"
-            android:elevation="@dimen/tlLocationCategoryList_elevation"
+            android:layout_marginLeft="@dimen/twenty"
+            android:layout_marginRight="@dimen/twenty"
+            android:layout_marginTop="@dimen/thirteen"
+            android:elevation="@dimen/twenty"
             android:fillViewport="false"
             app:tabBackground="@drawable/tab_color_selector_location"
             app:tabGravity="fill"
@@ -33,8 +55,8 @@
             app:tabPaddingStart="@dimen/tabPaddingStartandEnd"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@color/secondary_text_default_material_dark"
-            app:tabIndicatorHeight="0dp"/><!--Invisible tabIndicator color in tabMenu-->
-        <!--app:tabIndicatorColor="@color/tlLocationCategoryListColor_On"-->
+            app:tabIndicatorHeight="@dimen/hide_tabIndicatorHeight"/>
+        <!--Hide or Invisible tabIndicator color in tabLayout or Header_Menu-->
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vpLocationCategoryList"
@@ -47,11 +69,11 @@
     <FrameLayout
         android:id="@+id/flIVBack"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/fl_height"
+        android:layout_height="@dimen/forty"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="@dimen/fl_marginLeft"
-        android:layout_marginRight="@dimen/fl_marginRight"
-        android:layout_marginTop="@dimen/fl_marginTop">
+        android:layout_marginLeft="@dimen/twenty"
+        android:layout_marginRight="@dimen/five"
+        android:layout_marginTop="@dimen/thirty">
 
         <ImageView
             android:id="@+id/ivBack"

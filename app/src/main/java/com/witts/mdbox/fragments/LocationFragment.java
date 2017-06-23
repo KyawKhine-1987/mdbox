@@ -23,8 +23,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.witts.mdbox.R;
+import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.adapter.LocationAdapter;
-import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.common.ServiceFactory;
 import com.witts.mdbox.interfaces.ItemClickListener;
 import com.witts.mdbox.model.LocationList;
@@ -86,8 +86,8 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
     private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 
     //Declare we used to GoogleMap, passed through with eight arguments and which is binding relevant data from API-2.
-    private String accessToken = Constant.ACCESS_TOKEN;
-    private String languageCode = "JP";
+    private String accessToken = LanguageActivity.ACCESSTOKEN;
+    private String languageCode = LanguageActivity.languageCode;
     private String date = "";
     private String time = "";
     private String timezone = "UTC";
@@ -168,6 +168,73 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
                 Log.e(LOG_TAG, "Problem making the SupportMapFragment.", e);
             }
         }
+
+        tvPostalCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvPostalCode.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvPostalCode.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvPlaceName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvPlaceName.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvPlaceName.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvAddress.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvAddress.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvPhone.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvPhone.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvURL.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvURL.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvURL.setBackgroundResource(0);
+                }
+            }
+        });
+
+        tvDesp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    tvDesp.setBackground(getContext().getResources().getDrawable(R.drawable.selected_background));
+                }else{
+                    tvDesp.setBackgroundResource(0);
+                }
+            }
+        });
+
         return rootView;
     }
 
@@ -239,8 +306,8 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
                         //Assign the color, divider, left and right margins for that RecyclerView.
                         rvLocationNameList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
                                 .color(R.color.grey)
-                                .sizeResId(R.dimen.divider)
-                                .marginResId(R.dimen.leftmargin, R.dimen.rightmargin)
+                                .sizeResId(R.dimen.divider_two)
+                                .marginResId(R.dimen.left_right_margin, R.dimen.left_right_margin)
                                 .build());
 
                         //Set the RecyclerView with this below methods which are setLayoutManager, setHasFixedSize, setAdapter and also implement onItemClick method for rvLocationNameList.

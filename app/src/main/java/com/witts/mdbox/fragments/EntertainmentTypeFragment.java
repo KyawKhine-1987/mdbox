@@ -49,7 +49,7 @@ public class EntertainmentTypeFragment extends Fragment implements View.OnClickL
 
     @BindView(R.id.svinfocontainer)
     ScrollView svinfocontainer;
-
+d
     @BindView(R.id.tvLabel)
     TextView tvLabel;
 

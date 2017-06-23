@@ -42,14 +42,14 @@ public class StatusBar implements CommonStatusBar {
         // Level of a Scan Result
         List<ScanResult> wifiList = wifiManager.getScanResults();
         for (ScanResult scanResult : wifiList) {
-            int level = WifiManager.calculateSignalLevel(scanResult.level, 5);
-            Log.d("Wifi Signal Scan Result","Level is " + level + " out of 5");
+            int level = WifiManager.calculateSignalLevel(scanResult.level, 3);
+            Log.d("Wifi Signal Scan Result","Level is " + level + " out of 3");
         }
 
         // Level of current connection
         int rssi = wifiManager.getConnectionInfo().getRssi();
-        int level = WifiManager.calculateSignalLevel(rssi, 5);
-        Log.d("Wifi current connection","Level is " + level + " out of 5");
+        int level = WifiManager.calculateSignalLevel(rssi, 3);
+        Log.d("Wifi current connection","Level is " + level + " out of 3");
         return level;
     }
 

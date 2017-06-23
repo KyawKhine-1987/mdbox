@@ -9,11 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.witts.mdbox.R;
-import com.witts.mdbox.common.Constant;
 import com.witts.mdbox.common.ServiceFactory;
+import com.witts.mdbox.common.StatusBar;
 import com.witts.mdbox.fragments.LocationFragment;
 import com.witts.mdbox.model.Location;
 import com.witts.mdbox.model.LocationAttribute;
@@ -52,9 +53,16 @@ public class LocationActivity extends BasedActivity {
     @BindView(R.id.ivBack)
     ImageView ivBack;
 
+    @BindView(R.id.tvDateTime)
+    TextView tvDateTime;
+
+    @BindView(R.id.ivWiFi)
+    ImageView ivWiFi;
+
     //Declare and passed through with eight arguments and which is binding relevant data from API-1.
-    private String accessToken = Constant.ACCESS_TOKEN;
-    private String languageCode = "jp";
+    private String accessToken = LanguageActivity.ACCESSTOKEN;
+    private String languageCode = LanguageActivity.languageCode;
+
     private String date = "";
     private String time = "";
     private String timezone = "UTC";
@@ -83,7 +91,24 @@ public class LocationActivity extends BasedActivity {
         date = dateFormat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourFormat.format(new Date(System.currentTimeMillis() - 21600000));
 
+        StatusBar statusBar = new StatusBar(getApplicationContext());
+        int num = statusBar.getWiFiSignal();
+        checkSignal(num);
+
+        String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+        tvDateTime.setText(date);
+
         callWebService();
+    }
+
+    private void checkSignal(int i) {
+        if(i == 3){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_full);
+        }else if (i == 2){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_normal);
+        }else{
+            ivWiFi.setImageResource(R.drawable.wifi_signal_low);
+        }
     }
 
     private void bindingData() {
