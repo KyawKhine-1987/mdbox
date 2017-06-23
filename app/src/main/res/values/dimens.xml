@@ -4,37 +4,31 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!--activity_location.xml-->
-    <dimen name="tlLocationCategoryList_width">400dp</dimen>
-    <dimen name="rlTopandBottom_height">300dp</dimen>
-    <dimen name="llArea1_width">700dp</dimen>
-    <dimen name="tlLocationCategoryList_elevation">20dp</dimen>
+    <dimen name="tlLocationCategoryList_width">600dp</dimen>
+    <dimen name="twenty">20dp</dimen>
     <dimen name="radius">3dp</dimen>
     <dimen name="tabPaddingStartandEnd">15dp</dimen>
-    <dimen name="tlLocationCategoryList_marginLeftandRight">20dp</dimen>
-    <dimen name="tlLocationCategoryList_marginTop">5dp</dimen>
     <dimen name="fl_height">40dp</dimen>
-    <dimen name="fl_marginLeft">20dp</dimen>
-    <dimen name="fl_marginRight">5dp</dimen>
-    <dimen name="fl_marginTop">5dp</dimen>
+    <dimen name="five">5dp</dimen>
     <dimen name="hide_tabIndicatorHeight">0dp</dimen>
 
     <!--fragment_location.xml-->
-    <!--Start nexus5X resolution size-->
+    <!--Start nexus7 resolution size-->
 
     <dimen name="two">2dp</dimen>
     <dimen name="three">3dp</dimen>
     <dimen name="four">4dp</dimen>
     <dimen name="six">6dp</dimen>
     <dimen name="ten">10dp</dimen>
-    <dimen name="llArea2_width">450dp</dimen>
-    <dimen name="llArea2and3_height">230dp</dimen>
-    <dimen name="llArea4_width">460dp</dimen>
+    <dimen name="llArea2and4_width">650dp</dimen>
+    <dimen name="llArea2and3_height">350dp</dimen>
     <dimen name="tvPostalCode_width">70dp</dimen>
     <dimen name="svPlaceName_width">30dp</dimen>
     <dimen name="svAddress_width">100dp</dimen>
     <dimen name="svDesp_width">330dp</dimen>
     <dimen name="ivQRCode_marginTop">20dp</dimen>
-    <dimen name="tv_LocationName_fontsize">18sp</dimen>
+    <dimen name="iv_width">70dp</dimen>
+    <dimen name="font_size">12sp</dimen>
 
     <!--End-->
 

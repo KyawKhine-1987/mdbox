@@ -9,7 +9,7 @@
     <!--This is LinearLayoutArea2 and it position has left side. It's Binding relevant data from API 2.-->
     <LinearLayout
         android:id="@+id/llArea2"
-        android:layout_width="@dimen/llArea2_width"
+        android:layout_width="@dimen/llArea2and4_width"
         android:layout_height="@dimen/llArea2and3_height"
         android:layout_marginLeft="@dimen/ten"
         android:layout_marginTop="@dimen/ten"
@@ -32,22 +32,19 @@
         android:layout_marginRight="@dimen/ten"
         android:layout_marginTop="@dimen/ten"
         android:layout_toRightOf="@id/llArea2"
-        android:background="@color/skyBlue"
         android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLocationNameList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:descendantFocusability="afterDescendants"/>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
     <!--This is LinearLayoutArea4 and it position has left side of bottom.-->
     <LinearLayout
         android:id="@+id/llArea4"
-        android:layout_width="@dimen/llArea4_width"
+        android:layout_width="@dimen/llArea2and4_width"
         android:layout_height="match_parent"
         android:layout_below="@id/llArea2"
         android:orientation="vertical">
@@ -62,7 +59,7 @@
 
             <ImageView
                 android:id="@+id/ivLocation"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/iv_width"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/six"
                 android:layout_weight="0"
@@ -74,32 +71,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/two"
                 android:layout_weight="0"
-                android:fontFamily="Roboto"
-                android:textAppearance="?android:textAppearanceSmall"
+                android:textSize="@dimen/font_size"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
                 tools:text="This is Postal Code."/>
-
-            <ScrollView
-                android:id="@+id/svPlaceName"
-                android:layout_width="@dimen/svPlaceName_width"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tvPlaceName"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/two"
-                    android:fontFamily="Roboto"
-                    android:lineSpacingMultiplier="1.1"
-                    android:maxLines="2"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    tools:text="This is Place Name."/>
-
-            </ScrollView>
 
             <ScrollView
                 android:id="@+id/svAddress"
@@ -113,15 +90,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/two"
-                    android:fontFamily="Roboto"
                     android:lineSpacingMultiplier="1.1"
-                    android:maxLines="3"
-                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textSize="@dimen/font_size"
                     android:textColor="@color/white"
                     android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
                     tools:text="This is Address."/>
+                <!--android:maxLines="2"-->
+            </ScrollView>
+
+            <ScrollView
+                android:id="@+id/svPlaceName"
+                android:layout_width="@dimen/svPlaceName_width"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tvPlaceName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/two"
+                    android:lineSpacingMultiplier="1.1"
+                    android:textSize="@dimen/font_size"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:clickable="true"
+                    android:focusable="true"
+                    tools:text="This is Place Name."/>
 
             </ScrollView>
+
         </LinearLayout>
 
         <!--There're imageview and textview for phone included in this linearlayoutArea2.-->
@@ -135,7 +136,7 @@
 
             <ImageView
                 android:id="@+id/ivPhone"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/iv_width"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/six"
@@ -148,10 +149,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/two"
                 android:layout_weight="1"
-                android:fontFamily="Roboto"
-                android:textAppearance="?android:textAppearanceSmall"
+                android:textSize="@dimen/font_size"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
                 tools:text="This is Phone Number."/>
 
         </LinearLayout>
@@ -168,7 +170,7 @@
 
             <ImageView
                 android:id="@+id/ivURL"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/iv_width"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/six"
                 android:layout_weight="0"
@@ -180,10 +182,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/two"
                 android:layout_weight="1"
-                android:fontFamily="Roboto"
-                android:textAppearance="?android:textAppearanceSmall"
+                android:textSize="@dimen/font_size"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
                 tools:text="This is URL."/>
         </LinearLayout>
 
@@ -214,8 +217,11 @@
                 android:gravity="center_horizontal"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:textSize="@dimen/font_size"
+                android:clickable="true"
+                android:focusable="true"
                 tools:text="This is Binding Data for Area 3."/>
-            <!--android:maxLines="4"-->
+            <!--android:maxLines="2"-->
         </ScrollView>
 
         <ImageView
@@ -225,8 +231,10 @@
             android:layout_marginTop="@dimen/ivQRCode_marginTop"
             android:layout_weight="1"
             android:scaleType="fitCenter"
+            android:layout_marginLeft="@dimen/six"
             android:src="@drawable/qr_and_hand"/>
 
     </LinearLayout>
 
 </RelativeLayout>
+

@@ -81,7 +81,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                     holder.LocationName.setBackground(context.getResources().getDrawable(R.drawable.selected_background));
                 }
                 else {
-                    holder.LocationName.setBackground(context.getResources().getDrawable(R.drawable.unselected_background));
+                    holder.LocationName.setBackgroundResource(0);
                 }
             }
         });
