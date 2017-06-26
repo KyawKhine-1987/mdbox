@@ -220,11 +220,12 @@
                 android:textSize="@dimen/font_size"
                 android:clickable="true"
                 android:focusable="true"
+                android:layout_marginRight="@dimen/six"
                 tools:text="This is Binding Data for Area 3."/>
             <!--android:maxLines="2"-->
         </ScrollView>
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/ivQRCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -232,7 +233,7 @@
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:layout_marginLeft="@dimen/six"
-            android:src="@drawable/qr_and_hand"/>
+            android:src="@drawable/qr_and_hand"/>-->
 
     </LinearLayout>
 
