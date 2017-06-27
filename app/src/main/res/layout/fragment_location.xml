@@ -53,29 +53,30 @@
         <LinearLayout
             android:id="@+id/llSubArea1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/llSubArea1_height"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/ivLocation"
-                android:layout_width="@dimen/iv_width"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/seventy"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/six"
                 android:layout_weight="0"
                 android:src="@drawable/location"/>
 
             <TextView
                 android:id="@+id/tvPostalCode"
-                android:layout_width="@dimen/tvPostalCode_width"
+                android:layout_width="@dimen/seventy"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/divider_two"
+                android:layout_marginTop="@dimen/three"
                 android:layout_weight="0"
-                android:textSize="@dimen/font_size"
-                android:textColor="@color/white"
-                android:textStyle="bold"
                 android:clickable="true"
                 android:focusable="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size"
+                android:textStyle="bold"
                 tools:text="This is Postal Code."/>
 
             <ScrollView
@@ -87,15 +88,15 @@
 
                 <TextView
                     android:id="@+id/tvAddress"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/divider_two"
-                    android:lineSpacingMultiplier="1.1"
-                    android:textSize="@dimen/font_size"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/three"
                     android:clickable="true"
                     android:focusable="true"
+                    android:lineSpacingMultiplier="1.1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size"
+                    android:textStyle="bold"
                     tools:text="This is Address."/>
                 <!--android:maxLines="2"-->
             </ScrollView>
@@ -109,34 +110,41 @@
 
                 <TextView
                     android:id="@+id/tvPlaceName"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/divider_two"
-                    android:lineSpacingMultiplier="1.1"
-                    android:textSize="@dimen/font_size"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:maxLines="2"
+                    android:layout_marginTop="@dimen/three"
                     android:clickable="true"
                     android:focusable="true"
+                    android:lineSpacingMultiplier="1.1"
+                    android:maxLines="2"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size"
+                    android:textStyle="bold"
                     tools:text="This is Place Name."/>
 
             </ScrollView>
 
         </LinearLayout>
 
-        <!--There're imageview and textview for phone included in this linearlayoutArea2.-->
+        <!--There are included linearlayoutSubArea2, linearlayoutSubArea3 and linearlayoutSubArea4 in this RelativeLayoutSubContainer.-->
+        <RelativeLayout
+            android:id="@+id/rlSubContainer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rlSubContainer_height"
+            android:layout_below="@id/llSubArea1">
+
+            <!--There're included imageview and textview for phone in this linearlayoutSubArea2.-->
         <LinearLayout
             android:id="@+id/llSubArea2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/llSubArea2and3_width"
+            android:layout_height="@dimen/thirty"
             android:layout_marginTop="@dimen/six"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/ivPhone"
-                android:layout_width="@dimen/iv_width"
+                android:layout_width="@dimen/seventy"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/six"
@@ -148,31 +156,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/divider_two"
-                android:layout_weight="1"
-                android:textSize="@dimen/font_size"
-                android:textColor="@color/white"
-                android:textStyle="bold"
                 android:clickable="true"
                 android:focusable="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size"
+                android:textStyle="bold"
                 tools:text="This is Phone Number."/>
 
         </LinearLayout>
 
-        <!--There're imageview and textview for url included in this linearlayoutArea3.-->
+        <!--There're included imageview and textview for url in this linearlayoutSubArea3.-->
 
         <LinearLayout
             android:id="@+id/llSubArea3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/llSubArea2and3_width"
+            android:layout_height="@dimen/thirty_five"
             android:layout_marginTop="@dimen/six"
             android:layout_weight="1"
+            android:layout_below="@id/llSubArea2"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/ivURL"
-                android:layout_width="@dimen/iv_width"
+                android:layout_width="@dimen/seventy"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/six"
+                android:layout_gravity="center"
                 android:layout_weight="0"
                 android:src="@drawable/url"/>
 
@@ -181,15 +190,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/divider_two"
-                android:layout_weight="1"
-                android:textSize="@dimen/font_size"
-                android:textColor="@color/white"
-                android:textStyle="bold"
                 android:clickable="true"
                 android:focusable="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size"
+                android:textStyle="bold"
                 tools:text="This is URL."/>
         </LinearLayout>
 
+        <!--There're imageview for QRCode generate included in this linearlayoutSubArea4.-->
+
+        <LinearLayout
+            android:id="@+id/llSubArea4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/llSubArea4_height"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_toRightOf="@id/llSubArea2"
+            android:layout_alignBottom="@id/llSubArea3">
+
+            <ImageView
+                android:id="@+id/ivQRCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="@dimen/ten"/>
+
+        </LinearLayout>
+
+        </RelativeLayout>
     </LinearLayout>
 
     <!--This is LinearLayoutArea5 which is included scrollview, textview and imageview and it position has right side of bottom.-->
@@ -198,6 +227,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/llArea3"
+        android:layout_marginLeft="@dimen/fifteen"
         android:layout_toRightOf="@id/llArea4"
         android:orientation="horizontal">
 
@@ -205,7 +235,6 @@
             android:id="@+id/svDesp"
             android:layout_width="@dimen/svDesp_width"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/six"
             android:layout_marginTop="@dimen/four"
             android:layout_weight="1">
 
@@ -213,27 +242,17 @@
                 android:id="@+id/tvDesp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/six"
+                android:layout_marginLeft="@dimen/six"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/font_size"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_marginRight="@dimen/six"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size"
+                android:textStyle="bold"
                 tools:text="This is Binding Data for Area 3."/>
-            <!--android:maxLines="2"-->
         </ScrollView>
-
-       <!-- <ImageView
-            android:id="@+id/ivQRCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ivQRCode_marginTop"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:layout_marginLeft="@dimen/six"
-            android:src="@drawable/qr_and_hand"/>-->
 
     </LinearLayout>
 

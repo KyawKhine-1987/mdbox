@@ -1,6 +1,7 @@
 package com.witts.mdbox.fragments;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.witts.mdbox.R;
 import com.witts.mdbox.activity.LanguageActivity;
 import com.witts.mdbox.adapter.LocationAdapter;
@@ -73,6 +80,9 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
 
     @BindView(R.id.tvDesp)
     TextView tvDesp;
+
+    @BindView(R.id.ivQRCode)
+    ImageView ivQRCode;
 
     //Declare locationAdapter, locationList and location each arrayList objects.
     LocationAdapter locationAdapter;
@@ -334,8 +344,8 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
 
                                 goToLocation(api2_ZoomLat, api2_ZoomLng, api2_Zoom);
 
-                                //This method is included textview which is binding relevant data from API-2.
-                                bindingData();
+                                //This method is included textview which is binding relevant data from API-2 and generate QRCode for Hotel's URL.
+                                bindingDataAndGenerateQRCodeForURL();
                             }
                         });
                     }
@@ -393,7 +403,7 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
         mGoogleMap.addMarker(options);
     }
 
-    private void bindingData(){
+    private void bindingDataAndGenerateQRCodeForURL(){
         Log.i(LOG_TAG, "TEST : bindingData() called...");
 
         //This is binding the relevant data from API-2.
@@ -403,5 +413,18 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
         tvPhone.setText(mPhone);
         tvURL.setText(mURL);
         tvDesp.setText(mDesp);
+
+        String text2Qr = tvURL.getText().toString();
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(text2Qr, BarcodeFormat.QR_CODE, 200, 200);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            ivQRCode.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
     }
 }
