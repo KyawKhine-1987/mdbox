@@ -24,13 +24,6 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/twenty_three"
-        android:background="@android:color/darker_gray"/>
-
     <!--This is LinearLayoutArea1 and it position has left side. It's Binding relevant data from API-1 which is included TabLayout and ViewPager.-->
     <LinearLayout
         android:id="@+id/llArea1"
