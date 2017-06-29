@@ -138,9 +138,10 @@ public class EntertainmentTypeFragment extends Fragment implements View.OnClickL
                 .into(ivDetailImageContainer);
 
         StringBuilder entertainmentString=new StringBuilder();
-        for (int i=0;i<entertainment.getAttributeList().size();i++) {
-            entertainmentString.append(entertainment.getAttributeList().get(i).getDisplayName() + " :" +
-                    entertainment.getAttributeList().get(i).getValue() + " " + entertainment.getAttributeList().get(i).getUnit()+"\n");
+        if(entertainment.getGroupList().size()>0)
+        for (int i=0;i<entertainment.getGroupList().size();i++) {
+            entertainmentString.append(entertainment.getGroupList().get(i).getAttributeList().get(0).getDisplayName() + " :" +
+                    entertainment.getGroupList().get(i).getAttributeList().get(0).getValue() + " " + entertainment.getGroupList().get(i).getAttributeList().get(0).getUnit()+"\n");
         }
         tvLabel.setText(title);
         tvDetail.setText(entertainmentString);

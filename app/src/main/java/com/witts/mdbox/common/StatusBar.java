@@ -10,27 +10,41 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import zh.wang.android.yweathergetter4a.WeatherInfo;
+import zh.wang.android.yweathergetter4a.YahooWeather;
+import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
+
 /**
  * Created by wm02 on 6/22/2017.
  */
 
-public class StatusBar implements CommonStatusBar{
+public class StatusBar implements CommonStatusBar {
     Context context;
+    private YahooWeather mYahooWeather = YahooWeather.getInstance(5000, true);
 
     public StatusBar(Context context) {
         this.context = context;
+//        mYahooWeather.queryYahooWeatherByLatLon(context, 16.819941, 96.123487, new YahooWeatherInfoListener() {
+//            @Override
+//            public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+//                if(weatherInfo!=null){
+//
+//                }
+//            }
+//        });
+
     }
 
     @Override
     public int getWiFiSignal() {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
-        // Level of a Scan Result
-        List<ScanResult> wifiList = wifiManager.getScanResults();
-        for (ScanResult scanResult : wifiList) {
-            int level = WifiManager.calculateSignalLevel(scanResult.level, 3);
-            Log.d("Wifi Signal Scan Result","Level is " + level + " out of 3");
-        }
+//        // Level of a Scan Result
+//        List<ScanResult> wifiList = wifiManager.getScanResults();
+//        for (ScanResult scanResult : wifiList) {
+//            int level = WifiManager.calculateSignalLevel(scanResult.level, 3);
+//            Log.d("Wifi Signal Scan Result","Level is " + level + " out of 3");
+//        }
 
         // Level of current connection
         int rssi = wifiManager.getConnectionInfo().getRssi();
@@ -64,4 +78,5 @@ public class StatusBar implements CommonStatusBar{
         }
         return formatter.format(time);
     }
+
 }

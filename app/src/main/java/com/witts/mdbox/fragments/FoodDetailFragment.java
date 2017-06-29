@@ -180,11 +180,13 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
                                     .into(ivDetailImageContainer);
 
                             StringBuilder foodBuilder = new StringBuilder();
-                            for (int i = 1; i < foodDetailandImageList.get(0).getFoodDetailList().size(); i++) {
+                            for (int i = 0; i < foodDetailandImageList.get(0).getFoodDetailList().size(); i++) {
+                                if(foodDetailandImageList.get(0).getFoodDetailList().get(i).getKey().equalsIgnoreCase("title"))
+                                    tvlabel.setText(foodDetailandImageList.get(0).getFoodDetailList().get(i).getDisplayName());
+                                else
                                 foodBuilder.append(foodDetailandImageList.get(0).getFoodDetailList().get(i).getDisplayName() + " :" +
                                         foodDetailandImageList.get(0).getFoodDetailList().get(i).getValue() + " " + foodDetailandImageList.get(0).getFoodDetailList().get(i).getUnit() + "\n");
                             }
-                            tvlabel.setText(foodDetailandImageList.get(0).getFoodDetailList().get(0).getDisplayName());
                             tvDetail.setText(foodBuilder);
                         }
                     }
@@ -198,6 +200,7 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void onNext(final WebServiceResult<FoodMenuWrapper> foodMenuWrapperWebServiceResult) {
                         if (foodMenuWrapperWebServiceResult != null) {
+                            if(foodMenuWrapperWebServiceResult.getResponse().getFoodCategoryList().size()>0)
                             for(int i=0;i<foodMenuWrapperWebServiceResult.getResponse().getFoodCategoryList().size();i++) {
                                 FoodMenu foodMenu = foodMenuWrapperWebServiceResult.getResponse().getFoodCategoryList().get(i);
                                 foodList = new ArrayList<Food>();
@@ -218,20 +221,23 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
     private void prepareandbindData(List<Food> foodList) {
         imageList = new ArrayList<>();
         foodDetailandImageList = new ArrayList<>();
+        if(foodList.size()>0)
         for(int i=0;i<foodList.size();i++)
         {
             foodDetailList =new ArrayList<>();
-            for(int j=0;j<foodList.get(i).getAttributeList().size();j++) {
+            if(foodList.get(i).getGroupList().size()>0)
+            for(int j=0;j<foodList.get(i).getGroupList().size();j++) {
                 FoodDetail foodDetail = new FoodDetail();
-                foodDetail.setDisplayName(foodList.get(i).getAttributeList().get(j).getDisplayName());
-                foodDetail.setUnit(foodList.get(i).getAttributeList().get(j).getUnit());
-                foodDetail.setValue(foodList.get(i).getAttributeList().get(j).getValue());
+                foodDetail.setDisplayName(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getDisplayName());
+                foodDetail.setUnit(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getUnit());
+                foodDetail.setValue(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getValue());
+                foodDetail.setKey(foodList.get(i).getGroupList().get(j).getKey());
                 foodDetailList.add(foodDetail);
             }
-            FoodDetailandImage souvenirImageandDetail = new FoodDetailandImage();
-            souvenirImageandDetail.setImageUrl(foodList.get(i).getImagePath());
-            souvenirImageandDetail.setFoodDetailList(foodDetailList);
-            foodDetailandImageList.add(souvenirImageandDetail);
+            FoodDetailandImage foodDetailandImage = new FoodDetailandImage();
+            foodDetailandImage.setImageUrl(foodList.get(i).getImagePath());
+            foodDetailandImage.setFoodDetailList(foodDetailList);
+            foodDetailandImageList.add(foodDetailandImage);
             imageList.add(foodList.get(i).getImagePath());
         }
     }

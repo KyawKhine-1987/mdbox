@@ -9,9 +9,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.witts.mdbox.R;
 import com.witts.mdbox.common.ServiceFactory;
+import com.witts.mdbox.common.StatusBar;
 import com.witts.mdbox.fragments.FoodDetailFragment;
 import com.witts.mdbox.model.AttributeSC;
 import com.witts.mdbox.model.FoodCategory;
@@ -44,6 +46,14 @@ public class FoodGuideActivity extends BasedActivity {
     @BindView(R.id.ivback)
     ImageView ivback;
 
+    @BindView(R.id.tvDateTime)
+    TextView tvDateTime;
+
+    @BindView(R.id.ivWiFi)
+    ImageView ivWiFi;
+
+    Thread t;
+
     List<FoodCategory> foodCategoryList = new ArrayList<>();
     List<String> foodTitleList = new ArrayList<>();
 
@@ -61,6 +71,9 @@ public class FoodGuideActivity extends BasedActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_food_guide);
+        ButterKnife.bind(this);
+
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
@@ -68,13 +81,55 @@ public class FoodGuideActivity extends BasedActivity {
 
         Intent intent = getIntent();
         restaurantID = intent.getIntExtra("RESTAURANTID",0);
+
+        StatusBar statusBar = new StatusBar(getApplicationContext());
+        int wifiStatus = statusBar.getWiFiSignal();
+        checkSignal(wifiStatus);
+        String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+        tvDateTime.setText(date);
+        updateTimeTextView();
+    }
+
+    private void updateTimeTextView() {
+        t = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                StatusBar statusBar = new StatusBar(getApplicationContext());
+                                int wifiStatus = statusBar.getWiFiSignal();
+                                checkSignal(wifiStatus);
+                                String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+                                tvDateTime.setText(date);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        t.start();
+    }
+
+    private void checkSignal(int i) {
+        if(i == 3){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_full);
+        }else if (i == 2){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_normal);
+        }else{
+            ivWiFi.setImageResource(R.drawable.wifi_signal_low);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_food_guide);
-        ButterKnife.bind(this);
 
         callWebService();
 
@@ -177,5 +232,12 @@ public class FoodGuideActivity extends BasedActivity {
         public CharSequence getPageTitle(int position) {
             return foodTitleList.get(position);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(t.isAlive())
+            t.interrupt();
     }
 }

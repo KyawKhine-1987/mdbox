@@ -173,11 +173,13 @@ public class SouvenirDetailFragment extends BaseFragment {
                                     .into(ivDetailImageContainer);
 
                         StringBuilder souvenirString=new StringBuilder();
-                        for (int i=1;i<souvenirImageandDetailList.get(0).getSouvenirDetailList().size();i++) {
+                        for (int i=0;i<souvenirImageandDetailList.get(0).getSouvenirDetailList().size();i++) {
+                            if(souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getKey().equalsIgnoreCase("title"))
+                                tvlabel.setText(souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getDisplayName());
+                            else
                             souvenirString.append(souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getDisplayName() + " :" +
                                     souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getValue() + " " + souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getUnit()+"\n");
                         }
-                        tvlabel.setText(souvenirImageandDetailList.get(0).getSouvenirDetailList().get(0).getDisplayName());
                         tvsouvenir.setText(souvenirString);
                         dismissProgressDialog();
                     }
@@ -191,9 +193,11 @@ public class SouvenirDetailFragment extends BaseFragment {
                     @Override
                     public void onNext(final WebServiceResult<SouvenirListWrapper> souvenirListWrapperWebServiceResult) {
                         if (souvenirListWrapperWebServiceResult != null) {
+                            if(souvenirListWrapperWebServiceResult.getResponse().getSouvenirCategoryList().size()>0)
                             for(int i=0;i<souvenirListWrapperWebServiceResult.getResponse().getSouvenirCategoryList().size();i++){
                                 SouvenirCategory souvenirCategory = souvenirListWrapperWebServiceResult.getResponse().getSouvenirCategoryList().get(i);
                                 souvenirList = new ArrayList<Souvenir>();
+                                if(souvenirCategory.getSouvenirList().size()>0)
                                 for(int j=0;j<souvenirCategory.getSouvenirList().size();j++)
                                 {
                                     souvenir = new Souvenir();
@@ -211,14 +215,18 @@ public class SouvenirDetailFragment extends BaseFragment {
     private void prepareandbindData(List<Souvenir> souvenirList) {
         imageList = new ArrayList<>();
         souvenirImageandDetailList =new ArrayList<>();
+        if(souvenirList.size()>0)
         for(int i=0;i<souvenirList.size();i++)
         {
             souvenirDetailList = new ArrayList<>();
-            for(int j=0;j<souvenirList.get(i).getAttributeList().size();j++) {
+
+            if(souvenirList.get(i).getGroupList().size()>0)
+            for(int j=0;j<souvenirList.get(i).getGroupList().size();j++) {
                 SouvenirDetail souvenirDetail = new SouvenirDetail();
-                souvenirDetail.setDisplayName(souvenirList.get(i).getAttributeList().get(j).getDisplayName());
-                souvenirDetail.setUnit(souvenirList.get(i).getAttributeList().get(j).getUnit());
-                souvenirDetail.setValue(souvenirList.get(i).getAttributeList().get(j).getValue());
+                souvenirDetail.setDisplayName(souvenirList.get(i).getGroupList().get(j).getAttributeList().get(0).getDisplayName());
+                souvenirDetail.setUnit(souvenirList.get(i).getGroupList().get(j).getAttributeList().get(0).getUnit());
+                souvenirDetail.setValue(souvenirList.get(i).getGroupList().get(j).getAttributeList().get(0).getValue());
+                souvenirDetail.setKey(souvenirList.get(i).getGroupList().get(j).getKey());
                 souvenirDetailList.add(souvenirDetail);
             }
             SouvenirImageandDetail souvenirImageandDetail = new SouvenirImageandDetail();

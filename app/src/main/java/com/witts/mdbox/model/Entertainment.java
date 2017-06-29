@@ -21,9 +21,9 @@ public class Entertainment implements Parcelable{
     @Expose
     public List<String> imagePaths;
 
-    @SerializedName("attributeList")
+    @SerializedName("groupList")
     @Expose
-    public List<EntertainmentAttribute> attributeList;
+    public List<EntertainmentGroup> groupList;
 
     @SerializedName("entertainmentId")
     public int entertainmentId;
@@ -42,14 +42,6 @@ public class Entertainment implements Parcelable{
 
     public void setImagePaths(List<String> imagePaths) {
         this.imagePaths = imagePaths;
-    }
-
-    public List<EntertainmentAttribute> getAttributeList() {
-        return attributeList;
-    }
-
-    public void setAttributeList(List<EntertainmentAttribute> attributeList) {
-        this.attributeList = attributeList;
     }
 
     public int getEntertainmentId() {
@@ -80,5 +72,13 @@ public class Entertainment implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
+    }
+
+    public List<EntertainmentGroup> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<EntertainmentGroup> groupList) {
+        this.groupList = groupList;
     }
 }

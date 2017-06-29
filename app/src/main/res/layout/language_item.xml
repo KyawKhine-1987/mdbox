@@ -41,7 +41,6 @@
                 android:id="@+id/ivFlag"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/flag_of_united_states"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
                 android:padding="3dp"

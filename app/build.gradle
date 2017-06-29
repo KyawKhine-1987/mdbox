@@ -46,4 +46,5 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.google.zxing:core:3.3.0'
     compile 'com.journeyapps:zxing-android-embedded:3.2.0'
+    compile 'zh.wang.android:yweathergetter4a:1.3.0'
 }

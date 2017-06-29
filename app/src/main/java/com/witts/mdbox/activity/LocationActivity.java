@@ -63,6 +63,8 @@ public class LocationActivity extends BasedActivity {
     private String accessToken = LanguageActivity.ACCESSTOKEN;
     private String languageCode = LanguageActivity.languageCode;
 
+    Thread t;
+
     private String date = "";
     private String time = "";
     private String timezone = "UTC";
@@ -99,6 +101,34 @@ public class LocationActivity extends BasedActivity {
         tvDateTime.setText(date);
 
         callWebService();
+        updateTimeTextView();
+    }
+
+    private void updateTimeTextView() {
+        t = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                StatusBar statusBar = new StatusBar(getApplicationContext());
+                                int wifiStatus = statusBar.getWiFiSignal();
+                                checkSignal(wifiStatus);
+                                String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+                                tvDateTime.setText(date);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        t.start();
     }
 
     private void checkSignal(int i) {
@@ -277,5 +307,12 @@ public class LocationActivity extends BasedActivity {
             //Return the position with locationCategoryListTabTitle or tabLayout.
             return locationCategoryListTabTitle[position];
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(t.isAlive())
+            t.interrupt();
     }
 }

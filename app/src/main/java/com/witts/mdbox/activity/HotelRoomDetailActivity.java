@@ -10,10 +10,16 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.witts.mdbox.R;
 import com.witts.mdbox.common.ServiceFactory;
+import com.witts.mdbox.common.StatusBar;
 import com.witts.mdbox.fragments.HotelRoomTypeFragment;
+import com.witts.mdbox.model.RoomAttribute;
+import com.witts.mdbox.model.RoomDetail;
 import com.witts.mdbox.model.RoomType;
+import com.witts.mdbox.model.RoomTypeGroup;
 import com.witts.mdbox.model.RoomTypeListWrapper;
 import com.witts.mdbox.model.WebServiceResult;
 import com.witts.mdbox.service.RoomTypeService;
@@ -39,9 +45,16 @@ public class HotelRoomDetailActivity extends BasedActivity {
     @BindView(R.id.ivback)
     ImageView ivback;
 
-    RoomType roomType;
+    @BindView(R.id.tvDateTime)
+    TextView tvDateTime;
+
+    @BindView(R.id.ivWiFi)
+    ImageView ivWiFi;
+
+    Thread t;
+
     List<RoomType> roomTypeList = new ArrayList<>();
-    private Animation animScale;
+    List<RoomAttribute> roomAttributeList = new ArrayList<>();
 
     private String accessToken= LanguageActivity.ACCESSTOKEN;
     private String languageCode=LanguageActivity.languageCode;
@@ -52,53 +65,69 @@ public class HotelRoomDetailActivity extends BasedActivity {
     private String clientVersion="1.0";
     private String versionNo="0001";
 
+    List<String> categoryTabTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_hotel_room_detail);
+        ButterKnife.bind(this);
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-        roomType = new RoomType();
-        roomType.setRoomType("BedRoom");
-        roomTypeList.add(roomType);
+        StatusBar statusBar = new StatusBar(getApplicationContext());
+        int wifiStatus = statusBar.getWiFiSignal();
+        checkSignal(wifiStatus);
+        String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+        tvDateTime.setText(date);
+        updateTimeTextView();
+    }
 
-        roomType = new RoomType();
-        roomType.setRoomType("Living Room");
-        roomTypeList.add(roomType);
+    private void updateTimeTextView() {
+        t = new Thread() {
 
-        roomType = new RoomType();
-        roomType.setRoomType("Bathroom");
-        roomTypeList.add(roomType);
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                StatusBar statusBar = new StatusBar(getApplicationContext());
+                                int wifiStatus = statusBar.getWiFiSignal();
+                                checkSignal(wifiStatus);
+                                String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+                                tvDateTime.setText(date);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
 
-        roomType = new RoomType();
-        roomType.setRoomType("Balcony");
-        roomTypeList.add(roomType);
+        t.start();
+    }
+
+    private void checkSignal(int i) {
+        if(i == 3){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_full);
+        }else if (i == 2){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_normal);
+        }else{
+            ivWiFi.setImageResource(R.drawable.wifi_signal_low);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        setContentView(R.layout.activity_hotel_room_detail);
-        ButterKnife.bind(this);
-
         callWebService();
-
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        vphotelDetail.setAdapter(pagerAdapter);
-        vphotelDetail.clearOnPageChangeListeners();
-        vphotelDetail.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlhotelDetail));
-        tlhotelDetail.setTabsFromPagerAdapter(pagerAdapter);
-        tlhotelDetail.post(new Runnable() {
-            @Override
-            public void run() {
-                tlhotelDetail.setupWithViewPager(vphotelDetail);
-            }
-        });
-
 
         ivback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +158,17 @@ public class HotelRoomDetailActivity extends BasedActivity {
                 .subscribe(new Observer<WebServiceResult<RoomTypeListWrapper>>() {
                     @Override
                     public void onCompleted() {
-
+                        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+                        vphotelDetail.setAdapter(pagerAdapter);
+                        vphotelDetail.clearOnPageChangeListeners();
+                        vphotelDetail.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlhotelDetail));
+                        tlhotelDetail.setTabsFromPagerAdapter(pagerAdapter);
+                        tlhotelDetail.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tlhotelDetail.setupWithViewPager(vphotelDetail);
+                            }
+                        });
                     }
 
                     @Override
@@ -141,8 +180,31 @@ public class HotelRoomDetailActivity extends BasedActivity {
                     @Override
                     public void onNext(final WebServiceResult<RoomTypeListWrapper> roomTypeListWrapperWebServiceResult) {
                         if (roomTypeListWrapperWebServiceResult != null) {
+                            categoryTabTitle = new ArrayList<>();
+                            roomTypeList = new ArrayList<RoomType>();
+                            if(roomTypeListWrapperWebServiceResult.getResponse().getRoomTypeList().size()>0)
+                                for(int i =0;i<roomTypeListWrapperWebServiceResult.getResponse().getRoomTypeList().size();i++) {
+                                    RoomType roomType = new RoomType();
+                                    roomType = roomTypeListWrapperWebServiceResult.getResponse().getRoomTypeList().get(i);
+                                    roomAttributeList = new ArrayList<RoomAttribute>();
+                                    if(roomType.getGroupList().size()>0)
+                                        for(int j=0;j<roomType.getGroupList().size();j++)
+                                        {
+                                            if(roomType.getGroupList().get(j).getKey().equalsIgnoreCase("title"))
+                                                categoryTabTitle.add(roomType.getGroupList().get(j).getAttributeList().get(0).getDisplayName());
+                                            else
+                                                roomAttributeList.add(roomType.getGroupList().get(j).getAttributeList().get(0));
+                                        }
+                                    RoomType r = new RoomType();
+                                    RoomTypeGroup roomTypeGroup = new RoomTypeGroup();
+                                    roomTypeGroup.setAttributeList(roomAttributeList);
+                                    List<RoomTypeGroup> roomTypeGroupList = new ArrayList<RoomTypeGroup>();
+                                    roomTypeGroupList.add(roomTypeGroup);
+                                    r.setImages(roomType.getImages());
+                                    r.setGroupList(roomTypeGroupList);
+                                    roomTypeList.add(r);
+                                }
                         }
-
                         dismissProgressDialog();
                     }
                 });
@@ -160,7 +222,7 @@ public class HotelRoomDetailActivity extends BasedActivity {
             for(int i=0;i<roomTypeList.size();i++) {
                 if (position == i)
                 {
-                    fragment = HotelRoomTypeFragment.newInstance(roomTypeList.get(i).getRoomType());
+                    fragment = HotelRoomTypeFragment.newInstance(roomTypeList.get(i),categoryTabTitle.get(i));
                     return fragment;
                 }
             }
@@ -169,12 +231,19 @@ public class HotelRoomDetailActivity extends BasedActivity {
 
         @Override
         public int getCount() {
-            return roomTypeList.size();
+            return categoryTabTitle.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return roomTypeList.get(position).getRoomType();
+            return categoryTabTitle.get(position);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(t.isAlive())
+            t.interrupt();
     }
 }

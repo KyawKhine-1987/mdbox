@@ -38,6 +38,17 @@
     <!--LocationFragment.java-->
     <dimen name="left_right_margin">1dp</dimen>
 
+    <!--item_location_name.xml-->
+    <dimen name="tv_LocationName_height">40dp</dimen>
+    <dimen name="tv_LocationName_marginLeft">10dp</dimen>
+
+    <!--activity_menu.xml-->
+    <color name="red">#f21313</color>
+
+    <!--activity_menu.xml-->
+    <dimen name="circle_width">36dp</dimen>
+    <dimen name="circleCorners_radius">18dp</dimen>
+
     <!--activity_status_bar.xml-->
     <dimen name="twenty_five">25dp</dimen>
     <dimen name="twenty_three">23dp</dimen>
