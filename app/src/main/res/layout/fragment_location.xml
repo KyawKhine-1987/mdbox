@@ -62,9 +62,10 @@
                 android:layout_width="@dimen/seventy"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/six"
+
                 android:layout_weight="0"
                 android:src="@drawable/location"/>
+            <!--android:layout_marginBottom="@dimen/six"-->
 
             <TextView
                 android:id="@+id/tvPostalCode"
@@ -147,9 +148,9 @@
                 android:layout_width="@dimen/seventy"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/six"
                 android:layout_weight="0"
                 android:src="@drawable/phone"/>
+            <!--android:layout_marginBottom="@dimen/six"-->
 
             <TextView
                 android:id="@+id/tvPhone"
@@ -158,6 +159,7 @@
                 android:layout_marginLeft="@dimen/divider_two"
                 android:clickable="true"
                 android:focusable="true"
+                android:layout_marginTop="@dimen/six"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size"
                 android:textStyle="bold"
@@ -180,10 +182,10 @@
                 android:id="@+id/ivURL"
                 android:layout_width="@dimen/seventy"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/six"
                 android:layout_gravity="center"
                 android:layout_weight="0"
                 android:src="@drawable/url"/>
+            <!--android:layout_marginBottom="@dimen/six"-->
 
             <TextView
                 android:id="@+id/tvURL"
@@ -192,6 +194,7 @@
                 android:layout_marginLeft="@dimen/divider_two"
                 android:clickable="true"
                 android:focusable="true"
+                android:layout_marginTop="@dimen/six"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size"
                 android:textStyle="bold"
