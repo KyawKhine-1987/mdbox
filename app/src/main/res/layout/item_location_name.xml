@@ -9,7 +9,7 @@
     android:clickable="true"
     android:ellipsize="end"
     android:focusable="true"
-    android:gravity="center"
+    android:gravity="left|start"
     android:lineSpacingMultiplier="1.2"
     android:textColor="@color/white"
     android:textSize="@dimen/font_size"
