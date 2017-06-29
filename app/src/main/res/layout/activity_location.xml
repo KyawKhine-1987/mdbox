@@ -51,8 +51,8 @@
             app:tabBackground="@drawable/tab_color_selector_location"
             app:tabGravity="fill"
             app:tabMode="scrollable"
-            app:tabPaddingEnd="@dimen/tabPaddingStartandEnd"
-            app:tabPaddingStart="@dimen/tabPaddingStartandEnd"
+            app:tabPaddingEnd="@dimen/fifteen"
+            app:tabPaddingStart="@dimen/fifteen"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@color/secondary_text_default_material_dark"
             app:tabIndicatorHeight="@dimen/hide_tabIndicatorHeight"/>
