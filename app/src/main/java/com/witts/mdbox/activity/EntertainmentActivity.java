@@ -8,9 +8,11 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.witts.mdbox.R;
 import com.witts.mdbox.common.ServiceFactory;
+import com.witts.mdbox.common.StatusBar;
 import com.witts.mdbox.fragments.EntertainmentTypeFragment;
 import com.witts.mdbox.model.Entertainment;
 import com.witts.mdbox.model.EntertainmentAttribute;
@@ -42,6 +44,14 @@ public class EntertainmentActivity extends BasedActivity {
     @BindView(R.id.ivback)
     ImageView ivback;
 
+    @BindView(R.id.tvDateTime)
+    TextView tvDateTime;
+
+    @BindView(R.id.ivWiFi)
+    ImageView ivWiFi;
+
+    Thread t;
+
     EntertainmentType entertainmentType;
     List<EntertainmentType> entertainmentTypeList = new ArrayList<>();
     List<EntertainmentAttribute> entertainmentAttributeList = new ArrayList<>();
@@ -62,38 +72,62 @@ public class EntertainmentActivity extends BasedActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_entertainment);
+        ButterKnife.bind(this);
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-        entertainmentType = new EntertainmentType();
-        entertainmentType.setEntertainmentType("Swimming pool");
-        entertainmentTypeList.add(entertainmentType);
+        StatusBar statusBar = new StatusBar(getApplicationContext());
+        int wifiStatus = statusBar.getWiFiSignal();
+        checkSignal(wifiStatus);
+        String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+        tvDateTime.setText(date);
+        updateTimeTextView();
+    }
 
-        entertainmentType = new EntertainmentType();
-        entertainmentType.setEntertainmentType("Gym");
-        entertainmentTypeList.add(entertainmentType);
+    private void updateTimeTextView() {
+        t = new Thread() {
 
-        entertainmentType = new EntertainmentType();
-        entertainmentType.setEntertainmentType("Smoking room");
-        entertainmentTypeList.add(entertainmentType);
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                StatusBar statusBar = new StatusBar(getApplicationContext());
+                                int wifiStatus = statusBar.getWiFiSignal();
+                                checkSignal(wifiStatus);
+                                String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+                                tvDateTime.setText(date);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
 
-        entertainmentType = new EntertainmentType();
-        entertainmentType.setEntertainmentType("Message");
-        entertainmentTypeList.add(entertainmentType);
+        t.start();
+    }
 
-        entertainmentType = new EntertainmentType();
-        entertainmentType.setEntertainmentType("Other");
-        entertainmentTypeList.add(entertainmentType);
+    private void checkSignal(int i) {
+        if(i == 3){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_full);
+        }else if (i == 2){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_normal);
+        }else{
+            ivWiFi.setImageResource(R.drawable.wifi_signal_low);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_entertainment);
-        ButterKnife.bind(this);
 
         callWebService();
 
@@ -205,5 +239,12 @@ public class EntertainmentActivity extends BasedActivity {
         public CharSequence getPageTitle(int position) {
             return categoryTabTitle.get(position);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(t.isAlive())
+            t.interrupt();
     }
 }

@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.witts.mdbox.R;
 import com.witts.mdbox.common.ServiceFactory;
+import com.witts.mdbox.common.StatusBar;
 import com.witts.mdbox.fragments.HotelRoomTypeFragment;
 import com.witts.mdbox.model.RoomAttribute;
 import com.witts.mdbox.model.RoomDetail;
@@ -42,7 +45,14 @@ public class HotelRoomDetailActivity extends BasedActivity {
     @BindView(R.id.ivback)
     ImageView ivback;
 
-    RoomType roomType;
+    @BindView(R.id.tvDateTime)
+    TextView tvDateTime;
+
+    @BindView(R.id.ivWiFi)
+    ImageView ivWiFi;
+
+    Thread t;
+
     List<RoomType> roomTypeList = new ArrayList<>();
     List<RoomAttribute> roomAttributeList = new ArrayList<>();
 
@@ -60,35 +70,62 @@ public class HotelRoomDetailActivity extends BasedActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_hotel_room_detail);
+        ButterKnife.bind(this);
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-        roomType = new RoomType();
-        roomType.setRoomType("BedRoom");
-        roomTypeList.add(roomType);
+        StatusBar statusBar = new StatusBar(getApplicationContext());
+        int wifiStatus = statusBar.getWiFiSignal();
+        checkSignal(wifiStatus);
+        String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+        tvDateTime.setText(date);
+        updateTimeTextView();
+    }
 
-        roomType = new RoomType();
-        roomType.setRoomType("Living Room");
-        roomTypeList.add(roomType);
+    private void updateTimeTextView() {
+        t = new Thread() {
 
-        roomType = new RoomType();
-        roomType.setRoomType("Bathroom");
-        roomTypeList.add(roomType);
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                StatusBar statusBar = new StatusBar(getApplicationContext());
+                                int wifiStatus = statusBar.getWiFiSignal();
+                                checkSignal(wifiStatus);
+                                String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+                                tvDateTime.setText(date);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
 
-        roomType = new RoomType();
-        roomType.setRoomType("Balcony");
-        roomTypeList.add(roomType);
+        t.start();
+    }
+
+    private void checkSignal(int i) {
+        if(i == 3){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_full);
+        }else if (i == 2){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_normal);
+        }else{
+            ivWiFi.setImageResource(R.drawable.wifi_signal_low);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        setContentView(R.layout.activity_hotel_room_detail);
-        ButterKnife.bind(this);
 
         callWebService();
 
@@ -201,5 +238,12 @@ public class HotelRoomDetailActivity extends BasedActivity {
         public CharSequence getPageTitle(int position) {
             return categoryTabTitle.get(position);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(t.isAlive())
+            t.interrupt();
     }
 }

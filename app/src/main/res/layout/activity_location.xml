@@ -24,20 +24,13 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/twenty_three"
-        android:background="@android:color/darker_gray"/>
-
     <!--This is LinearLayoutArea1 and it position has left side. It's Binding relevant data from API-1 which is included TabLayout and ViewPager.-->
     <LinearLayout
         android:id="@+id/llArea1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/twenty">
+        android:layout_marginTop="35dp">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tlLocationCategoryList"

@@ -180,11 +180,13 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
                                     .into(ivDetailImageContainer);
 
                             StringBuilder foodBuilder = new StringBuilder();
-                            for (int i = 1; i < foodDetailandImageList.get(0).getFoodDetailList().size(); i++) {
+                            for (int i = 0; i < foodDetailandImageList.get(0).getFoodDetailList().size(); i++) {
+                                if(foodDetailandImageList.get(0).getFoodDetailList().get(i).getKey().equalsIgnoreCase("title"))
+                                    tvlabel.setText(foodDetailandImageList.get(0).getFoodDetailList().get(i).getDisplayName());
+                                else
                                 foodBuilder.append(foodDetailandImageList.get(0).getFoodDetailList().get(i).getDisplayName() + " :" +
                                         foodDetailandImageList.get(0).getFoodDetailList().get(i).getValue() + " " + foodDetailandImageList.get(0).getFoodDetailList().get(i).getUnit() + "\n");
                             }
-                            tvlabel.setText(foodDetailandImageList.get(0).getFoodDetailList().get(0).getDisplayName());
                             tvDetail.setText(foodBuilder);
                         }
                     }
@@ -229,12 +231,13 @@ public class FoodDetailFragment extends BaseFragment implements View.OnClickList
                 foodDetail.setDisplayName(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getDisplayName());
                 foodDetail.setUnit(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getUnit());
                 foodDetail.setValue(foodList.get(i).getGroupList().get(j).getAttributeList().get(0).getValue());
+                foodDetail.setKey(foodList.get(i).getGroupList().get(j).getKey());
                 foodDetailList.add(foodDetail);
             }
-            FoodDetailandImage souvenirImageandDetail = new FoodDetailandImage();
-            souvenirImageandDetail.setImageUrl(foodList.get(i).getImagePath());
-            souvenirImageandDetail.setFoodDetailList(foodDetailList);
-            foodDetailandImageList.add(souvenirImageandDetail);
+            FoodDetailandImage foodDetailandImage = new FoodDetailandImage();
+            foodDetailandImage.setImageUrl(foodList.get(i).getImagePath());
+            foodDetailandImage.setFoodDetailList(foodDetailList);
+            foodDetailandImageList.add(foodDetailandImage);
             imageList.add(foodList.get(i).getImagePath());
         }
     }

@@ -173,11 +173,13 @@ public class SouvenirDetailFragment extends BaseFragment {
                                     .into(ivDetailImageContainer);
 
                         StringBuilder souvenirString=new StringBuilder();
-                        for (int i=1;i<souvenirImageandDetailList.get(0).getSouvenirDetailList().size();i++) {
+                        for (int i=0;i<souvenirImageandDetailList.get(0).getSouvenirDetailList().size();i++) {
+                            if(souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getKey().equalsIgnoreCase("title"))
+                                tvlabel.setText(souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getDisplayName());
+                            else
                             souvenirString.append(souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getDisplayName() + " :" +
                                     souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getValue() + " " + souvenirImageandDetailList.get(0).getSouvenirDetailList().get(i).getUnit()+"\n");
                         }
-                        tvlabel.setText(souvenirImageandDetailList.get(0).getSouvenirDetailList().get(0).getDisplayName());
                         tvsouvenir.setText(souvenirString);
                         dismissProgressDialog();
                     }
@@ -224,6 +226,7 @@ public class SouvenirDetailFragment extends BaseFragment {
                 souvenirDetail.setDisplayName(souvenirList.get(i).getGroupList().get(j).getAttributeList().get(0).getDisplayName());
                 souvenirDetail.setUnit(souvenirList.get(i).getGroupList().get(j).getAttributeList().get(0).getUnit());
                 souvenirDetail.setValue(souvenirList.get(i).getGroupList().get(j).getAttributeList().get(0).getValue());
+                souvenirDetail.setKey(souvenirList.get(i).getGroupList().get(j).getKey());
                 souvenirDetailList.add(souvenirDetail);
             }
             SouvenirImageandDetail souvenirImageandDetail = new SouvenirImageandDetail();
