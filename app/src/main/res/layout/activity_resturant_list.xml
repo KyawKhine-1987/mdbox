@@ -7,9 +7,16 @@
     tools:context="com.witts.mdbox.activity.RestaurantListActivity"
     android:background="@drawable/roomdetailbackground">
 
+    <include
+        android:id="@+id/StatusBar"
+        layout="@layout/activity_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="35dp"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"

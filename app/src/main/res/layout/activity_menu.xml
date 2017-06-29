@@ -2,11 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/menubackground">
+
+        <include
+            android:id="@+id/StatusBar"
+            layout="@layout/activity_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="35dp"
         android:background="@color/darkblue"
         android:descendantFocusability="blocksDescendants"
         android:orientation="horizontal">
@@ -26,8 +34,9 @@
 
         <LinearLayout
             android:id="@+id/llnoti"
-            android:layout_width="40dp"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="bottom"
             android:orientation="vertical">
@@ -35,19 +44,18 @@
             <TextView
                 android:id="@+id/tvMagnitude"
                 android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:layout_marginLeft="10dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="12dp"
                 android:background="@drawable/notification_circle"
                 android:gravity="center"
                 android:text="1"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imgnoti"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_height="15dp"
                 android:layout_marginRight="2dp"
                 android:background="@drawable/notification"/>
         </LinearLayout>
@@ -78,8 +86,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="10dp"
             android:descendantFocusability="afterDescendants" />
     </FrameLayout>
 </RelativeLayout>

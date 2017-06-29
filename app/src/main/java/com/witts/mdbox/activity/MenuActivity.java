@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,10 +42,17 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
     @BindView(R.id.tvreceptionnews)
     TextView tvreception;
 
+    @BindView(R.id.tvDateTime)
+    TextView tvDateTime;
+
+    @BindView(R.id.ivWiFi)
+    ImageView ivWiFi;
+
     MenuAdapter menuAdapter;
     List<MenuContent> menuContentList = new ArrayList<>();
     MenuContent menuContent;
     List<Menu> menuList = new ArrayList<>();
+    Thread t;
 
     private String accessToken= LanguageActivity.ACCESSTOKEN;
     private String languageCode=LanguageActivity.languageCode;
@@ -74,9 +82,48 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
         tvreception.startAnimation(AnimationUtils.loadAnimation(this, R.anim.textmove));
 
         StatusBar statusBar = new StatusBar(getApplicationContext());
-        int num = statusBar.getWiFiSignal();
+        int wifiStatus = statusBar.getWiFiSignal();
+        checkSignal(wifiStatus);
         String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+        tvDateTime.setText(date);
+        updateTimeTextView();
+    }
 
+    private void updateTimeTextView() {
+        t = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                StatusBar statusBar = new StatusBar(getApplicationContext());
+                                int wifiStatus = statusBar.getWiFiSignal();
+                                checkSignal(wifiStatus);
+                                String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+                                tvDateTime.setText(date);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        t.start();
+    }
+
+    private void checkSignal(int i) {
+        if(i == 3){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_full);
+        }else if (i == 2){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_normal);
+        }else{
+            ivWiFi.setImageResource(R.drawable.wifi_signal_low);
+        }
     }
 
     @Override
@@ -186,4 +233,10 @@ public class MenuActivity extends BasedActivity implements ItemClickListener<Men
         startActivity(intent);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(t.isAlive())
+            t.interrupt();
+    }
 }

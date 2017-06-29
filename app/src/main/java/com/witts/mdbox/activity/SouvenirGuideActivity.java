@@ -8,9 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.witts.mdbox.R;
 import com.witts.mdbox.common.ServiceFactory;
+import com.witts.mdbox.common.StatusBar;
 import com.witts.mdbox.fragments.SouvenirDetailFragment;
 import com.witts.mdbox.model.AttributeSC;
 import com.witts.mdbox.model.FoodDetail;
@@ -43,16 +45,15 @@ public class SouvenirGuideActivity extends BasedActivity {
     @BindView(R.id.ivback)
     ImageView ivback;
 
-    FoodType foodType;
-    FoodDetail foodDetail;
-    List<FoodType> foodTypeList = new ArrayList<>();
+    @BindView(R.id.tvDateTime)
+    TextView tvDateTime;
 
-    SouvenirCategorySC souvenirCategorySC;
+    @BindView(R.id.ivWiFi)
+    ImageView ivWiFi;
+
+    Thread t;
+
     List<SouvenirCategorySC> souvenirCategorySCList = new ArrayList<>();
-
-    AttributeSC attributeSC;
-    List<AttributeSC> attributeSCList = new ArrayList<>();
-    List<Integer> attributeID = new ArrayList<>();
 
     private String accessToken= LanguageActivity.ACCESSTOKEN;
     private String languageCode=LanguageActivity.languageCode;
@@ -68,38 +69,62 @@ public class SouvenirGuideActivity extends BasedActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_place_guide);
+        ButterKnife.bind(this);
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat hourformat = new SimpleDateFormat("kkmmss");
         date = dateformat.format(new Date(System.currentTimeMillis() - 21600000));
         time = hourformat.format(new Date(System.currentTimeMillis() - 21600000));
 
-        foodType = new FoodType();
-        foodType.setFoodType("Food");
-        foodTypeList.add(foodType);
+        StatusBar statusBar = new StatusBar(getApplicationContext());
+        int wifiStatus = statusBar.getWiFiSignal();
+        checkSignal(wifiStatus);
+        String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+        tvDateTime.setText(date);
+        updateTimeTextView();
+    }
 
-        foodType = new FoodType();
-        foodType.setFoodType("Juice");
-        foodTypeList.add(foodType);
+    private void updateTimeTextView() {
+        t = new Thread() {
 
-        foodType = new FoodType();
-        foodType.setFoodType("Contact");
-        foodTypeList.add(foodType);
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                StatusBar statusBar = new StatusBar(getApplicationContext());
+                                int wifiStatus = statusBar.getWiFiSignal();
+                                checkSignal(wifiStatus);
+                                String date = statusBar.getCommonDateTime(LanguageActivity.languageCode);
+                                tvDateTime.setText(date);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
 
-        foodType = new FoodType();
-        foodType.setFoodType("Toy");
-        foodTypeList.add(foodType);
+        t.start();
+    }
 
-        foodType = new FoodType();
-        foodType.setFoodType("Craft");
-        foodTypeList.add(foodType);
+    private void checkSignal(int i) {
+        if(i == 3){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_full);
+        }else if (i == 2){
+            ivWiFi.setImageResource(R.drawable.wifi_signal_normal);
+        }else{
+            ivWiFi.setImageResource(R.drawable.wifi_signal_low);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setContentView(R.layout.activity_place_guide);
-        ButterKnife.bind(this);
 
         callWebservice();
         ivback.setOnClickListener(new View.OnClickListener() {
@@ -202,5 +227,12 @@ public class SouvenirGuideActivity extends BasedActivity {
         public CharSequence getPageTitle(int position) {
             return souvenirTitleList.get(position);
             }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(t.isAlive())
+            t.interrupt();
     }
 }

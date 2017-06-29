@@ -19,8 +19,7 @@
             android:layout_height="match_parent"
             android:layout_weight="7"
             android:scaleType="centerCrop"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/bedroom">
+            android:layout_marginLeft="20dp">
         </ImageView>
         <LinearLayout
             android:layout_width="0dp"

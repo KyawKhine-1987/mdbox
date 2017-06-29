@@ -24,14 +24,14 @@ public class StatusBar implements CommonStatusBar {
 
     public StatusBar(Context context) {
         this.context = context;
-        mYahooWeather.queryYahooWeatherByLatLon(context, 16.819941, 96.123487, new YahooWeatherInfoListener() {
-            @Override
-            public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
-                if(weatherInfo!=null){
-
-                }
-            }
-        });
+//        mYahooWeather.queryYahooWeatherByLatLon(context, 16.819941, 96.123487, new YahooWeatherInfoListener() {
+//            @Override
+//            public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+//                if(weatherInfo!=null){
+//
+//                }
+//            }
+//        });
 
     }
 
@@ -39,12 +39,12 @@ public class StatusBar implements CommonStatusBar {
     public int getWiFiSignal() {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
-        // Level of a Scan Result
-        List<ScanResult> wifiList = wifiManager.getScanResults();
-        for (ScanResult scanResult : wifiList) {
-            int level = WifiManager.calculateSignalLevel(scanResult.level, 3);
-            Log.d("Wifi Signal Scan Result","Level is " + level + " out of 3");
-        }
+//        // Level of a Scan Result
+//        List<ScanResult> wifiList = wifiManager.getScanResults();
+//        for (ScanResult scanResult : wifiList) {
+//            int level = WifiManager.calculateSignalLevel(scanResult.level, 3);
+//            Log.d("Wifi Signal Scan Result","Level is " + level + " out of 3");
+//        }
 
         // Level of current connection
         int rssi = wifiManager.getConnectionInfo().getRssi();

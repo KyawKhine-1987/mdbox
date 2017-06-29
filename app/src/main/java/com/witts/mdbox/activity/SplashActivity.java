@@ -134,7 +134,7 @@ public class SplashActivity extends BasedActivity {
     }
 
     private void goToWiFiSetting() {
-        Intent intent = new Intent(Settings.ACTION_SETTINGS);
-        startActivity(intent);
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                startActivity(intent);
     }
 }

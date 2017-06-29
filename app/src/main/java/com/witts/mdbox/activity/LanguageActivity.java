@@ -121,7 +121,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
                     public void onError(Throwable e) {
                         dismissProgressDialog();
 //                        showAlert(PropertiesUtil.getProperty("e0001",LanguageActivity.languageCode+"_message.properties",getApplicationContext()));
-                        showAlert("Connection Timeout");
+                        showAlert(e.getMessage());//"Connection Timeout"
                     }
 
                     @Override
@@ -189,7 +189,7 @@ public class LanguageActivity extends BasedActivity implements ItemClickListener
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        showAlert("Connection Timeout");
+                        showAlert(e.getMessage());//"Connection Timeout"
                     }
 
                     @Override
